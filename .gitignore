@@ -1,0 +1,26 @@
+# Test outputs & generated clones
+rothys-com-clone/
+shopify-theme-master/
+test-gymshark/
+_multi-store-comparison/
+__pycache__/
+*.pyc
+
+# Temp extraction outputs
+/tmp/
+*-clone/
+*-extract/
+*-deep-v*/
+
+# Secrets (never commit)
+*.env
+.env
+credentials/
+*token*
+*secret*
+auth.json
+
+# OS junk
+.DS_Store
+Thumbs.db
+*.swp
