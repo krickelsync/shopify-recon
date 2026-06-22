@@ -27,9 +27,16 @@ fi
 # by .gitignore already).
 git add -A
 
-# Nothing to commit? exit quietly so cron stays silent.
+# Nothing staged to commit. But there may still be local commits that were never
+# pushed (e.g. committed by hand). Push those, then exit.
 if git diff --cached --quiet; then
-  echo "auto-sync: no changes to commit"
+  if [ -n "$(git log origin/main..HEAD --oneline 2>/dev/null)" ]; then
+    echo "auto-sync: no new changes, but pushing unpushed commits"
+    git push origin main && echo "auto-sync: pushed existing commits" && exit 0
+    echo "auto-sync: PUSH FAILED" >&2
+    exit 2
+  fi
+  echo "auto-sync: nothing to commit, nothing to push"
   exit 0
 fi
 
