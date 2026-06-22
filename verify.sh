@@ -36,13 +36,22 @@ hdr()  { echo; echo "${BOLD}== $1 ==${NC}"; }
 
 # ---- phase 1: dependencies ----
 hdr "Phase 1/4  Dependencies"
-if python3 -c "import requests, bs4, rich" 2>/dev/null; then
-  pass "requests, beautifulsoup4, rich all importable"
+if python3 -c "import requests, bs4, rich, lxml" 2>/dev/null; then
+  pass "requests, beautifulsoup4, lxml, rich all importable"
 else
   fail "missing dependency - run: pip install -r requirements.txt"
   python3 -c "import requests" 2>/dev/null || echo "       -> requests missing"
   python3 -c "import bs4"      2>/dev/null || echo "       -> beautifulsoup4 missing"
+  python3 -c "import lxml"     2>/dev/null || echo "       -> lxml missing (BeautifulSoup tree builder)"
   python3 -c "import rich"     2>/dev/null || echo "       -> rich missing"
+fi
+
+# lxml is requested by name as a BeautifulSoup tree builder in many tools, so
+# prove the parser actually works rather than just importing the module.
+if python3 -c "from bs4 import BeautifulSoup; BeautifulSoup('<a/>', 'lxml')" 2>/dev/null; then
+  pass "BeautifulSoup 'lxml' tree builder works"
+else
+  fail "BeautifulSoup cannot find the 'lxml' parser - run: pip install -r requirements.txt"
 fi
 
 # ---- phase 2: syntax of every python tool ----

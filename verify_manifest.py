@@ -93,8 +93,25 @@ def compare(actual, golden):
     """Return (passed, list_of_problems). Regressions fail; additions pass."""
     problems = []
 
-    # Missing files = regression (a tool stopped emitting output).
-    missing = sorted(set(golden["files"]) - set(actual["files"]))
+    # Some tools emit files whose NAMES are non-deterministic run-to-run (e.g.
+    # deep-extract numbers inline scripts inline_1.js, inline_2.js ... and the
+    # numbering shifts with fetch order). Exact per-file matching on those paths
+    # produces false "MISSING" regressions even when the clone is healthy, so we
+    # skip them here and rely on ext_counts + total_files (both drift-tolerant)
+    # to guard that family instead.
+    VOLATILE_PREFIXES = (
+        "analysis/deep-extract/deobfuscated-js/",
+    )
+
+    def _is_volatile(path):
+        return any(path.startswith(p) for p in VOLATILE_PREFIXES)
+
+    # Missing files = regression (a tool stopped emitting output), except for
+    # volatile-named paths which are validated by count below.
+    missing = sorted(
+        f for f in (set(golden["files"]) - set(actual["files"]))
+        if not _is_volatile(f)
+    )
     for f in missing:
         problems.append(f"MISSING file: {f}")
 

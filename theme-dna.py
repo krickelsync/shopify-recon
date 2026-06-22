@@ -860,11 +860,11 @@ class ThemeDNA:
             if score > 0:
                 matches.append({
                     "theme_key": theme_key,
-                    "name": theme_info["name"],
-                    "developer": theme_info["developer"],
-                    "price": theme_info["price"],
-                    "store_url": theme_info["store_url"],
-                    "popularity": theme_info["popularity"],
+                    "name": theme_info.get("name", theme_key),
+                    "developer": theme_info.get("developer", "Unknown"),
+                    "price": theme_info.get("price", "Unknown"),
+                    "store_url": theme_info.get("store_url", ""),
+                    "popularity": theme_info.get("popularity", "Unknown"),
                     "score": score,
                     "evidence": evidence,
                 })

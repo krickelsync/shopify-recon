@@ -30,6 +30,10 @@ TOOL_DIR = os.path.dirname(os.path.abspath(__file__))
 # 27-step plan safely before committing to a real clone.
 DRY_RUN = False
 _DRY_PLAN = []
+# Every tool/bash step that exits non-zero gets recorded here so the pipeline
+# can fail loudly at the end instead of printing "CLONE COMPLETE" over a
+# half-broken run.
+_FAILED_STEPS = []
 
 
 def run_tool(script, args, label):
@@ -45,6 +49,8 @@ def run_tool(script, args, label):
         return True
 
     result = subprocess.run(cmd, capture_output=False)
+    if result.returncode != 0:
+        _FAILED_STEPS.append((label, script, result.returncode))
     return result.returncode == 0
 
 
@@ -61,6 +67,8 @@ def run_bash(script, args, label):
         return True
 
     result = subprocess.run(cmd, capture_output=False)
+    if result.returncode != 0:
+        _FAILED_STEPS.append((label, script, result.returncode))
     return result.returncode == 0
 
 
@@ -312,13 +320,13 @@ def main():
     # Step 22: CSS Style Cloner (extract design system)
     print(f"\nStep 22/{total_steps}: Extracting CSS design system...")
     css_dir = os.path.join(output_dir, "analysis", "css")
-    if run_tool("css-style-cloner.py", [url, css_dir], "CSS Style Cloner"):
+    if run_tool("css-style-cloner.py", [extract_dir, css_dir], "CSS Style Cloner"):
         steps_completed += 1
     
     # Step 23: JS Logic Extractor
     print(f"\nStep 23/{total_steps}: Extracting JavaScript logic...")
     js_dir = os.path.join(output_dir, "analysis", "js")
-    if run_tool("js-logic-extractor.py", [url, js_dir], "JS Logic Extractor"):
+    if run_tool("js-logic-extractor.py", [extract_dir, js_dir], "JS Logic Extractor"):
         steps_completed += 1
     
     # Step 24: Section Detector (DATA-DRIVEN - discover REAL sections on each
@@ -419,6 +427,19 @@ def main():
         print(f"{total_size / (1024*1024):.1f} MB")
     else:
         print(f"{total_size / 1024:.1f} KB")
+
+    # Fail loudly if any step errored. A half-broken run must NOT look like a
+    # success to a human or an agent reading the exit code.
+    if _FAILED_STEPS:
+        print(f"\n{'='*64}")
+        print(f"  ⚠  {len(_FAILED_STEPS)} of {total_steps} steps FAILED "
+              f"({steps_completed}/{total_steps} completed)")
+        print(f"{'='*64}")
+        for label, script, code in _FAILED_STEPS:
+            print(f"    ✗ {label}  ({script}, exit {code})")
+        print("\n  The theme is INCOMPLETE. Fix the errors above and re-run "
+              "before deploying or selling it.\n")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
