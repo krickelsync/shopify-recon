@@ -99,7 +99,7 @@ def main():
     
     start_time = datetime.now()
     steps_completed = 0
-    total_steps = 24
+    total_steps = 27
     
     # Step 1: Extract data (Liquid Inspector)
     print(f"\n📌 Step 1/{total_steps}: Extracting store data...")
@@ -252,8 +252,30 @@ def main():
     if run_tool("js-logic-extractor.py", [url, js_dir], "⚡ JS Logic Extractor"):
         steps_completed += 1
     
-    # Step 24: Theme Validator
-    print(f"\n📌 Step 24/{total_steps}: Validating theme structure...")
+    # Step 24: Section Detector (DATA-DRIVEN — discover REAL sections on each
+    # page from shopify-section markers / structural patterns. Output drives
+    # json-template-builder so the clone is 1:1 with the source — no invented
+    # sections the page didn't have.)
+    print(f"\n📌 Step 24/{total_steps}: Detecting real sections (1:1, no hallucination)...")
+    if run_tool("section-detector.py", ["--clone", output_dir], "🔎 Section Detector"):
+        steps_completed += 1
+
+    # Step 25: JSON Template Builder (editor-native pages — consumes detected
+    # sections; MUST run before block-ifier)
+    print(f"\n📌 Step 25/{total_steps}: Building JSON templates (reorderable pages, data-driven)...")
+    json_theme_path = os.path.join(output_dir, "theme")
+    if run_tool("json-template-builder.py", [json_theme_path], "🧩 JSON Template Builder"):
+        steps_completed += 1
+
+    # Step 26: Block-ifier (make every section editor-customizable — runs AFTER
+    # json-template-builder so detected + extracted sections get block-ified too)
+    print(f"\n📌 Step 26/{total_steps}: Block-ifying sections (blocks + presets + shopify_attributes)...")
+    sections_path = os.path.join(output_dir, "theme", "sections")
+    if run_tool("block-ifier.py", ["--dir", sections_path], "🧱 Block-ifier"):
+        steps_completed += 1
+
+    # Step 27: Theme Validator (now reports Editor-Readiness Score)
+    print(f"\n📌 Step 27/{total_steps}: Validating theme structure + editor-readiness...")
     theme_path = os.path.join(output_dir, "theme")
     if run_tool("theme-validator.py", [theme_path], "✅ Theme Validator"):
         steps_completed += 1

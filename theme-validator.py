@@ -45,6 +45,7 @@ class ThemeValidator:
         self.check_structure()
         self.check_layouts()
         self.check_templates()
+        self.check_editor_readiness()
         self.check_sections()
         self.check_snippets()
         self.check_config()
@@ -93,24 +94,109 @@ class ThemeValidator:
                 self.passed.append("theme.liquid has content_for_layout")
     
     def check_templates(self):
-        """Check required template files."""
+        """Check required template files (.json OR .liquid both valid)."""
         templates_dir = self.theme_dir / "templates"
         if not templates_dir.exists():
             return
-        
+
+        def has_template(tmpl):
+            return ((templates_dir / (tmpl + ".json")).exists()
+                    or (templates_dir / (tmpl + ".liquid")).exists())
+
         for tmpl in REQUIRED_TEMPLATES:
-            # Check .liquid extension
-            path = templates_dir / f"{tmpl}.liquid"
-            if path.exists():
-                self.passed.append(f"Template exists: templates/{tmpl}.liquid")
+            if has_template(tmpl):
+                ext = ".json" if (templates_dir / (tmpl + ".json")).exists() else ".liquid"
+                self.passed.append("Template exists: templates/" + tmpl + ext)
             else:
-                self.warnings.append(f"Missing recommended template: templates/{tmpl}.liquid")
-        
-        # Check optional
+                self.warnings.append("Missing recommended template: templates/" + tmpl)
+
         for tmpl in OPTIONAL_TEMPLATES:
-            path = templates_dir / f"{tmpl}.liquid"
-            if path.exists():
-                self.passed.append(f"Optional template exists: templates/{tmpl}.liquid")
+            if has_template(tmpl):
+                self.passed.append("Optional template exists: templates/" + tmpl)
+
+    def check_editor_readiness(self):
+        """Editor-Readiness Score: can a BUYER customize this theme?
+
+        Premium themes are customizable in the theme editor. This checks the
+        three pillars that make that possible:
+          1. JSON templates  -> buyer can reorder/add/remove sections
+          2. Section presets  -> sections appear in "Add section"
+          3. Blocks + shopify_attributes -> buyer can drag/add/remove elements
+        """
+        templates_dir = self.theme_dir / "templates"
+        sections_dir = self.theme_dir / "sections"
+        self.editor = {
+            "json_templates": 0,
+            "liquid_templates": 0,
+            "sections_total": 0,
+            "sections_with_preset": 0,
+            "sections_with_blocks": 0,
+            "sections_with_shopify_attributes": 0,
+            "app_block_support": 0,
+            "score": 0,
+            "notes": [],
+        }
+
+        # 1. JSON templates
+        if templates_dir.exists():
+            self.editor["json_templates"] = len(list(templates_dir.glob("*.json")))
+            self.editor["liquid_templates"] = len(
+                [p for p in templates_dir.glob("*.liquid")])
+            if self.editor["json_templates"] == 0:
+                self.warnings.append(
+                    "EDITOR: 0 JSON templates — buyers cannot reorder/add/remove "
+                    "sections on any page. Run json-template-builder.py.")
+            else:
+                self.passed.append(
+                    "EDITOR: " + str(self.editor["json_templates"])
+                    + " JSON templates (pages are reorderable)")
+
+        # 2 + 3. Section presets / blocks / shopify_attributes
+        if sections_dir.exists():
+            secs = list(sections_dir.glob("*.liquid"))
+            self.editor["sections_total"] = len(secs)
+            for s in secs:
+                c = s.read_text(encoding="utf-8", errors="replace")
+                m = re.search(r"\{%-?\s*schema\s*-?%\}(.*?)\{%-?\s*endschema",
+                              c, re.DOTALL)
+                schema = {}
+                if m:
+                    try:
+                        schema = json.loads(m.group(1).strip())
+                    except json.JSONDecodeError:
+                        schema = {}
+                if schema.get("presets"):
+                    self.editor["sections_with_preset"] += 1
+                if schema.get("blocks"):
+                    self.editor["sections_with_blocks"] += 1
+                    if any(isinstance(b, dict) and b.get("type") == "@app"
+                           for b in schema["blocks"]):
+                        self.editor["app_block_support"] += 1
+                if "block.shopify_attributes" in c:
+                    self.editor["sections_with_shopify_attributes"] += 1
+
+        # Score: weighted across the three pillars (0-100)
+        st = max(self.editor["sections_total"], 1)
+        json_ok = 1.0 if self.editor["json_templates"] > 0 else 0.0
+        preset_ratio = self.editor["sections_with_preset"] / st
+        block_ratio = self.editor["sections_with_blocks"] / st
+        attr_ratio = self.editor["sections_with_shopify_attributes"] / st
+        score = (json_ok * 30 + preset_ratio * 25 + block_ratio * 25
+                 + attr_ratio * 20)
+        self.editor["score"] = round(score, 1)
+
+        if self.editor["sections_with_preset"] == 0:
+            self.warnings.append(
+                "EDITOR: 0 sections have presets — none appear in 'Add section'.")
+        if self.editor["sections_with_blocks"] == 0:
+            self.warnings.append(
+                "EDITOR: 0 sections expose blocks — buyers can't add/remove "
+                "elements. Run block-ifier.py.")
+        if self.editor["app_block_support"] > 0:
+            self.passed.append(
+                "EDITOR: @app blocks supported in "
+                + str(self.editor["app_block_support"]) + " sections "
+                "(buyers can plug in apps)")
     
     def check_sections(self):
         """Check section files and their schema blocks."""
@@ -340,6 +426,17 @@ class ThemeValidator:
         print(f"  Errors:   {len(self.errors)}")
         print(f"  Warnings: {len(self.warnings)}")
         print(f"  Passed:   {len(self.passed)}")
+
+        # Editor-Readiness Score (buyer customizability)
+        ed = getattr(self, "editor", None)
+        if ed:
+            print(f"\n{'='*60}")
+            print(f"EDITOR-READINESS SCORE: {ed['score']:.1f}%  (can buyers customize?)")
+            print(f"  JSON templates:            {ed['json_templates']} (reorderable pages)")
+            print(f"  Sections w/ presets:       {ed['sections_with_preset']}/{ed['sections_total']} (in 'Add section')")
+            print(f"  Sections w/ blocks:        {ed['sections_with_blocks']}/{ed['sections_total']} (add/remove elements)")
+            print(f"  Sections w/ drag-handles:  {ed['sections_with_shopify_attributes']}/{ed['sections_total']} (shopify_attributes)")
+            print(f"  @app block support:        {ed['app_block_support']} sections")
         
         if len(self.errors) == 0:
             print(f"\n🎉 THEME IS VALID!")
@@ -353,6 +450,16 @@ class ThemeValidator:
         with open(report_path, 'w') as f:
             f.write(f"# Theme Validation Report\n\n")
             f.write(f"**Score: {score:.1f}%**\n\n")
+            ed = getattr(self, "editor", None)
+            if ed:
+                f.write(f"**Editor-Readiness Score: {ed['score']:.1f}%** "
+                        f"(can buyers customize the theme?)\n\n")
+                f.write("| Editor pillar | Value |\n|---|---|\n")
+                f.write(f"| JSON templates (reorderable pages) | {ed['json_templates']} |\n")
+                f.write(f"| Sections with presets (in 'Add section') | {ed['sections_with_preset']}/{ed['sections_total']} |\n")
+                f.write(f"| Sections with blocks (add/remove elements) | {ed['sections_with_blocks']}/{ed['sections_total']} |\n")
+                f.write(f"| Sections with drag-handles (shopify_attributes) | {ed['sections_with_shopify_attributes']}/{ed['sections_total']} |\n")
+                f.write(f"| @app block support | {ed['app_block_support']} sections |\n\n")
             f.write(f"## Errors ({len(self.errors)})\n\n")
             for e in self.errors:
                 f.write(f"- ❌ {e}\n")
