@@ -243,6 +243,26 @@ rothys-clone/
 └── website/ - Standalone HTML website clone
 ```
 
+## Deploy to a store
+
+Once you have a theme in `./output/theme/`, push it with `deploy.sh`. It
+installs the Shopify CLI if it is missing and authenticates with a Theme Access
+token, so there is no interactive login. AI agents (Claude Code, Cursor, etc.)
+can run this step too; see AGENTS.md.
+
+Get a token: in Shopify admin, install the free Theme Access app, add a user,
+and it emails a password starting with `shptka_`. That password is the token.
+
+```bash
+export SHOPIFY_CLI_THEME_TOKEN=your_shptka_token
+export SHOPIFY_FLAG_STORE=yourstore.myshopify.com
+
+./deploy.sh ./output/theme          # push as an unpublished theme
+./deploy.sh ./output/theme --live   # publish to live (prompts to confirm)
+```
+
+Do not commit the token. It is gitignored by default.
+
 ## Requirements
 
 ```
