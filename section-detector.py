@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Section Detector — Data-Driven Section Discovery (v3.7)
+Section Detector - Data-Driven Section Discovery (v3.7)
 ======================================================
 
 THE PRINCIPLE (user's actual requirement)
 -----------------------------------------
 When cloning a web page to a Shopify theme, the TOOL decides which components
-become sections — automatically, from what is ACTUALLY on the page. If the page
-has a mega menu, slideshow, FAQ, product carousel → those become sections. If
-the page does NOT have them → they are NOT generated. No hardcoded default
+become sections - automatically, from what is ACTUALLY on the page. If the page
+has a mega menu, slideshow, FAQ, product carousel those become sections. If
+the page does NOT have them they are NOT generated. No hardcoded default
 stacks, no "add this section manually." The clone mirrors reality.
 
 HOW SHOPIFY MAKES THIS POSSIBLE
@@ -24,13 +24,13 @@ The section TYPE leaks in the id:
   - group sections:     shopify-section-group-<TYPE>  (header/footer groups)
 
 We parse these markers from the captured page HTML to recover the EXACT,
-ordered list of sections that exist on each page — then hand that to
+ordered list of sections that exist on each page - then hand that to
 json-template-builder so the JSON template references real, discovered sections.
 
 When the source is NOT Shopify (a Lovable/React/static site), section markers
 won't exist. We fall back to STRUCTURAL detection: identify recognizable
 component patterns (slideshow/carousel, mega menu, FAQ/accordion, marquee,
-logo bar, testimonials, newsletter, image-with-text) by DOM/class heuristics —
+logo bar, testimonials, newsletter, image-with-text) by DOM/class heuristics - 
 and again, only emit what is present.
 
 USAGE
@@ -301,7 +301,7 @@ def detect_page(html):
     """Return (source, sections[]).
 
     HARD RULE (no hallucination): if the page contains ANY shopify-section
-    markers, it is a Shopify-rendered page — we trust the markers ONLY and
+    markers, it is a Shopify-rendered page - we trust the markers ONLY and
     NEVER fall back to structural guessing. A Shopify cart/search page
     legitimately has few or zero customizable body sections; inventing
     slideshow/faq/gallery from loose keyword matches in the footer/widgets is

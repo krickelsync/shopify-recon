@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-JSON Template Builder — Page-level Customization Layer (v3.7)
+JSON Template Builder - Page-level Customization Layer (v3.7)
 ============================================================
 
 THE PROBLEM THIS SOLVES
 -----------------------
 The toolkit generates STATIC .liquid templates (product.liquid, index.liquid,
 collection.liquid...) with markup hardcoded inline. In the Shopify theme editor
-a static .liquid template is a DEAD PAGE — the buyer cannot:
+a static .liquid template is a DEAD PAGE - the buyer cannot:
   - reorder sections (drag main-product above/below related products)
   - add a new section to a page ("Add section" does nothing)
   - remove a section they don't want
@@ -18,7 +18,7 @@ DATA, not code: it lists which sections appear, in what order, with what
 settings. The editor reads/writes this JSON when the buyer drags things around.
 
 This is THE feature that separates a premium theme from a scaffold. Dawn,
-Prestige, Impulse — all JSON templates.
+Prestige, Impulse - all JSON templates.
 
 WHAT IT DOES
 ------------
@@ -27,7 +27,7 @@ For each template in theme/templates/*.liquid:
   2. Finds the matching "main" section (sections/main-<type>.liquid). If the
      template has inline markup but no section, it EXTRACTS the markup into a
      new sections/main-<type>.liquid (so the JSON template has something to
-     reference — a JSON template can ONLY reference sections, never inline HTML).
+     reference - a JSON template can ONLY reference sections, never inline HTML).
   3. Writes templates/<type>.json that references the main section plus any
      sensible default companion sections (e.g. product -> main-product +
      related-products; index -> a default homepage stack).
@@ -47,7 +47,7 @@ OUTPUT
   theme/templates/_json-build-report.json
 
 NOTE: No f-strings around Liquid content (Pitfall 6). JSON is built as dicts and
-json.dumps'd — safe.
+json.dumps'd - safe.
 """
 
 import os
@@ -146,12 +146,12 @@ class ThemeTemplates:
         raw = template_path.read_text(encoding="utf-8", errors="replace")
 
         # If the template already has a {% section %} reference, we don't need
-        # to extract — but for inline-markup templates we wrap the body.
+        # to extract - but for inline-markup templates we wrap the body.
         body = raw
 
         # Strip a leading DOCTYPE/html shell if this template was raw-captured
         # HTML (e.g. index.liquid captured as full page). Keep only <body> inner
-        # when a full document is detected — otherwise keep as-is.
+        # when a full document is detected - otherwise keep as-is.
         if re.search(r"<!DOCTYPE", raw, re.IGNORECASE) or re.search(r"<html", raw, re.IGNORECASE):
             m = re.search(r"<body[^>]*>(.*)</body>", raw, re.DOTALL | re.IGNORECASE)
             if m:
@@ -230,7 +230,7 @@ class ThemeTemplates:
         sections = {}
 
         if detected and detected.get("body_sections"):
-            # 1:1 with the actual page — only sections that truly exist
+            # 1:1 with the actual page - only sections that truly exist
             for i, s in enumerate(detected["body_sections"]):
                 stype = s["type"]
                 sec_id = stype + "_" + str(i) if order.count(stype) else stype
@@ -273,7 +273,7 @@ class ThemeTemplates:
         """Create a section file for a detected section type if missing.
 
         If a markup_file (real HTML extracted 1:1 from the source page) is
-        provided, the section body uses that ACTUAL content — so the clone
+        provided, the section body uses that ACTUAL content - so the clone
         matches the source in content, not just structure. block-ifier later
         adds an additive block region for buyer customization. Without markup,
         falls back to a minimal scaffold."""
@@ -301,7 +301,7 @@ class ThemeTemplates:
         }
 
         if real_markup:
-            body = ("{%- comment -%} Section '" + stype + "' — markup cloned 1:1 "
+            body = ("{%- comment -%} Section '" + stype + "' - markup cloned 1:1 "
                     "from source page. {%- endcomment -%}\n"
                     "<div class=\"section section--" + stype + "\" "
                     "data-section-type=\"" + stype + "\">\n"
@@ -412,7 +412,7 @@ def main():
           + (" (dry-run)" if dry else ""))
     for r in rep:
         flag = " [extracted main]" if r.get("extracted") else ""
-        print("  ✓ " + r["template"] + " -> " + r["page_type"] + ".json  sections="
+        print("  " + r["template"] + " -> " + r["page_type"] + ".json  sections="
               + ",".join(r.get("sections", [])) + flag)
 
 

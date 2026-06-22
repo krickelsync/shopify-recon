@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Section-Group Builder — Maps detected sections to Shopify section-groups in theme.liquid.
+Section-Group Builder - Maps detected sections to Shopify section-groups in theme.liquid.
 Generates layout/theme.liquid + section-groups/*.json
 """
 import json, re, sys
@@ -140,7 +140,7 @@ def main():
     
     theme_path = layout_dir / "theme.liquid"
     theme_path.write_text(theme_liquid, encoding='utf-8')
-    print(f"\n✅ {theme_path} ({theme_path.stat().st_size:,} bytes)")
+    print(f"\n{theme_path} ({theme_path.stat().st_size:,} bytes)")
     
     # header-group.json
     header_group = {
@@ -154,7 +154,7 @@ def main():
     header_path = section_groups_dir / "header-group.json"
     with open(header_path, 'w') as f:
         json.dump(header_group, f, indent=2)
-    print(f"✅ {header_path}")
+    print(f"{header_path}")
     
     # footer-group.json
     footer_group = {
@@ -168,10 +168,10 @@ def main():
     footer_path = section_groups_dir / "footer-group.json"
     with open(footer_path, 'w') as f:
         json.dump(footer_group, f, indent=2)
-    print(f"✅ {footer_path}")
+    print(f"{footer_path}")
     
-    print(f"\n✅ Section groups created: 2 (header, footer)")
-    print(f"✅ theme.liquid with section-group tags generated")
+    print(f"\nSection groups created: 2 (header, footer)")
+    print(f"theme.liquid with section-group tags generated")
 
 if __name__ == "__main__":
     main()

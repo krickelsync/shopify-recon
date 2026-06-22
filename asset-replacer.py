@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🔄 SMART ASSET REPLACER — Replace ALL CDN URLs with Local Paths
+SMART ASSET REPLACER - Replace ALL CDN URLs with Local Paths
 Scans every theme file (.liquid, .css, .js, .json) and replaces
 external CDN URLs with local asset paths
 Part of Shopify Recon | 2026-06-21
@@ -18,7 +18,7 @@ from collections import Counter
 
 
 def load_mapping(mapping_path):
-    """Load URL → local path mapping"""
+    """Load URL local path mapping"""
     with open(mapping_path) as f:
         return json.load(f)
 
@@ -146,7 +146,7 @@ def generate_report(results, theme_dir, mapping_count, output_path):
     """Generate replacement report"""
     
     with open(output_path, "w") as f:
-        f.write(f"""# 🔄 Asset Replacement Report
+        f.write(f"""# Asset Replacement Report
 
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 Theme: {theme_dir}
@@ -154,7 +154,7 @@ URL mappings: {mapping_count}
 
 ---
 
-## 📊 Summary
+## Summary
 
 | Metric | Value |
 |--------|-------|
@@ -165,7 +165,7 @@ URL mappings: {mapping_count}
 
 ---
 
-## 📁 Files by Extension
+## Files by Extension
 
 | Extension | Count |
 |-----------|-------|
@@ -173,11 +173,11 @@ URL mappings: {mapping_count}
         for ext, count in results["by_extension"].most_common():
             f.write(f"| {ext} | {count} |\n")
         
-        f.write(f"\n---\n\n## 📝 Modified Files\n\n")
+        f.write(f"\n---\n\n## Modified Files\n\n")
         for item in sorted(results["by_file"], key=lambda x: x["replacements"], reverse=True):
-            f.write(f"- `{item['file']}` — {item['replacements']} replacements\n")
+            f.write(f"- `{item['file']}` - {item['replacements']} replacements\n")
         
-        f.write(f"\n---\n\n## ✅ Status\n\n")
+        f.write(f"\n---\n\n## Status\n\n")
         if results["total_replacements"] > 0:
             f.write(f"**{results['total_replacements']} CDN URLs replaced with local Liquid asset references.**\n\n")
             f.write("Theme now loads assets from local files instead of competitor CDN.\n")
@@ -187,7 +187,7 @@ URL mappings: {mapping_count}
 
 def main():
     if len(sys.argv) < 3:
-        print("🔄 SMART ASSET REPLACER")
+        print("SMART ASSET REPLACER")
         print("━" * 69)
         print()
         print("Usage: python3 asset-replacer.py <theme-dir> <url-mapping.json>")
@@ -197,27 +197,27 @@ def main():
     theme_dir = sys.argv[1]
     mapping_path = sys.argv[2]
     
-    print("🔄 SMART ASSET REPLACER")
+    print("SMART ASSET REPLACER")
     print("━" * 69)
     print(f"  Theme: {theme_dir}")
     print(f"  Mapping: {mapping_path}")
     print()
     
     if not os.path.exists(theme_dir):
-        print(f"❌ Theme directory not found: {theme_dir}")
+        print(f"Theme directory not found: {theme_dir}")
         sys.exit(1)
     
     if not os.path.exists(mapping_path):
-        print(f"❌ URL mapping not found: {mapping_path}")
+        print(f"URL mapping not found: {mapping_path}")
         sys.exit(1)
     
     # Load mapping
     mapping = load_mapping(mapping_path)
-    print(f"  📄 URL mappings loaded: {len(mapping)}")
+    print(f"  URL mappings loaded: {len(mapping)}")
     print()
     
     # Scan and replace
-    print("  🔍 Scanning theme files...")
+    print("  Scanning theme files...")
     results = scan_theme(theme_dir, mapping)
     
     # Generate report
@@ -225,24 +225,24 @@ def main():
     generate_report(results, theme_dir, len(mapping), report_path)
     
     # Summary
-    print(f"\n✅ ASSET REPLACEMENT COMPLETE")
+    print(f"\nASSET REPLACEMENT COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Theme: {theme_dir}")
-    print(f"  📄 ASSET-REPLACEMENT-REPORT.md — Detailed report")
+    print(f"  Theme: {theme_dir}")
+    print(f"  ASSET-REPLACEMENT-REPORT.md - Detailed report")
     print()
-    print(f"📊 SUMMARY:")
+    print(f"SUMMARY:")
     print(f"  • Files scanned:     {results['files_scanned']}")
     print(f"  • Files modified:    {results['files_modified']}")
     print(f"  • Total replacements: {results['total_replacements']}")
     print()
     
     if results["by_file"]:
-        print(f"📝 TOP MODIFIED FILES:")
+        print(f"TOP MODIFIED FILES:")
         for item in sorted(results["by_file"], key=lambda x: x["replacements"], reverse=True)[:10]:
-            print(f"  • {item['file']} — {item['replacements']} replacements")
+            print(f"  • {item['file']} - {item['replacements']} replacements")
     
     if results["total_replacements"] > 0:
-        print(f"\n✨ Theme now loads {results['total_replacements']} assets locally instead of CDN!")
+        print(f"\nTheme now loads {results['total_replacements']} assets locally instead of CDN!")
 
 
 if __name__ == "__main__":

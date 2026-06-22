@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-📋 COMPONENT SPEC GENERATOR — AI-Grade Component Specifications
+COMPONENT SPEC GENERATOR - AI-Grade Component Specifications
 Adopted from ai-website-cloner-template's SKILL.md methodology
 Generates detailed spec files per section, ready for Liquid conversion
 
@@ -131,7 +131,7 @@ Index: {index}
     spec += "### Links\n\n"
     if links:
         for l in links:
-            spec += f"- `{l['href']}` → \"{l['text']}\" ({l['class']})\n"
+            spec += f"- `{l['href']}` \"{l['text']}\" ({l['class']})\n"
     else:
         spec += "No links in this section.\n"
     spec += "\n"
@@ -248,7 +248,7 @@ def detect_interaction_model(html):
     if ":hover" in html:
         hover_matches = re.findall(r'([^{]*?:hover[^{]*)\{([^}]*)\}', html)
         for selector, props in hover_matches:
-            hover_effects.append(f"{selector.strip()} → {props.strip()[:80]}")
+            hover_effects.append(f"{selector.strip()} {props.strip()[:80]}")
     
     # Transitions
     transition_matches = re.findall(r'transition:\s*([^;}"\']+)', html)
@@ -323,7 +323,7 @@ def build_dom_tree(soup, max_depth=4, indent=0):
         class_str = f".{classes}" if classes else ""
         
         text = child.get_text(strip=True)[:50] if hasattr(child, "get_text") else ""
-        text_str = f' → "{text}"' if text and len(text) > 2 else ""
+        text_str = f' "{text}"' if text and len(text) > 2 else ""
         
         result.append(f"{'  ' * indent}{child.name}{class_str}{text_str}")
         
@@ -337,7 +337,7 @@ def build_dom_tree(soup, max_depth=4, indent=0):
 
 def main():
     if len(sys.argv) < 2:
-        print("📋 COMPONENT SPEC GENERATOR")
+        print("COMPONENT SPEC GENERATOR")
         print("━" * 69)
         print()
         print("Usage: python3 component-spec.py <input-dir> [output-dir]")
@@ -347,7 +347,7 @@ def main():
     input_dir = sys.argv[1]
     output_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.join(input_dir, "component-specs")
     
-    print("📋 COMPONENT SPEC GENERATOR")
+    print("COMPONENT SPEC GENERATOR")
     print("━" * 69)
     print(f"  Input: {input_dir}")
     print(f"  Output: {output_dir}")
@@ -356,7 +356,7 @@ def main():
     # Load homepage HTML
     html_path = os.path.join(input_dir, "homepage.html")
     if not os.path.exists(html_path):
-        print(f"❌ No homepage.html in {input_dir}")
+        print(f"No homepage.html in {input_dir}")
         sys.exit(1)
     
     with open(html_path) as f:
@@ -368,12 +368,12 @@ def main():
     sections = soup.find_all(id=re.compile(r"shopify-section-"))
     
     if not sections:
-        print("  ⚠️  No Shopify sections found. Generating specs for top-level elements...")
+        print("   No Shopify sections found. Generating specs for top-level elements...")
         sections = soup.find("body").find_all(recursive=False) if soup.find("body") else []
     
     os.makedirs(output_dir, exist_ok=True)
     
-    print(f"  📄 Found {len(sections)} sections")
+    print(f"  Found {len(sections)} sections")
     print()
     
     specs_generated = []
@@ -393,7 +393,7 @@ def main():
         
         section_html = str(section)[:10000]  # Cap at 10KB
         
-        print(f"  📝 [{i+1}/{len(sections)}] Generating spec for '{section_type}'...")
+        print(f"  [{i+1}/{len(sections)}] Generating spec for '{section_type}'...")
         
         spec_path = generate_component_spec(section_html, section_type, section_id, i, output_dir)
         specs_generated.append({
@@ -411,15 +411,15 @@ def main():
             "specs": specs_generated,
         }, f, indent=2)
     
-    print(f"\n✅ COMPONENT SPECS GENERATED")
+    print(f"\nCOMPONENT SPECS GENERATED")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/")
-    print(f"  📄 {len(specs_generated)} spec files generated")
-    print(f"  📄 SPECS-INDEX.json — Index of all specs")
+    print(f"  Output: {output_dir}/")
+    print(f"  {len(specs_generated)} spec files generated")
+    print(f"  SPECS-INDEX.json - Index of all specs")
     print()
-    print("📊 SPECS GENERATED:")
+    print("SPECS GENERATED:")
     for s in specs_generated:
-        print(f"  • {s['spec_file']} — {s['type']}")
+        print(f"  • {s['spec_file']} - {s['type']}")
 
 
 if __name__ == "__main__":

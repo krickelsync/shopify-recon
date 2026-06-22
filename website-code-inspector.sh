@@ -9,13 +9,13 @@ URL="${1:-}"
 OUTPUT_DIR="${2:-./_website-extract}"
 
 if [ -z "$URL" ]; then
-    echo "❌ Usage: $0 <URL> [output_dir]"
+    echo "Usage: $0 <URL> [output_dir]"
     echo "Example: $0 https://example.myshopify.com ./output"
     exit 1
 fi
 
-echo "🔍 Inspecting: $URL"
-echo "📁 Output: $OUTPUT_DIR"
+echo "Inspecting: $URL"
+echo "Output: $OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR"
 
 # ============================================================================
@@ -24,7 +24,7 @@ mkdir -p "$OUTPUT_DIR"
 echo -e "\n[1/7] Fetching HTML + Headers..."
 curl -s -L -D "$OUTPUT_DIR/headers.txt" "$URL" > "$OUTPUT_DIR/source.html"
 
-echo "✓ Headers saved"
+echo "Headers saved"
 grep -i "x-shopify\|content-type\|server" "$OUTPUT_DIR/headers.txt" | head -10 || true
 
 # ============================================================================
@@ -39,7 +39,7 @@ echo "=== FRAMEWORK DETECTION ===" >> "$TECH_REPORT"
 
 # Shopify Theme Check (CRITICAL)
 if grep -q "Shopify\|shopify\.com\|/cdn/shop\|Shopify.checkout\|window.Shopify" "$OUTPUT_DIR/source.html"; then
-    echo "🛒 SHOPIFY THEME DETECTED" >> "$TECH_REPORT"
+    echo "SHOPIFY THEME DETECTED" >> "$TECH_REPORT"
     echo "Framework: Shopify Liquid" >> "$TECH_REPORT"
     IS_SHOPIFY=true
 else
@@ -48,22 +48,22 @@ fi
 
 # React / Next.js
 if grep -q "data-react-root\|__react\|__NEXT_DATA__\|_next/" "$OUTPUT_DIR/source.html"; then
-    echo "⚛️  React/Next.js detected" >> "$TECH_REPORT"
+    echo " React/Next.js detected" >> "$TECH_REPORT"
 fi
 
 # Vue
 if grep -q "data-v-app\|#app.*vue\|__vue__" "$OUTPUT_DIR/source.html"; then
-    echo "💚 Vue.js detected" >> "$TECH_REPORT"
+    echo "Vue.js detected" >> "$TECH_REPORT"
 fi
 
 # Lovable (Vercel Edge)
 if grep -q "vercel.com\|_vercel\|data-component\|__lovable" "$OUTPUT_DIR/source.html"; then
-    echo "✨ Lovable detected (React-based)" >> "$TECH_REPORT"
+    echo "Lovable detected (React-based)" >> "$TECH_REPORT"
 fi
 
 # TypeScript indicator
 if grep -q "<script.*type=\"module\"" "$OUTPUT_DIR/source.html" || grep -q "\.tsx\|\.ts" "$OUTPUT_DIR/source.html"; then
-    echo "📘 TypeScript likely" >> "$TECH_REPORT"
+    echo "TypeScript likely" >> "$TECH_REPORT"
 fi
 
 # Languages in scripts
@@ -78,7 +78,7 @@ echo "CSS references: $CSS_COUNT" >> "$TECH_REPORT"
 # Liquid tags (Shopify)
 LIQUID_TAGS=$(grep -o "{{.*}}\|{%.*%}" "$OUTPUT_DIR/source.html" | head -5 || echo "none")
 if [ "$LIQUID_TAGS" != "none" ]; then
-    echo -e "\n🔵 LIQUID CODE FOUND:" >> "$TECH_REPORT"
+    echo -e "\nLIQUID CODE FOUND:" >> "$TECH_REPORT"
     echo "$LIQUID_TAGS" >> "$TECH_REPORT"
 fi
 
@@ -97,7 +97,7 @@ if [ "$IS_SHOPIFY" = true ]; then
     grep -o "{{[^}]*}}\|{%[^%]*%}" "$OUTPUT_DIR/source.html" | sort -u > "$LIQUID_FILE" 2>/dev/null || true
     
     if [ -s "$LIQUID_FILE" ]; then
-        echo "✓ Liquid code extracted ($(wc -l < "$LIQUID_FILE") lines)"
+        echo "Liquid code extracted ($(wc -l < "$LIQUID_FILE") lines)"
         head -20 "$LIQUID_FILE"
     fi
     
@@ -127,7 +127,7 @@ grep -oP '<link[^>]*href="\K[^"]*\.css' "$OUTPUT_DIR/source.html" | while read u
     curl -s "$url" >> "$CSS_DIR/external.css" 2>/dev/null || echo "# Failed to download: $url"
 done
 
-echo "✓ CSS extracted"
+echo "CSS extracted"
 echo "  - inline: $(wc -l < "$CSS_DIR/inline.css" 2>/dev/null || echo 0) lines"
 echo "  - external: $(wc -l < "$CSS_DIR/external.css" 2>/dev/null || echo 0) lines"
 
@@ -152,7 +152,7 @@ grep -oP '<script[^>]*src="\K[^"]*\.js' "$OUTPUT_DIR/source.html" | while read u
     curl -s "$url" >> "$JS_DIR/external.js" 2>/dev/null || true
 done
 
-echo "✓ JavaScript extracted"
+echo "JavaScript extracted"
 echo "  - inline: $(wc -l < "$JS_DIR/inline.js" 2>/dev/null || echo 0) lines"
 echo "  - external: $(wc -l < "$JS_DIR/external.js" 2>/dev/null || echo 0) lines"
 
@@ -187,14 +187,14 @@ sed -i "s|IS_SHOPIFY_PLACEHOLDER|$IS_SHOPIFY|g" "$OUTPUT_DIR/analysis.json"
 sed -i "s|SCRIPTS_COUNT|$SCRIPT_COUNT|g" "$OUTPUT_DIR/analysis.json"
 sed -i "s|HAS_LIQUID_PLACEHOLDER|$([ "$IS_SHOPIFY" = true ] && echo 'true' || echo 'false')|g" "$OUTPUT_DIR/analysis.json"
 
-echo "✓ Structure analyzed"
+echo "Structure analyzed"
 
 # ============================================================================
 # 7. SUMMARY & NEXT STEPS
 # ============================================================================
 echo -e "\n[7/7] Summary"
 echo "=================================================="
-echo "📊 EXTRACTION COMPLETE"
+echo "EXTRACTION COMPLETE"
 echo "=================================================="
 echo "Output directory: $OUTPUT_DIR"
 echo ""
@@ -202,14 +202,14 @@ echo "Files generated:"
 ls -lh "$OUTPUT_DIR"/ | awk '{print "  " $9 " (" $5 ")"}'
 echo ""
 if [ "$IS_SHOPIFY" = true ]; then
-    echo "🛒 SHOPIFY THEME DETECTED"
-    echo "   → Liquid code: $OUTPUT_DIR/extracted-liquid.liquid"
-    echo "   → Theme structure: $OUTPUT_DIR/theme-structure.html"
+    echo "SHOPIFY THEME DETECTED"
+    echo "   Liquid code: $OUTPUT_DIR/extracted-liquid.liquid"
+    echo "   Theme structure: $OUTPUT_DIR/theme-structure.html"
 fi
 echo ""
-echo "📋 Tech Report:"
+echo "Tech Report:"
 cat "$OUTPUT_DIR/tech-report.txt"
 echo ""
-echo "💡 Next: Convert to standalone format if needed"
+echo "Next: Convert to standalone format if needed"
 echo "   Option A: Use shopify-theme-conversion skill (for Liquid conversion)"
 echo "   Option B: Use web-clone-exact skill (for complete HTML+CSS+JS clone)"

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🛒 CART & CHECKOUT FLOW MAPPER — Trace E-commerce Flow from HTML+JS
+CART & CHECKOUT FLOW MAPPER - Trace E-commerce Flow from HTML+JS
 Detects cart endpoints, checkout flow, AJAX patterns, payment integration
 Part of Shopify Clone Toolkit v3 | Kiro | 2026-06-21
 
@@ -365,7 +365,7 @@ def generate_mermaid_diagram(cart_endpoints, cart_type, payment_methods, checkou
 
 def main():
     if len(sys.argv) < 2:
-        print("🛒 CART & CHECKOUT FLOW MAPPER")
+        print("CART & CHECKOUT FLOW MAPPER")
         print("━" * 69)
         print()
         print("Usage: python3 cart-flow-mapper.py <input-dir> [output-dir]")
@@ -375,7 +375,7 @@ def main():
     input_dir = sys.argv[1]
     output_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.join(input_dir, "flow-analysis")
     
-    print("🛒 CART & CHECKOUT FLOW MAPPER")
+    print("CART & CHECKOUT FLOW MAPPER")
     print("━" * 69)
     print(f"  Input: {input_dir}")
     print(f"  Output: {output_dir}")
@@ -384,13 +384,13 @@ def main():
     # Load HTML
     html_path = os.path.join(input_dir, "homepage.html")
     if not os.path.exists(html_path):
-        print(f"❌ No homepage.html found in {input_dir}")
+        print(f"No homepage.html found in {input_dir}")
         sys.exit(1)
     
     with open(html_path) as f:
         html = f.read()
     
-    print(f"  📄 HTML loaded: {len(html)} bytes")
+    print(f"  HTML loaded: {len(html)} bytes")
     
     print("  [1/6] Detecting cart endpoints...")
     cart_endpoints = detect_cart_endpoints(html)
@@ -435,20 +435,20 @@ def main():
     # Generate markdown report
     md_path = os.path.join(output_dir, "CART-FLOW-REPORT.md")
     with open(md_path, "w") as f:
-        f.write(f"""# 🛒 Cart & Checkout Flow Report
+        f.write(f"""# Cart & Checkout Flow Report
 
 Source: {input_dir}
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 ---
 
-## 📊 Flow Diagram
+## Flow Diagram
 
 {mermaid}
 
 ---
 
-## 🔗 Cart Endpoints Detected
+## Cart Endpoints Detected
 
 """)
         for name, endpoints in cart_endpoints.items():
@@ -460,13 +460,13 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         
         f.write(f"""---
 
-## 🛒 Cart Implementation
+## Cart Implementation
 
 **Type:** {', '.join(cart_type)}
 
 ---
 
-## 💳 Payment Methods
+## Payment Methods
 
 """)
         if payments:
@@ -476,7 +476,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         else:
             f.write("No payment methods detected on homepage.\n")
         
-        f.write(f"\n---\n\n## 📡 AJAX Patterns\n\n")
+        f.write(f"\n---\n\n## AJAX Patterns\n\n")
         for name, calls in ajax_patterns.items():
             if calls:
                 f.write(f"### {name.replace('_', ' ').title()}\n")
@@ -486,11 +486,11 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         
         f.write(f"""---
 
-## 🔄 Checkout Flow
+## Checkout Flow
 
-- **Shopify Native Checkout:** {'✅ Yes' if checkout_flow['has_shopify_checkout'] else '❌ No'}
-- **Custom Checkout:** {'✅ Yes' if checkout_flow['has_custom_checkout'] else '❌ No'}
-- **Express Checkout:** {'✅ Yes' if checkout_flow['has_express_checkout'] else '❌ No'}
+- **Shopify Native Checkout:** {'Yes' if checkout_flow['has_shopify_checkout'] else 'No'}
+- **Custom Checkout:** {'Yes' if checkout_flow['has_custom_checkout'] else 'No'}
+- **Express Checkout:** {'Yes' if checkout_flow['has_express_checkout'] else 'No'}
 
 ### Checkout Buttons Found
 """)
@@ -504,16 +504,16 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         f.write(f"""
 ---
 
-## 📦 Product Page Flow
+## Product Page Flow
 
 | Feature | Status |
 |---------|--------|
 | Variant Selector | {product_flow['variant_selector']} |
-| Quantity Selector | {'✅' if product_flow['quantity_selector'] else '❌'} |
-| Add to Cart Form | {'✅' if product_flow['add_to_cart_form'] else '❌'} |
-| Dynamic Checkout (Buy Now) | {'✅' if product_flow['dynamic_checkout'] else '❌'} |
-| Swatch Detection | {'✅' if product_flow['swatch_detection'] else '❌'} |
-| Size Chart | {'✅' if product_flow['size_chart'] else '❌'} |
+| Quantity Selector | {'' if product_flow['quantity_selector'] else ''} |
+| Add to Cart Form | {'' if product_flow['add_to_cart_form'] else ''} |
+| Dynamic Checkout (Buy Now) | {'' if product_flow['dynamic_checkout'] else ''} |
+| Swatch Detection | {'' if product_flow['swatch_detection'] else ''} |
+| Size Chart | {'' if product_flow['size_chart'] else ''} |
 
 ---
 
@@ -521,13 +521,13 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 """)
     
     # Summary
-    print(f"\n✅ FLOW MAPPING COMPLETE")
+    print(f"\nFLOW MAPPING COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/")
-    print(f"  📄 flow-analysis.json — Full structured data")
-    print(f"  📄 CART-FLOW-REPORT.md — Report with Mermaid diagram")
+    print(f"  Output: {output_dir}/")
+    print(f"  flow-analysis.json - Full structured data")
+    print(f"  CART-FLOW-REPORT.md - Report with Mermaid diagram")
     print()
-    print("📊 FLOW SUMMARY:")
+    print("FLOW SUMMARY:")
     print(f"  • Cart type: {', '.join(cart_type)}")
     
     total_endpoints = sum(len(v) for v in cart_endpoints.values())

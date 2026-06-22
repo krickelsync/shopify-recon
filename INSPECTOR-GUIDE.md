@@ -1,11 +1,11 @@
-# 🔍 Website Code Inspector & Extractor — Usage Guide
+# Website Code Inspector & Extractor - Usage Guide
 **Kiro Shopify Master | 2026-06-21**
 
 Gw udah bikin tool yang bisa:
-1. **Detect framework** — Shopify? React? Vue? TypeScript?
-2. **Extract semua code** — HTML, CSS, JavaScript
-3. **Grab Liquid** — Kalau itu Shopify theme
-4. **Analyze struktur** — Tech report + JSON output
+1. **Detect framework** - Shopify? React? Vue? TypeScript?
+2. **Extract semua code** - HTML, CSS, JavaScript
+3. **Grab Liquid** - Kalau itu Shopify theme
+4. **Analyze struktur** - Tech report + JSON output
 
 ---
 
@@ -13,7 +13,7 @@ Gw udah bikin tool yang bisa:
 
 Tool udah ada di: `/home/ubuntu/tools/website-code-inspector.sh`
 
-**Executable:** ✅ Ready
+**Executable:** Ready
 **Requirements:** curl, grep, bash (semua standard Linux)
 
 ---
@@ -33,19 +33,19 @@ Tool udah ada di: `/home/ubuntu/tools/website-code-inspector.sh`
 
 Output:
 ```
-🔍 Inspecting: https://www.gymshark.com
-📁 Output: ./gymshark-extract
+Inspecting: https://www.gymshark.com
+Output: ./gymshark-extract
 
 [1/7] Fetching HTML + Headers...
-✓ Headers saved
+Headers saved
 
 [2/7] Detecting framework & language...
-🛒 SHOPIFY THEME DETECTED
+SHOPIFY THEME DETECTED
 Framework: Shopify Liquid
-⚛️  React/Next.js detected
+ React/Next.js detected
 JavaScript <script> tags: 4
 CSS references: 2
-🔵 LIQUID CODE FOUND:
+LIQUID CODE FOUND:
 {{amount}}
 {{discount}}
 ... (29 Liquid variables)
@@ -112,22 +112,22 @@ output_dir/
 ## Next Steps After Extraction
 
 ### If Shopify Theme Detected
-**→ Use `shopify-theme-conversion` skill:**
+**Use `shopify-theme-conversion` skill:**
 ```bash
 # Convert extracted Liquid to standalone theme
 hermes skill load shopify-theme-conversion
-# Then gw akan: port pure Liquid → deployable theme
+# Then gw akan: port pure Liquid deployable theme
 ```
 
 ### If React/Lovable Detected
-**→ Use `shopify-theme-conversion` skill:**
+**Use `shopify-theme-conversion` skill:**
 ```bash
 # Port React components to Shopify Liquid
-# Components extracted → Liquid sections/templates
+# Components extracted Liquid sections/templates
 ```
 
 ### If Need Complete Clone
-**→ Use `web-clone-exact` skill:**
+**Use `web-clone-exact` skill:**
 ```bash
 # Create 100% fidelity clone with all CSS anim + JS behavior
 # Deploy live (Vercel/Netlify/Node)
@@ -153,7 +153,7 @@ head -50 ./competitor-analyze/js/inline.js      # Check JS logic
 # Using shopify-theme-conversion skill
 ```
 
-### Scenario B: Clone Lovable Design → Shopify
+### Scenario B: Clone Lovable Design Shopify
 **Goal:** Lu punya design di Lovable, gw convert ke Shopify Liquid
 
 ```bash
@@ -165,12 +165,12 @@ head -50 ./competitor-analyze/js/inline.js      # Check JS logic
 
 # 3. Gw convert:
 # Load shopify-theme-conversion
-# Port React components → Liquid sections
+# Port React components Liquid sections
 # Exact 1:1 fidelity, chunked writes (300 line max)
 # Push to KRICKEL test store
 ```
 
-### Scenario C: Full Theme Clone → Deploy
+### Scenario C: Full Theme Clone Deploy
 **Goal:** Ambil situs competitor, buat exact clone lu, deploy live
 
 ```bash
@@ -192,15 +192,15 @@ head -50 ./competitor-analyze/js/inline.js      # Check JS logic
 **Tech Report Generated:**
 ```
 === FRAMEWORK DETECTION ===
-🛒 SHOPIFY THEME DETECTED
+SHOPIFY THEME DETECTED
 Framework: Shopify Liquid
-⚛️  React/Next.js detected
+ React/Next.js detected
 
 === PROGRAMMING LANGUAGES ===
 JavaScript <script> tags: 4
 CSS references: 2
 
-🔵 LIQUID CODE FOUND:
+LIQUID CODE FOUND:
 {{amount}}
 {{count}}
 {{discount}}
@@ -261,9 +261,9 @@ cat ./_website-extract/css/inline.css | pbcopy
 
 | Tool | What It Does | When to Use |
 |------|-------------|------------|
-| `shopify-theme-conversion` | Port extracted code → Shopify Liquid | Lu ada design/competitor theme |
+| `shopify-theme-conversion` | Port extracted code Shopify Liquid | Lu ada design/competitor theme |
 | `web-clone-exact` | Build 100% fidelity clone + deploy live | Lu mau exact replica with animations |
-| `static-site-rebuild-component-based` | Multi-page → component system | Lu ada 6+ pages, avoid duplication |
+| `static-site-rebuild-component-based` | Multi-page component system | Lu ada 6+ pages, avoid duplication |
 | `shopify-expert` | Reference Liquid patterns found | Understand extracted Liquid variables |
 
 ---
@@ -272,9 +272,9 @@ cat ./_website-extract/css/inline.css | pbcopy
 
 **Next Steps:**
 
-1. **Drop URL** — situs mana yang lu mau analyze?
-2. **Gw run inspector** — extract + detect framework
-3. **Review report** — tech stack + what was found
-4. **Decide next** — clone? convert? deploy?
+1. **Drop URL** - situs mana yang lu mau analyze?
+2. **Gw run inspector** - extract + detect framework
+3. **Review report** - tech stack + what was found
+4. **Decide next** - clone? convert? deploy?
 
-Bro, lu kasih aja URL target-nya. Gw gas analyze + extract + recommend workflow. 🚀
+Bro, lu kasih aja URL target-nya. Gw gas analyze + extract + recommend workflow.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-⚙️ SCHEMA GENERATOR — Generate {% schema %} blocks from detected section settings
+SCHEMA GENERATOR - Generate {% schema %} blocks from detected section settings
 Analyzes section HTML, detects settings (images, text, colors, URLs), generates valid schema
 
 Usage: python3 schema-generator.py <input-dir> [output-dir]
@@ -16,7 +16,7 @@ def detect_settings(section_html):
     soup = BeautifulSoup(section_html, "lxml")
     settings = []
     
-    # Images → image_picker
+    # Images image_picker
     for img in soup.find_all("img"):
         src = img.get("src", "")
         alt = img.get("alt", "")
@@ -27,7 +27,7 @@ def detect_settings(section_html):
                 "label": f"Image ({alt[:30]})" if alt else f"Image {len(settings)+1}",
             })
     
-    # Headings → text setting
+    # Headings text setting
     for h in soup.find_all(["h1", "h2", "h3", "h4"]):
         text = h.get_text(strip=True)
         if text and len(text) > 2:
@@ -38,7 +38,7 @@ def detect_settings(section_html):
                 "default": text[:60],
             })
     
-    # Links → url setting
+    # Links url setting
     for a in soup.find_all("a", href=True):
         href = a["href"]
         text = a.get_text(strip=True)
@@ -70,7 +70,7 @@ def detect_settings(section_html):
             "default": color,
         })
     
-    # Buttons → text + url
+    # Buttons text + url
     for btn in soup.find_all("button"):
         text = btn.get_text(strip=True)
         if text:
@@ -107,7 +107,7 @@ def generate_schema(section_type, settings):
 
 def main():
     if len(sys.argv) < 2:
-        print("⚙️ SCHEMA GENERATOR")
+        print("SCHEMA GENERATOR")
         print("━" * 69)
         print("Usage: python3 schema-generator.py <input-dir> [output-dir]")
         sys.exit(1)
@@ -126,7 +126,7 @@ def main():
     seen_types = set()
     generated = []
     
-    print("⚙️ SCHEMA GENERATOR")
+    print("SCHEMA GENERATOR")
     print("━" * 69)
     
     for section in sections:
@@ -150,7 +150,7 @@ def main():
         generated.append({"type": section_type, "settings": len(settings)})
         print(f"  • {section_type}: {len(settings)} settings detected")
     
-    print(f"\n✅ {len(generated)} schema files generated in {output_dir}/")
+    print(f"\n{len(generated)} schema files generated in {output_dir}/")
 
 
 if __name__ == "__main__":

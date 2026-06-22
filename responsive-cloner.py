@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-📱 RESPONSIVE CLONER — Extract @media queries + Generate Responsive CSS
+RESPONSIVE CLONER - Extract @media queries + Generate Responsive CSS
 Extracts all breakpoints, responsive rules, mobile-specific styles
 Generates: responsive.css with all breakpoints preserved
 
@@ -88,7 +88,7 @@ def extract_viewport(html):
 def generate_responsive_css(media_queries, mobile_classes):
     """Generate responsive.css with all extracted breakpoints"""
     
-    css = "/* 📱 responsive.css — Extracted from competitor store */\n"
+    css = "/* responsive.css - Extracted from competitor store */\n"
     css += f"/* Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')} */\n"
     css += f"/* Media queries: {len(media_queries)} */\n\n"
     
@@ -133,7 +133,7 @@ def generate_responsive_css(media_queries, mobile_classes):
 
 def main():
     if len(sys.argv) < 2:
-        print("📱 RESPONSIVE CLONER")
+        print("RESPONSIVE CLONER")
         print("━" * 69)
         print("Usage: python3 responsive-cloner.py <input-dir> [output-dir]")
         sys.exit(1)
@@ -145,7 +145,7 @@ def main():
     with open(html_path) as f:
         html = f.read()
     
-    print("📱 RESPONSIVE CLONER")
+    print("RESPONSIVE CLONER")
     print("━" * 69)
     
     viewport = extract_viewport(html)
@@ -175,7 +175,7 @@ def main():
     print(f"  Media queries: {len(media_queries)}")
     print(f"  Breakpoints: {analysis['breakpoints']}")
     print(f"  Mobile classes: {len(mobile_classes)}")
-    print(f"\n✅ responsive.css generated ({len(css)} bytes)")
+    print(f"\nresponsive.css generated ({len(css)} bytes)")
 
 
 if __name__ == "__main__":

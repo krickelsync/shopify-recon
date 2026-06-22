@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# auto-sync.sh — Auto-commit + push the shopify-recon toolkit to GitHub.
+# auto-sync.sh - Auto-commit + push the shopify-recon toolkit to GitHub.
 #
 # Runs non-interactively. Stages tracked tool changes, commits with a
 # timestamped message (or a message passed as $1), and pushes to origin/main.
@@ -37,7 +37,7 @@ fi
 MSG="${1:-}"
 if [ -z "$MSG" ]; then
   CHANGED=$(git diff --cached --name-only | tr '\n' ' ')
-  MSG="chore: auto-sync $(date -u +%Y-%m-%dT%H:%MZ) — ${CHANGED}"
+  MSG="chore: auto-sync $(date -u +%Y-%m-%dT%H:%MZ) - ${CHANGED}"
 fi
 
 git commit -m "$MSG"
@@ -46,6 +46,6 @@ git commit -m "$MSG"
 if git push origin main; then
   echo "auto-sync: pushed to origin/main"
 else
-  echo "auto-sync: PUSH FAILED — run setup-github-auth.sh once to store a token" >&2
+  echo "auto-sync: PUSH FAILED - run setup-github-auth.sh once to store a token" >&2
   exit 2
 fi

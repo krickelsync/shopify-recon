@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# setup-github-auth.sh — One-time GitHub auth setup for auto-sync.
+# setup-github-auth.sh - One-time GitHub auth setup for auto-sync.
 #
 # Stores a GitHub Personal Access Token (PAT) in git's credential store so all
 # future `git push` calls (including cron/auto-sync) authenticate silently.
@@ -44,7 +44,7 @@ git remote set-url origin "https://github.com/${GH_USER}/shopify-recon.git"
 
 echo "GitHub auth stored for ${GH_USER}. Verifying with a remote ls..."
 if git ls-remote origin -h refs/heads/main >/dev/null 2>&1; then
-  echo "OK — authentication works. auto-sync.sh can now push automatically."
+  echo "OK - authentication works. auto-sync.sh can now push automatically."
 else
   echo "WARNING: stored token but remote check failed. Token may lack 'repo' scope or be invalid." >&2
   exit 2

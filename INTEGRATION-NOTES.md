@@ -1,4 +1,4 @@
-# 🧬 AI Website Cloner Integration — Shopify Recon
+# AI Website Cloner Integration - Shopify Recon
 
 ## Source
 - **Repo:** https://github.com/JCodesMore/ai-website-cloner-template
@@ -57,12 +57,12 @@ After clone, compare side-by-side:
 The original tool clones to **Next.js + React + Tailwind**.
 We adapted the extraction methodology to output **Shopify Liquid templates**:
 
-- `getComputedStyle()` extraction → CSS variables in `theme.css`
-- DOM structure → `{% section %}` + `{% snippet %}` patterns
-- Component spec → `{% schema %}` blocks with settings
-- Real content → `{{ product.title }}`, `{{ collection.description }}`
-- Interaction model → `theme.js` with event listeners
-- Multi-state → CSS classes + JS toggle logic
+- `getComputedStyle()` extraction CSS variables in `theme.css`
+- DOM structure `{% section %}` + `{% snippet %}` patterns
+- Component spec `{% schema %}` blocks with settings
+- Real content `{{ product.title }}`, `{{ collection.description }}`
+- Interaction model `theme.js` with event listeners
+- Multi-state CSS classes + JS toggle logic
 
 ## Integration Points
 
@@ -78,6 +78,6 @@ We adapted the extraction methodology to output **Shopify Liquid templates**:
 - Asset mirroring = httrack-style download
 
 ### template-generator.py
-- Component specs → Liquid templates with exact CSS values
-- Multi-state extraction → conditional Liquid blocks
-- Responsive behavior → CSS media queries in theme.css
+- Component specs Liquid templates with exact CSS values
+- Multi-state extraction conditional Liquid blocks
+- Responsive behavior CSS media queries in theme.css

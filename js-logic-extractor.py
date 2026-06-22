@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🧠 JS LOGIC EXTRACTOR — Extract & Map Theme JavaScript Logic
+JS LOGIC EXTRACTOR - Extract & Map Theme JavaScript Logic
 Parses inline JS, detects cart/variant/filter logic, maps to Liquid variables
 Part of Shopify Clone Toolkit v3 | Kiro | 2026-06-21
 
@@ -17,7 +17,7 @@ from datetime import datetime
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SCRIPT EXTRACTOR — Extract all inline + external scripts
+# SCRIPT EXTRACTOR - Extract all inline + external scripts
 # ═══════════════════════════════════════════════════════════════════
 
 def extract_scripts(html):
@@ -59,7 +59,7 @@ def extract_scripts(html):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# FUNCTION EXTRACTOR — Parse JS function definitions
+# FUNCTION EXTRACTOR - Parse JS function definitions
 # ═══════════════════════════════════════════════════════════════════
 
 def extract_functions(script_content):
@@ -69,7 +69,7 @@ def extract_functions(script_content):
     # function name() { ... }
     for match in re.finditer(r'function\s+(\w+)\s*\([^)]*\)\s*\{', script_content):
         name = match.group(1)
-        # Extract function body (approximate — find matching brace)
+        # Extract function body (approximate - find matching brace)
         start = match.end() - 1  # position of opening {
         depth = 1
         pos = match.end()
@@ -251,7 +251,7 @@ def detect_variant_logic(scripts):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SHOPIFY DATA MAPPER — Map JS variables to Shopify objects
+# SHOPIFY DATA MAPPER - Map JS variables to Shopify objects
 # ═══════════════════════════════════════════════════════════════════
 
 def map_shopify_data(scripts):
@@ -417,7 +417,7 @@ def generate_liquid_mappings(shopify_data, cart_logic, variant_logic):
             "liquid": "variant.id, variant.price, variant.available",
             "javascript": "selectCallback(variant)",
             "type": "variant_callback",
-            "usage": "Shopify variant selection callback — fires on option change",
+            "usage": "Shopify variant selection callback - fires on option change",
         })
     
     return mappings
@@ -429,7 +429,7 @@ def generate_liquid_mappings(shopify_data, cart_logic, variant_logic):
 
 def main():
     if len(sys.argv) < 2:
-        print("🧠 JS LOGIC EXTRACTOR")
+        print("JS LOGIC EXTRACTOR")
         print("━" * 69)
         print()
         print("Usage: python3 js-logic-extractor.py <input-dir> [output-dir]")
@@ -439,7 +439,7 @@ def main():
     input_dir = sys.argv[1]
     output_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.join(input_dir, "js-analysis")
     
-    print("🧠 JS LOGIC EXTRACTOR")
+    print("JS LOGIC EXTRACTOR")
     print("━" * 69)
     print(f"  Input: {input_dir}")
     print(f"  Output: {output_dir}")
@@ -448,18 +448,18 @@ def main():
     # Load HTML
     html_path = os.path.join(input_dir, "homepage.html")
     if not os.path.exists(html_path):
-        print(f"❌ No homepage.html found in {input_dir}")
+        print(f"No homepage.html found in {input_dir}")
         sys.exit(1)
     
     with open(html_path) as f:
         html = f.read()
     
-    print(f"  📄 HTML loaded: {len(html)} bytes")
+    print(f"  HTML loaded: {len(html)} bytes")
     
     print("  [1/6] Extracting scripts...")
     scripts = extract_scripts(html)
     inline_scripts = [s for s in scripts if s["type"] == "inline" and s["size"] > 100]
-    print(f"    ✓ {len(scripts)} total scripts, {len(inline_scripts)} inline (non-trivial)")
+    print(f"    {len(scripts)} total scripts, {len(inline_scripts)} inline (non-trivial)")
     
     print("  [2/6] Extracting functions...")
     all_functions = []
@@ -468,7 +468,7 @@ def main():
         for f in funcs:
             f["script_index"] = script["index"]
         all_functions.extend(funcs)
-    print(f"    ✓ {len(all_functions)} functions found")
+    print(f"    {len(all_functions)} functions found")
     
     print("  [3/6] Detecting cart logic...")
     cart_logic = detect_cart_logic(scripts)
@@ -536,7 +536,7 @@ def main():
     if variant_logic["select_callback"]:
         callback_path = os.path.join(output_dir, "selectCallback.js")
         with open(callback_path, "w") as f:
-            f.write(f"// selectCallback — Shopify variant selection handler\n")
+            f.write(f"// selectCallback - Shopify variant selection handler\n")
             f.write(f"// Extracted from {input_dir}\n\n")
             f.write(f"window.selectCallback = function({variant_logic['select_callback']['params']}) {{\n")
             f.write(variant_logic["select_callback"]["body"])
@@ -545,14 +545,14 @@ def main():
     # Generate markdown report
     md_path = os.path.join(output_dir, "JS-LOGIC-REPORT.md")
     with open(md_path, "w") as f:
-        f.write(f"""# 🧠 JS Logic Extraction Report
+        f.write(f"""# JS Logic Extraction Report
 
 Source: {input_dir}
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 ---
 
-## 📊 Summary
+## Summary
 
 | Metric | Value |
 |--------|-------|
@@ -564,7 +564,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 ---
 
-## 🔧 Functions Found
+## Functions Found
 
 """)
         for func in all_functions:
@@ -572,7 +572,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
             f.write(f"Script index: {func['script_index']}\n")
             f.write(f"```javascript\n{func['body'][:500]}\n```\n\n")
         
-        f.write("## 🛒 Cart Logic\n\n")
+        f.write("## Cart Logic\n\n")
         f.write(f"- Add to cart handlers: {len(cart_logic['add_to_cart_handlers'])}\n")
         f.write(f"- Cart update handlers: {len(cart_logic['cart_update_handlers'])}\n")
         f.write(f"- Cart render handlers: {len(cart_logic['cart_render_handlers'])}\n")
@@ -581,10 +581,10 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         if cart_logic["cart_ajax_calls"]:
             f.write("\n### AJAX Endpoints\n\n")
             for call in cart_logic["cart_ajax_calls"]:
-                f.write(f"- `fetch('{call['url']}')` — Script #{call['script_index']}\n")
+                f.write(f"- `fetch('{call['url']}')` - Script #{call['script_index']}\n")
         
-        f.write(f"\n---\n\n## 🎨 Variant Logic\n\n")
-        f.write(f"- **selectCallback:** {'✅ Found' if variant_logic['select_callback'] else '❌ Not found'}\n")
+        f.write(f"\n---\n\n## Variant Logic\n\n")
+        f.write(f"- **selectCallback:** {'Found' if variant_logic['select_callback'] else 'Not found'}\n")
         f.write(f"- Variant handlers: {len(variant_logic['variant_handlers'])}\n")
         f.write(f"- Option selectors: {len(variant_logic['option_selectors'])}\n")
         
@@ -594,12 +594,12 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
             f.write(variant_logic["select_callback"]["body"][:1000])
             f.write("\n};\n```\n")
         
-        f.write(f"\n---\n\n## 🔄 Shopify Data Mapping\n\n")
+        f.write(f"\n---\n\n## Shopify Data Mapping\n\n")
         f.write("| Liquid Variable | JavaScript Equivalent | Type |\n|-----------------|----------------------|------|\n")
         for m in liquid_mappings:
             f.write(f"| `{m['liquid']}` | `{m['javascript']}` | {m['type']} |\n")
         
-        f.write(f"\n---\n\n## 📦 Third-Party Apps\n\n")
+        f.write(f"\n---\n\n## Third-Party Apps\n\n")
         if third_party:
             f.write("| App | References |\n|-----|------------|\n")
             for app in third_party:
@@ -607,25 +607,25 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         else:
             f.write("No third-party apps detected.\n")
         
-        f.write(f"\n---\n\n## 📂 Generated Files\n\n")
-        f.write(f"- `js-analysis.json` — Full structured analysis\n")
+        f.write(f"\n---\n\n## Generated Files\n\n")
+        f.write(f"- `js-analysis.json` - Full structured analysis\n")
         if variant_logic["select_callback"]:
-            f.write(f"- `selectCallback.js` — Extracted variant callback\n")
-        f.write(f"- `JS-LOGIC-REPORT.md` — This report\n")
+            f.write(f"- `selectCallback.js` - Extracted variant callback\n")
+        f.write(f"- `JS-LOGIC-REPORT.md` - This report\n")
     
     # Summary
-    print(f"\n✅ JS LOGIC EXTRACTION COMPLETE")
+    print(f"\nJS LOGIC EXTRACTION COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/")
-    print(f"  📄 js-analysis.json — Full structured data")
-    print(f"  📄 JS-LOGIC-REPORT.md — Analysis report")
+    print(f"  Output: {output_dir}/")
+    print(f"  js-analysis.json - Full structured data")
+    print(f"  JS-LOGIC-REPORT.md - Analysis report")
     if variant_logic["select_callback"]:
-        print(f"  📄 selectCallback.js — Variant callback extracted")
+        print(f"  selectCallback.js - Variant callback extracted")
     print()
-    print("📊 JS LOGIC SUMMARY:")
+    print("JS LOGIC SUMMARY:")
     print(f"  • Functions found: {len(all_functions)}")
     print(f"  • Cart AJAX calls: {len(cart_logic['cart_ajax_calls'])}")
-    print(f"  • selectCallback: {'Found ✅' if variant_logic['select_callback'] else 'Not found ❌'}")
+    print(f"  • selectCallback: {'Found ' if variant_logic['select_callback'] else 'Not found '}")
     print(f"  • Third-party apps: {len(third_party)}")
     for app in third_party[:5]:
         print(f"    - {app['app']} ({app['references']} refs)")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-🖼️ IMAGE DOWNLOADER — Download All Images from Shopify Store
-Downloads product images, collection images, assets → local files
+IMAGE DOWNLOADER - Download All Images from Shopify Store
+Downloads product images, collection images, assets local files
 Replaces CDN URLs with local references in theme
 Part of Shopify Recon | 2026-06-21
 
@@ -84,7 +84,7 @@ def should_download(url):
 
 
 def normalize_url(url):
-    """Normalize URL — add protocol if missing"""
+    """Normalize URL - add protocol if missing"""
     if url.startswith("//"):
         return "https:" + url
     if not url.startswith("http"):
@@ -190,7 +190,7 @@ def download_all_images(urls, output_dir, max_downloads=100):
     
     for i, url in enumerate(urls):
         if download_count >= max_downloads:
-            print(f"  ⏹️  Reached max downloads ({max_downloads})")
+            print(f"  ⏹ Reached max downloads ({max_downloads})")
             break
         
         category = categorize_url(url)
@@ -210,11 +210,11 @@ def download_all_images(urls, output_dir, max_downloads=100):
             results["by_category"][category] += 1
             continue
         
-        print(f"  ⬇️  [{download_count+1}/{min(len(urls), max_downloads)}] {filename[:50]}...", end=" ")
+        print(f"   [{download_count+1}/{min(len(urls), max_downloads)}] {filename[:50]}...", end=" ")
         
         if download_image(url, filepath):
             size = os.path.getsize(filepath)
-            print(f"✅ {size//1024}KB")
+            print(f"{size//1024}KB")
             results["downloaded"].append({
                 "url": url,
                 "file": filepath,
@@ -224,7 +224,7 @@ def download_all_images(urls, output_dir, max_downloads=100):
             results["by_category"][category] += 1
             download_count += 1
         else:
-            print("❌")
+            print("")
             results["failed"].append({"url": url, "file": filepath})
         
         # Rate limit
@@ -234,7 +234,7 @@ def download_all_images(urls, output_dir, max_downloads=100):
 
 
 def generate_url_mapping(results, output_dir):
-    """Generate a mapping file: original URL → local path"""
+    """Generate a mapping file: original URL local path"""
     mapping = {}
     
     for item in results["downloaded"]:
@@ -259,13 +259,13 @@ def generate_image_report(results, output_dir, total_urls):
     total_size = sum(r["size"] for r in results["downloaded"])
     
     with open(report_path, "w") as f:
-        f.write(f"""# 🖼️ Image Download Report
+        f.write(f"""# Image Download Report
 
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 ---
 
-## 📊 Summary
+## Summary
 
 | Metric | Value |
 |--------|-------|
@@ -277,7 +277,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 ---
 
-## 📁 Images by Category
+## Images by Category
 
 | Category | Count |
 |----------|-------|
@@ -288,18 +288,18 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
         f.write(f"""
 ---
 
-## 📋 Downloaded Files
+## Downloaded Files
 
 """)
         for item in results["downloaded"][:50]:
             rel = os.path.relpath(item["file"], output_dir)
-            f.write(f"- `{rel}` ({item['size']//1024}KB) — [{item['category']}]\n")
+            f.write(f"- `{rel}` ({item['size']//1024}KB) - [{item['category']}]\n")
         
         if len(results["downloaded"]) > 50:
             f.write(f"\n... and {len(results['downloaded']) - 50} more\n")
         
         if results["failed"]:
-            f.write(f"\n---\n\n## ❌ Failed Downloads\n\n")
+            f.write(f"\n---\n\n## Failed Downloads\n\n")
             for item in results["failed"][:20]:
                 f.write(f"- {item['url'][:100]}\n")
     
@@ -308,7 +308,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
 def main():
     if len(sys.argv) < 2:
-        print("🖼️ IMAGE DOWNLOADER")
+        print("IMAGE DOWNLOADER")
         print("━" * 69)
         print()
         print("Usage: python3 image-downloader.py <extracted-dir> [output-dir] [--max=100]")
@@ -323,7 +323,7 @@ def main():
         if arg.startswith("--max="):
             max_downloads = int(arg.split("=")[1])
     
-    print("🖼️ IMAGE DOWNLOADER")
+    print("IMAGE DOWNLOADER")
     print("━" * 69)
     print(f"  Input: {input_dir}")
     print(f"  Output: {output_dir}")
@@ -333,7 +333,7 @@ def main():
     # Load HTML
     html_path = os.path.join(input_dir, "homepage.html")
     if not os.path.exists(html_path):
-        print(f"❌ No homepage.html in {input_dir}")
+        print(f"No homepage.html in {input_dir}")
         sys.exit(1)
     
     with open(html_path) as f:
@@ -349,11 +349,11 @@ def main():
     # Extract URLs
     print("  [1/3] Extracting image URLs...")
     urls = extract_all_image_urls(html, products_data)
-    print(f"    ✓ Found {len(urls)} unique image URLs")
+    print(f"    Found {len(urls)} unique image URLs")
     
     # Categorize
     cat_counts = Counter(categorize_url(u) for u in urls)
-    print(f"\n  📊 By category:")
+    print(f"\n  By category:")
     for cat, count in cat_counts.most_common():
         print(f"     • {cat}: {count}")
     
@@ -371,23 +371,23 @@ def main():
     total_downloaded = len(results["downloaded"])
     total_size = sum(r["size"] for r in results["downloaded"])
     
-    print(f"\n✅ IMAGE DOWNLOAD COMPLETE")
+    print(f"\nIMAGE DOWNLOAD COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/")
-    print(f"  📄 IMAGE-REPORT.md — Download report")
-    print(f"  📄 url-mapping.json — URL → local path mapping")
+    print(f"  Output: {output_dir}/")
+    print(f"  IMAGE-REPORT.md - Download report")
+    print(f"  url-mapping.json - URL local path mapping")
     print()
-    print(f"📊 SUMMARY:")
+    print(f"SUMMARY:")
     print(f"  • URLs found:      {len(urls)}")
     print(f"  • Downloaded:      {total_downloaded}")
     print(f"  • Failed:          {len(results['failed'])}")
     print(f"  • Total size:      {total_size // (1024*1024)} MB ({total_size // 1024} KB)")
     print()
-    print(f"📂 BY CATEGORY:")
+    print(f"BY CATEGORY:")
     for cat, count in results["by_category"].most_common():
         print(f"  • {cat}: {count}")
     print()
-    print(f"💡 Use url-mapping.json to replace CDN URLs with local paths in theme")
+    print(f"Use url-mapping.json to replace CDN URLs with local paths in theme")
 
 
 if __name__ == "__main__":

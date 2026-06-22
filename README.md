@@ -1,29 +1,31 @@
-# 🔍 Shopify Recon
+# Shopify Recon
 
-> **Reverse-engineer any Shopify store's theme, design system, and tech stack in seconds.**
-> Free alternative to BuiltWith for Shopify.
+Point it at a Shopify store and it tells you what theme they run, how the
+design system is put together, how the cart works, and what apps are bolted on.
+Then it can rebuild the whole thing as an editable Liquid theme. Think of it as
+BuiltWith for Shopify, except it also hands you the code.
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Stars](https://img.shields.io/github/stars/sitebykrickel/shopify-recon?style=social)](https://github.com/sitebykrickel/shopify-recon)
 
-Shopify Recon is a competitive intelligence toolkit that analyzes any Shopify store's:
-- 🧬 **Theme DNA** — Detect which theme framework a store uses (Dawn, Turbo, Prestige, Motion, etc.)
-- 🎨 **Design System** — Extract colors, fonts, CSS variables, spacing, breakpoints
-- 🛒 **Cart & Checkout Flow** — Trace AJAX endpoints, payment methods, checkout flow
-- 📦 **Product Intelligence** — Pricing tiers, variant matrix, metafields, inventory
-- 🧠 **JS Logic** — Extract functions, cart handlers, variant selectors, third-party apps
-- 🔍 **SEO X-Ray** — Meta tags, Open Graph, JSON-LD, heading structure, SEO score
-- ⚡ **Performance Profiler** — Page weight, render-blocking resources, image optimization
-- 📊 **Multi-Store Comparison** — Side-by-side dashboard for competitive analysis
-- 🏗️ **Section Reverse-Engineer** — Reconstruct Liquid section files from rendered HTML
-- 🔬 **Deep Liquid Extractor** — 5-vector extraction: Section Rendering API, settings leak, Shopify.theme, Storefront GraphQL, template mapping
+Here is what it pulls out of a store:
 
-## 🚀 Quick Start
+- Theme DNA, so you know if they are on Dawn, Turbo, Prestige, Motion or a custom build
+- The design system: colors, fonts, CSS variables, spacing, breakpoints
+- Cart and checkout flow, including AJAX endpoints and payment methods
+- Product data: pricing tiers, the full variant matrix, metafields, inventory
+- JavaScript logic like cart handlers, variant selectors, and which third-party apps are loaded
+- An SEO pass (meta tags, Open Graph, JSON-LD, heading structure, a score out of 100)
+- A performance pass (page weight, render-blocking resources, image optimization)
+- Side-by-side comparison across several stores at once
+- Reconstructed Liquid sections built from the rendered HTML
+- A deep Liquid extractor that uses five public vectors: the Section Rendering API, leaked section settings, the Shopify.theme object, the Storefront GraphQL API, and template section mapping
+
+## Quick Start
 
 ```bash
 # Clone
-git clone https://github.com/sitebykrickel/shopify-recon.git
+git clone https://github.com/krickelsync/shopify-recon.git
 cd shopify-recon
 pip install -r requirements.txt
 
@@ -37,49 +39,49 @@ python3 shopify-recon.py --url=https://rothys.com
 python3 multi-store-comparator.py allbirds.com rothys.com taylorstitch.com
 ```
 
-## 📸 What It Looks Like
+## What It Looks Like
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
-║  🔍 SHOPIFY RECON — Store Intelligence Report                  ║
+║  SHOPIFY RECON - Store Intelligence Report                  ║
 ╠═══════════════════════════════════════════════════════════════╣
-║  🏪 Store: rothys.com                                          ║
+║  Store: rothys.com                                          ║
 ╚═══════════════════════════════════════════════════════════════╝
 
-╭────────────────────────── 🧬 Theme DNA ───────────────────────╮
-│  🎨 Detected Theme     Prestige (custom build)                │
-│  🏢 Developer          Maestrooo                               │
-│  💰 Price              $340                                    │
-│  🔒 Custom Build       Yes                                    │
-│  🎭 Customization      Heavy Customization (7 custom sections) │
-│  📊 Confidence         [███░░░░░░░] 30%                       │
-│  📋 Schema Name        DNA                                    │
-│  📋 Schema Version     26.06.17                               │
-│  🏗️ Sections           10                                     │
+╭────────────────────────── Theme DNA ───────────────────────╮
+│  Detected Theme     Prestige (custom build)                │
+│  Developer          Maestrooo                               │
+│  Price              $340                                    │
+│  Custom Build       Yes                                    │
+│  Customization      Heavy Customization (7 custom sections) │
+│  Confidence         [███░░░░░░░] 30%                       │
+│  Schema Name        DNA                                    │
+│  Schema Version     26.06.17                               │
+│  Sections           10                                     │
 ╰───────────────────────────────────────────────────────────────╯
 
-╭────────────────────────── 🔧 Tech Stack ──────────────────────╮
-│  ⚡ jQuery                                                    │
-│  ⚡ Tailwind CSS                                              │
-│  ⚡ Shopify (native)                                          │
+╭────────────────────────── Tech Stack ──────────────────────╮
+│  jQuery                                                    │
+│  Tailwind CSS                                              │
+│  Shopify (native)                                          │
 ╰───────────────────────────────────────────────────────────────╯
 
-╭────────────────────── 📊 Store Statistics ────────────────────╮
-│  📦 Products           250                                    │
-│  📂 Collections        30                                     │
-│  🔄 Total Variants     3650                                   │
-│  💰 Avg Price          $122.77                                │
-│  📈 Availability       83.1%                                 │
+╭────────────────────── Store Statistics ────────────────────╮
+│  Products           250                                    │
+│  Collections        30                                     │
+│  Total Variants     3650                                   │
+│  Avg Price          $122.77                                │
+│  Availability       83.1%                                 │
 ╰───────────────────────────────────────────────────────────────╯
 
-╭────────────────── 🛒 Cart & Checkout Flow ───────────────────╮
-│  🛒 Cart Type          drawer, modal                          │
-│  💳 Payments           Stripe, PayPal, Apple Pay              │
-│  🚀 Express Checkout   ✅ Yes                                 │
-│  🎨 Variant Selector   button                                 │
+╭────────────────── Cart & Checkout Flow ───────────────────╮
+│  Cart Type          drawer, modal                          │
+│  Payments           Stripe, PayPal, Apple Pay              │
+│  Express Checkout   Yes                                 │
+│  Variant Selector   button                                 │
 ╰───────────────────────────────────────────────────────────────╯
 
-╭────────────────── 📦 Third-Party Apps ──────────────────────╮
+╭────────────────── Third-Party Apps ──────────────────────╮
 │  ╭────────────────┬────────────╮                              │
 │  │ App            │ References │                              │
 │  ├────────────────┼────────────┤                              │
@@ -91,9 +93,9 @@ python3 multi-store-comparator.py allbirds.com rothys.com taylorstitch.com
 ╰───────────────────────────────────────────────────────────────╯
 ```
 
-## 📋 Features
+## Features
 
-### 🧬 Theme DNA Fingerprint
+### Theme DNA Fingerprint
 
 Detect which Shopify theme any store is using:
 
@@ -103,11 +105,11 @@ python3 theme-dna.py --url=https://rothys.com
 
 - Identifies 15+ popular themes (Dawn, Turbo, Prestige, Motion, Impulse, Empire, etc.)
 - Detects custom builds and in-house themes
-- Estimates customization level (light → heavy)
+- Estimates customization level (light heavy)
 - Extracts schema name, version, and theme store ID
 - Confidence scoring with evidence
 
-### 🎨 CSS/Style Cloner
+### CSS/Style Cloner
 
 Extract a store's complete design system:
 
@@ -121,7 +123,7 @@ python3 css-style-cloner.py ./store-data ./output
 - Detects responsive breakpoints
 - Generates `theme.css` and `settings_schema.json`
 
-### 🏗️ Section Reverse-Engineer
+### Section Reverse-Engineer
 
 Reconstruct Liquid section files from rendered HTML:
 
@@ -134,7 +136,7 @@ python3 section-reverse-engineer.py ./store-data ./output
 - Generates valid `.liquid` files with `{% schema %}` blocks
 - Handles: banner, product_carousel, spacer, quick_links, flexible, etc.
 
-### 🛒 Cart & Checkout Flow Mapper
+### Cart & Checkout Flow Mapper
 
 Trace the complete e-commerce flow:
 
@@ -148,7 +150,7 @@ python3 cart-flow-mapper.py ./store-data ./output
 - Generates Mermaid flow diagram
 - Traces checkout flow and express checkout buttons
 
-### 📦 Product Schema Analyzer
+### Product Schema Analyzer
 
 Deep product intelligence:
 
@@ -162,7 +164,7 @@ python3 product-schema-analyzer.py ./store-data ./output
 - Inventory status and availability
 - SKU format detection
 
-### 🧠 JS Logic Extractor
+### JS Logic Extractor
 
 Extract and map theme JavaScript:
 
@@ -176,7 +178,7 @@ python3 js-logic-extractor.py ./store-data ./output
 - Maps JS variables to Shopify Liquid objects
 - Detects third-party apps (Swym, Klaviyo, Yotpo, etc.)
 
-### 🔍 SEO X-Ray
+### SEO X-Ray
 
 Complete SEO analysis:
 
@@ -192,7 +194,7 @@ python3 seo-xray.py --url=https://rothys.com
 - Canonical URLs and hreflang
 - Overall SEO score (0-100)
 
-### ⚡ Performance Profiler
+### Performance Profiler
 
 Page speed and optimization analysis:
 
@@ -206,7 +208,7 @@ python3 perf-profiler.py --url=https://rothys.com
 - Font loading analysis
 - Performance score (0-100) with recommendations
 
-### 📊 Multi-Store Comparator
+### Multi-Store Comparator
 
 Side-by-side competitive analysis:
 
@@ -219,7 +221,7 @@ python3 multi-store-comparator.py allbirds.com rothys.com taylorstitch.com
 - CSV export for spreadsheets
 - Competitive rankings (most products, best availability, etc.)
 
-## 🛠️ Full Clone Pipeline
+## Full Clone Pipeline
 
 One command does everything:
 
@@ -230,18 +232,18 @@ One command does everything:
 Generates:
 ```
 rothys-clone/
-├── extracted/          — Raw data (products, collections, HTML, metadata)
+├── extracted/ - Raw data (products, collections, HTML, metadata)
 ├── analysis/
-│   ├── sections/       — Reconstructed .liquid section files
-│   ├── styles/         — theme.css, settings_schema.json
-│   ├── js-logic/       — Functions, cart logic, selectCallback
-│   ├── cart-flow/      — Flow diagram, payment methods
-│   └── products/       — Pricing intelligence, variant matrix
-├── theme/              — Production-ready Shopify Liquid theme
-└── website/            — Standalone HTML website clone
+│   ├── sections/ - Reconstructed .liquid section files
+│   ├── styles/ - theme.css, settings_schema.json
+│   ├── js-logic/ - Functions, cart logic, selectCallback
+│   ├── cart-flow/ - Flow diagram, payment methods
+│   └── products/ - Pricing intelligence, variant matrix
+├── theme/ - Production-ready Shopify Liquid theme
+└── website/ - Standalone HTML website clone
 ```
 
-## 📦 Requirements
+## Requirements
 
 ```
 Python 3.8+
@@ -254,7 +256,7 @@ curl
 pip install rich
 ```
 
-## 📖 Command Reference
+## Command Reference
 
 | Command | Description |
 |---------|-------------|
@@ -268,30 +270,22 @@ pip install rich
 | `python3 seo-xray.py --url=<url>` | SEO analysis |
 | `python3 perf-profiler.py --url=<url>` | Performance profile |
 
-## ⚠️ Honest Limitations
+## Honest Limitations
 
 - **.liquid source files** cannot be extracted (compiled server-side). We reconstruct from rendered HTML.
 - **External JS bundles** may be blocked by CloudFront. We extract inline scripts.
-- **Theme clone** is a scaffold — valid structure but needs manual styling.
+- **Theme clone** is a scaffold - valid structure but needs manual styling.
 - **Images** are URL references only (CDN may block downloads).
-- **Theme detection** is heuristic — confidence varies by store customization.
+- **Theme detection** is heuristic - confidence varies by store customization.
 
-## 🤝 Contributing
+## Contributing
 
-Contributions welcome! Areas to help:
-- Add theme fingerprints to the database (`theme-dna.py`)
-- Improve section reconstruction patterns
-- Add new analyzer modules
-- Test on more stores and report issues
+If you want to help, the most useful things are adding theme fingerprints to
+`theme-dna.py`, improving the section reconstruction patterns, writing new
+analyzer modules, or just running it against more stores and filing what breaks.
 
-## 📄 License
+## License
 
-MIT License — see [LICENSE](LICENSE) file.
+MIT. See the [LICENSE](LICENSE) file.
 
-## 🌟 Star History
-
-If this tool helped you, please ⭐ star the repo!
-
----
-
-Made with 🔍 by [sitebykrickel]
+Built by krickel.

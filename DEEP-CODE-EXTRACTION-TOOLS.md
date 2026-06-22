@@ -1,13 +1,13 @@
-# 🔬 DEEP CODE EXTRACTION TOOLS — Bongkar Dalaman Web
+# DEEP CODE EXTRACTION TOOLS - Bongkar Dalaman Web
 **Extract JS Logic, Deobfuscate, Unbundle, Extract Source Maps | Kiro | 2026-06-21**
 
-## 🏆 TOP TOOLS — Installable & Siap Pakai
+## TOP TOOLS - Installable & Siap Pakai
 
 ### TIER 1: Deobfuscate + Unpack JavaScript (PALING POWERFUL)
 
 #### 1. webcrack (RECOMMENDED)
-**⭐⭐⭐⭐⭐ BEST**
-- **Repo:** `j4k0xb/webcrack` (2742⭐)
+**BEST**
+- **Repo:** `j4k0xb/webcrack` (2742)
 - **Function:** Deobfuscate obfuscator.io, unminify, unpack bundled JS
 - **What it does:**
   - Reverse obfuscation (Obfuscator.io, javascript-obfuscator)
@@ -45,8 +45,8 @@ webcrack --webpack bundle.js
 ---
 
 #### 2. js-deobfuscator (CLI + Web)
-**⭐⭐⭐⭐**
-- **Repo:** `kuizuo/js-deobfuscator` (1142⭐)
+****
+- **Repo:** `kuizuo/js-deobfuscator` (1142)
 - **Function:** Automated deobfuscation berbasis Babel AST
 - **Features:**
   - Online playground
@@ -77,8 +77,8 @@ console.log(result.code);
 ---
 
 #### 3. de4js (Web + Unpacker)
-**⭐⭐⭐⭐**
-- **Repo:** `lelinhtinh/de4js` (1580⭐)
+****
+- **Repo:** `lelinhtinh/de4js` (1580)
 - **Function:** Deobfuscator and unpacker
 - **Features:**
   - Remove dead code
@@ -98,8 +98,8 @@ npm run build
 ---
 
 #### 4. javascript-deobfuscator (General Purpose)
-**⭐⭐⭐⭐**
-- **Repo:** `ben-sb/javascript-deobfuscator` (1129⭐)
+****
+- **Repo:** `ben-sb/javascript-deobfuscator` (1129)
 - **Function:** General purpose deobfuscator
 - **Features:**
   - Handle various obfuscation types
@@ -120,8 +120,8 @@ javascript-deobfuscator < obfuscated.js > readable.js
 ### TIER 2: Source Maps + Asset Extraction
 
 #### 5. unmapx (Source Map Extractor)
-**⭐**
-- **Repo:** `incogbyte/unmapx` (7⭐ but FOCUSED)
+****
+- **Repo:** `incogbyte/unmapx` (7but FOCUSED)
 - **Function:** Extract + unpack JavaScript source maps
 - **Why important:** Source maps = original code before minify/bundle
 - **Features:**
@@ -156,7 +156,7 @@ node unmapx.js --inline "sourceMappingURL=data:..."
 ---
 
 #### 6. SingleFile (Complete Website Capture)
-**⭐⭐⭐⭐⭐ BROWSER EXTENSION**
+**BROWSER EXTENSION**
 - **Repo:** `gildas-lormeau/SingleFile`
 - **Function:** Capture website sebagai single HTML file (semua resource inline)
 - **Why useful:** Extract ALL assets (JS, CSS, images) dalam 1 file
@@ -174,7 +174,7 @@ node unmapx.js --inline "sourceMappingURL=data:..."
 ```bash
 npm install -g single-file-cli
 single-file https://example.com --output-file output.html
-# → Semua JS/CSS/images embedded dalam 1 file
+# Semua JS/CSS/images embedded dalam 1 file
 ```
 
 ---
@@ -182,7 +182,7 @@ single-file https://example.com --output-file output.html
 ### TIER 3: Code Analysis + Inspection
 
 #### 7. Chrome DevTools Protocol Playbook
-**⭐ (Reference)**
+**(Reference)**
 - **Repo:** `roderickch01/chrome-cdp-playbook`
 - **Function:** Reverse-engineer SPAs + Electron apps
 - **Method:** CDP (Chrome DevTools Protocol)
@@ -208,7 +208,7 @@ await page.goto('https://example.com');
 
 | Use Case | Best Tool | Why |
 |----------|-----------|-----|
-| Unbundle + deobfuscate JS | **webcrack** | Most comprehensive, 2700⭐ |
+| Unbundle + deobfuscate JS | **webcrack** | Most comprehensive, 2700|
 | Extract source maps | **unmapx** | Designed for .map extraction |
 | AST-based deobfuscation | **js-deobfuscator** | Reliable, Babel-based |
 | General deobfuscate | **javascript-deobfuscator** | Solid alternative |
@@ -362,13 +362,13 @@ single-file-cli --help
 
 ## IMPORTANT LEGAL NOTE
 
-✅ **LEGAL USES:**
+**LEGAL USES:**
 - Extract from **your own websites**
 - Extract from **open-source projects**
 - Extract for **security research** (with permission)
 - Extract from **reference/educational material**
 
-❌ **NOT LEGAL:**
+**NOT LEGAL:**
 - Extract from competitors to **reverse-engineer proprietary logic** (IP theft)
 - Extract to **bypass security protections** (circumvention)
 - Extract **without authorization** from protected sites
@@ -399,4 +399,4 @@ single-file-cli --help
 - Analyze clean, production-grade JS
 - Reuse patterns
 
-**Bro, mau gw install semua tools? Atau mau test pada specific URL dulu?** 🚀
+**Bro, mau gw install semua tools? Atau mau test pada specific URL dulu?**

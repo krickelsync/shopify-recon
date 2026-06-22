@@ -1,5 +1,5 @@
 #!/bin/bash
-# 🎨 WEB CLONE GENERATOR — Generate Working Website from Shopify Extraction
+# WEB CLONE GENERATOR - Generate Working Website from Shopify Extraction
 # Takes Liquid Inspector output, generates standalone HTML clone
 # Kiro | 2026-06-21
 # Usage: ./web-clone-generator.sh ./extracted-data ./output-website
@@ -10,12 +10,12 @@ INPUT_DIR="${1:-./_shopify-liquid}"
 OUTPUT_DIR="${2:-./_website-clone}"
 
 if [ ! -f "$INPUT_DIR/api/products.json" ]; then
-  echo "❌ Input directory must contain Liquid Inspector extraction"
+  echo "Input directory must contain Liquid Inspector extraction"
   echo "   (needs: api/products.json, api/collections.json, theme-metadata.json)"
   exit 1
 fi
 
-echo "🎨 WEB CLONE GENERATOR"
+echo "WEB CLONE GENERATOR"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  Input: $INPUT_DIR"
 echo "  Output: $OUTPUT_DIR"
@@ -31,7 +31,7 @@ COLLECTION_COUNT=$(jq '.collections | length' "$INPUT_DIR/api/collections.json" 
 echo "[1/3] Preparing data files..."
 cp "$INPUT_DIR/api/products.json" "$OUTPUT_DIR/data/products.json"
 cp "$INPUT_DIR/api/collections.json" "$OUTPUT_DIR/data/collections.json"
-echo "    ✓ $PRODUCT_COUNT products + $COLLECTION_COUNT collections"
+echo "    $PRODUCT_COUNT products + $COLLECTION_COUNT collections"
 
 echo "[2/3] Downloading theme CSS files..."
 ASSETS_DOWNLOADED=0
@@ -39,13 +39,13 @@ if [ -f "$INPUT_DIR/asset-urls.txt" ]; then
   while IFS= read -r asset_url && [ $ASSETS_DOWNLOADED -lt 5 ]; do
     if [[ "$asset_url" == *.css ]]; then
       filename=$(basename "$asset_url" | cut -d'?' -f1)
-      echo "  ⬇️  $filename"
+      echo "   $filename"
       timeout 5 curl -s "https:$asset_url" -o "$OUTPUT_DIR/assets/$filename" 2>/dev/null || true
       ASSETS_DOWNLOADED=$((ASSETS_DOWNLOADED + 1))
     fi
   done < "$INPUT_DIR/asset-urls.txt"
 fi
-echo "    ✓ Downloaded $ASSETS_DOWNLOADED CSS files"
+echo "    Downloaded $ASSETS_DOWNLOADED CSS files"
 
 echo "[3/3] Generating HTML clone..."
 
@@ -321,7 +321,7 @@ cat > "$OUTPUT_DIR/index.html" << 'HTMLEOF'
     </div>
 
     <div class="footer">
-      <p>🎨 Web Clone Generated | Theme Inspector v3 | All data from public Shopify APIs</p>
+      <p>Web Clone Generated | Theme Inspector v3 | All data from public Shopify APIs</p>
       <p id="generatedTime"></p>
     </div>
   </div>
@@ -447,30 +447,30 @@ cat > "$OUTPUT_DIR/index.html" << 'HTMLEOF'
 </html>
 HTMLEOF
 
-echo "    ✓ Generated index.html"
+echo "    Generated index.html"
 
 echo ""
-echo "✅ WEB CLONE GENERATION COMPLETE"
+echo "WEB CLONE GENERATION COMPLETE"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📁 Output: $OUTPUT_DIR"
+echo "Output: $OUTPUT_DIR"
 echo ""
-echo "📂 Files:"
-echo "   • index.html — Standalone website clone"
-echo "   • data/products.json — Product data"
-echo "   • data/collections.json — Collections data"
-echo "   • assets/ — CSS files (if downloaded)"
+echo "Files:"
+echo "   • index.html - Standalone website clone"
+echo "   • data/products.json - Product data"
+echo "   • data/collections.json - Collections data"
+echo "   • assets/ - CSS files (if downloaded)"
 echo ""
-echo "🚀 Usage:"
+echo "Usage:"
 echo "   # Serve locally"
 echo "   cd $OUTPUT_DIR && python3 -m http.server 8000"
 echo "   # Then open: http://localhost:8000"
 echo ""
-echo "💡 Features:"
-echo "   ✅ Search products by name"
-echo "   ✅ Filter by collection"
-echo "   ✅ Sort by price/name"
-echo "   ✅ Show pricing & variants"
-echo "   ✅ Responsive design"
-echo "   ✅ Stats dashboard"
+echo "Features:"
+echo "   Search products by name"
+echo "   Filter by collection"
+echo "   Sort by price/name"
+echo "   Show pricing & variants"
+echo "   Responsive design"
+echo "   Stats dashboard"
 echo ""
-echo "✨ Next: Import to Lovable or deploy as static site"
+echo "Next: Import to Lovable or deploy as static site"

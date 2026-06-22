@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Theme Validator — Validates generated Shopify theme against Shopify theme requirements.
+Theme Validator - Validates generated Shopify theme against Shopify theme requirements.
 Checks: required files, Liquid syntax, schema blocks, settings, JSON validity.
 """
 import json, re, sys
@@ -144,7 +144,7 @@ class ThemeValidator:
                 [p for p in templates_dir.glob("*.liquid")])
             if self.editor["json_templates"] == 0:
                 self.warnings.append(
-                    "EDITOR: 0 JSON templates — buyers cannot reorder/add/remove "
+                    "EDITOR: 0 JSON templates - buyers cannot reorder/add/remove "
                     "sections on any page. Run json-template-builder.py.")
             else:
                 self.passed.append(
@@ -187,10 +187,10 @@ class ThemeValidator:
 
         if self.editor["sections_with_preset"] == 0:
             self.warnings.append(
-                "EDITOR: 0 sections have presets — none appear in 'Add section'.")
+                "EDITOR: 0 sections have presets - none appear in 'Add section'.")
         if self.editor["sections_with_blocks"] == 0:
             self.warnings.append(
-                "EDITOR: 0 sections expose blocks — buyers can't add/remove "
+                "EDITOR: 0 sections expose blocks - buyers can't add/remove "
                 "elements. Run block-ifier.py.")
         if self.editor["app_block_support"] > 0:
             self.passed.append(
@@ -384,22 +384,22 @@ class ThemeValidator:
         
         # Errors
         if self.errors:
-            print(f"❌ ERRORS ({len(self.errors)}):")
+            print(f"ERRORS ({len(self.errors)}):")
             for e in self.errors:
-                print(f"   ❌ {e}")
+                print(f"   {e}")
         else:
-            print("✅ No errors found!")
+            print("No errors found!")
         
         # Warnings
         if self.warnings:
-            print(f"\n⚠️  WARNINGS ({len(self.warnings)}):")
+            print(f"\n WARNINGS ({len(self.warnings)}):")
             for w in self.warnings:
-                print(f"   ⚠️  {w}")
+                print(f"    {w}")
         
         # Passed
-        print(f"\n✅ PASSED ({len(self.passed)}):")
+        print(f"\nPASSED ({len(self.passed)}):")
         for p in self.passed:
-            print(f"   ✅ {p}")
+            print(f"   {p}")
         
         # Stats
         print(f"\n{'='*60}")
@@ -439,9 +439,9 @@ class ThemeValidator:
             print(f"  @app block support:        {ed['app_block_support']} sections")
         
         if len(self.errors) == 0:
-            print(f"\n🎉 THEME IS VALID!")
+            print(f"\nTHEME IS VALID!")
         else:
-            print(f"\n⚠️  THEME HAS ERRORS — fix before pushing to Shopify")
+            print(f"\n THEME HAS ERRORS - fix before pushing to Shopify")
         
         print(f"{'='*60}")
         
@@ -462,13 +462,13 @@ class ThemeValidator:
                 f.write(f"| @app block support | {ed['app_block_support']} sections |\n\n")
             f.write(f"## Errors ({len(self.errors)})\n\n")
             for e in self.errors:
-                f.write(f"- ❌ {e}\n")
+                f.write(f"- {e}\n")
             f.write(f"\n## Warnings ({len(self.warnings)})\n\n")
             for w in self.warnings:
-                f.write(f"- ⚠️ {w}\n")
+                f.write(f"- {w}\n")
             f.write(f"\n## Passed ({len(self.passed)})\n\n")
             for p in self.passed:
-                f.write(f"- ✅ {p}\n")
+                f.write(f"- {p}\n")
             f.write(f"\n## Statistics\n\n")
             f.write(f"| Metric | Value |\n|--------|-------|\n")
             for k, v in self.stats.items():

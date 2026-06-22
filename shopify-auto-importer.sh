@@ -1,5 +1,5 @@
 #!/bin/bash
-# 📤 SHOPIFY AUTO-IMPORTER — Import Products & Collections to Store
+# SHOPIFY AUTO-IMPORTER - Import Products & Collections to Store
 # Uploads extracted product data directly to Shopify store via Admin API
 # Kiro | 2026-06-21
 # Usage: ./shopify-auto-importer.sh ./extracted-data --store=YOUR_STORE.myshopify.com --token=YOUR_TOKEN
@@ -28,12 +28,12 @@ while [[ $# -gt 1 ]]; do
 done
 
 if [ ! -f "$INPUT_DIR/api/products.json" ]; then
-  echo "❌ Input directory must contain Liquid Inspector extraction"
+  echo "Input directory must contain Liquid Inspector extraction"
   exit 1
 fi
 
 if [ -z "$STORE_URL" ] || [ -z "$ACCESS_TOKEN" ]; then
-  echo "📤 SHOPIFY AUTO-IMPORTER"
+  echo "SHOPIFY AUTO-IMPORTER"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
   echo "Usage: $0 <input-dir> --store=STORE_URL --token=ACCESS_TOKEN"
@@ -43,18 +43,18 @@ if [ -z "$STORE_URL" ] || [ -z "$ACCESS_TOKEN" ]; then
   echo ""
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
-  echo "📋 Setup Instructions:"
+  echo "Setup Instructions:"
   echo ""
   echo "1. Get your Shopify Access Token:"
-  echo "   • Go to Shopify Admin → Settings → Apps and integrations"
-  echo "   • Create custom app → Admin API access"
+  echo "   • Go to Shopify Admin Settings Apps and integrations"
+  echo "   • Create custom app Admin API access"
   echo "   • Enable: write_products, read_products, write_collections, read_collections"
-  echo "   • Install app → Copy access token"
+  echo "   • Install app Copy access token"
   echo ""
   echo "2. Run importer:"
   echo "   $0 ./allbirds-extract --store=krickel.myshopify.com --token=shpat_xxxxx"
   echo ""
-  echo "⚠️  WARNING:"
+  echo " WARNING:"
   echo "   • This will CREATE products in your store"
   echo "   • Keep a backup before running"
   echo "   • Test on development store first"
@@ -62,7 +62,7 @@ if [ -z "$STORE_URL" ] || [ -z "$ACCESS_TOKEN" ]; then
   exit 1
 fi
 
-echo "📤 SHOPIFY AUTO-IMPORTER"
+echo "SHOPIFY AUTO-IMPORTER"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  Store: $STORE_URL"
 echo "  Input: $INPUT_DIR"
@@ -74,11 +74,11 @@ SHOP_CHECK=$(curl -s -X GET "https://$STORE_URL/admin/api/2024-01/shop.json" \
   -H "X-Shopify-Access-Token: $ACCESS_TOKEN" 2>/dev/null | jq -r '.shop.name // "error"')
 
 if [ "$SHOP_CHECK" = "error" ] || [ -z "$SHOP_CHECK" ]; then
-  echo "    ❌ Connection failed. Check store URL and access token."
+  echo "    Connection failed. Check store URL and access token."
   exit 1
 fi
 
-echo "    ✓ Connected to: $SHOP_CHECK"
+echo "    Connected to: $SHOP_CHECK"
 
 # Count products to import
 PRODUCT_COUNT=$(jq '.products | length' "$INPUT_DIR/api/products.json" 2>/dev/null || echo 0)
@@ -117,7 +117,7 @@ jq -c '.products[0:'"$MAX_IMPORT"'][]' "$INPUT_DIR/api/products.json" | while re
       }
     }')
   
-  echo "  ⬆️  $IMPORTED. $TITLE ($PRICE)"
+  echo "   $IMPORTED. $TITLE ($PRICE)"
   
   curl -s -X POST "https://$STORE_URL/admin/api/2024-01/products.json" \
     -H "X-Shopify-Access-Token: $ACCESS_TOKEN" \
@@ -127,7 +127,7 @@ jq -c '.products[0:'"$MAX_IMPORT"'][]' "$INPUT_DIR/api/products.json" | while re
   sleep 0.6  # Rate limiting: max 2 requests/sec
 done
 
-echo "    ✓ Imported $IMPORTED products (max 10 for demo)"
+echo "    Imported $IMPORTED products (max 10 for demo)"
 echo "[3/4] Importing $COLLECTION_COUNT collections..."
 
 # Import first 3 collections
@@ -138,12 +138,12 @@ jq -c '.collections[0:3][]' "$INPUT_DIR/api/collections.json" | while read -r co
   COL_TITLE=$(echo "$collection" | jq -r '.title')
   COL_HANDLE=$(echo "$collection" | jq -r '.handle')
   
-  echo "  ⬆️  $COLLECTION_IMPORTED. $COL_TITLE"
+  echo "   $COLLECTION_IMPORTED. $COL_TITLE"
   
   sleep 0.6
 done
 
-echo "    ✓ Imported $COLLECTION_IMPORTED collections (max 3 for demo)"
+echo "    Imported $COLLECTION_IMPORTED collections (max 3 for demo)"
 echo "[4/4] Generating import report..."
 
 cat > ./import-report.txt << REPORTEOF
@@ -154,11 +154,11 @@ Store: $STORE_URL
 Products Imported: $IMPORTED (of $PRODUCT_COUNT total)
 Collections Imported: $COLLECTION_IMPORTED (of $COLLECTION_COUNT total)
 
-Status: ✅ COMPLETE
+Status: COMPLETE
 
 Next Steps:
 1. Visit your Shopify store: https://$STORE_URL/admin
-2. Check Products → verify imported items
+2. Check Products verify imported items
 3. Edit product details as needed
 4. Configure pricing and variants
 5. Customize collection organization
@@ -177,18 +177,18 @@ For production import, use:
 
 REPORTEOF
 
-echo "    ✓ Report generated: ./import-report.txt"
+echo "    Report generated: ./import-report.txt"
 
 echo ""
-echo "✅ AUTO-IMPORT COMPLETE"
+echo "AUTO-IMPORT COMPLETE"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "📊 Summary:"
+echo "Summary:"
 echo "   • Products imported: $IMPORTED"
 echo "   • Collections imported: $COLLECTION_IMPORTED"
 echo "   • Report: ./import-report.txt"
 echo ""
-echo "🔗 Next:"
+echo "Next:"
 echo "   1. Visit: https://$STORE_URL/admin/products"
 echo "   2. Verify imported products"
 echo "   3. Edit details and images"

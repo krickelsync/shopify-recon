@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🌐 PAGE-LEVEL EXTRACTOR — Scrape All Shopify Page Types
+PAGE-LEVEL EXTRACTOR - Scrape All Shopify Page Types
 Crawls: homepage, product page, collection page, search page, cart page, 404 page
 Part of Shopify Recon | 2026-06-21
 
@@ -29,7 +29,7 @@ def fetch_page(url, timeout=15):
         )
         return result.stdout
     except Exception as e:
-        print(f"  ⚠️  Error fetching {url}: {e}")
+        print(f"   Error fetching {url}: {e}")
         return ""
 
 
@@ -283,7 +283,7 @@ def crawl_store(base_url, output_dir, products_json_path=None, collections_json_
     
     store_name = urlparse(base_url).netloc
     
-    print(f"🌐 PAGE-LEVEL EXTRACTOR")
+    print(f"PAGE-LEVEL EXTRACTOR")
     print(f"━" * 69)
     print(f"  Store: {store_name}")
     print(f"  Output: {output_dir}")
@@ -320,14 +320,14 @@ def crawl_store(base_url, output_dir, products_json_path=None, collections_json_
     for page_type, page_info in pages.items():
         url = page_info["url"]
         if not url:
-            print(f"  ⏭️  Skipping {page_type} (no URL available)")
+            print(f"  ⏭ Skipping {page_type} (no URL available)")
             continue
         
-        print(f"  📄 Fetching {page_type}: {url}")
+        print(f"  Fetching {page_type}: {url}")
         html = fetch_page(url)
         
         if not html or len(html) < 500:
-            print(f"     ⚠️  Empty or too small response ({len(html)} bytes)")
+            print(f"      Empty or too small response ({len(html)} bytes)")
             all_pages_data[page_type] = {"url": url, "error": "empty_response", "size": len(html)}
             continue
         
@@ -342,7 +342,7 @@ def crawl_store(base_url, output_dir, products_json_path=None, collections_json_
         
         all_pages_data[page_type] = structure
         
-        print(f"     ✅ {len(html)} bytes, {len(structure['sections'])} sections, {structure['images']} images")
+        print(f"     {len(html)} bytes, {len(structure['sections'])} sections, {structure['images']} images")
         
         # Rate limit
         time.sleep(0.5)
@@ -359,71 +359,71 @@ def crawl_store(base_url, output_dir, products_json_path=None, collections_json_
     
     # Print summary
     print()
-    print(f"✅ PAGE EXTRACTION COMPLETE")
+    print(f"PAGE EXTRACTION COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Output: {pages_dir}/")
-    print(f"  📄 page-analysis.json — Combined analysis")
+    print(f"  Output: {pages_dir}/")
+    print(f"  page-analysis.json - Combined analysis")
     print()
-    print(f"📊 PAGES EXTRACTED:")
+    print(f"PAGES EXTRACTED:")
     print(f"{'Page Type':<15} {'Size':>10} {'Sections':>10} {'Images':>10} {'Status':>10}")
     print("-" * 60)
     
     for page_type, data in all_pages_data.items():
         if "error" in data:
-            print(f"{page_type:<15} {'N/A':>10} {'N/A':>10} {'N/A':>10} {'❌':>10}")
+            print(f"{page_type:<15} {'N/A':>10} {'N/A':>10} {'N/A':>10} {'':>10}")
         else:
-            print(f"{page_type:<15} {data['html_size']:>10} {len(data['sections']):>10} {data['images']:>10} {'✅':>10}")
+            print(f"{page_type:<15} {data['html_size']:>10} {len(data['sections']):>10} {data['images']:>10} {'':>10}")
     
     # Page-specific insights
     print()
-    print("📋 PAGE INSIGHTS:")
+    print("PAGE INSIGHTS:")
     
     if "product" in all_pages_data and "product_data" in all_pages_data["product"]:
         pd = all_pages_data["product"]["product_data"]
-        print(f"  📦 Product Page:")
-        print(f"     • Add to cart form: {'✅' if pd.get('has_add_to_cart_form') else '❌'}")
-        print(f"     • Dynamic checkout: {'✅' if pd.get('has_dynamic_checkout') else '❌'}")
-        print(f"     • Breadcrumbs: {'✅' if pd.get('has_breadcrumbs') else '❌'}")
-        print(f"     • Reviews: {'✅' if pd.get('has_reviews') else '❌'}")
-        print(f"     • Related products: {'✅' if pd.get('has_related_products') else '❌'}")
-        print(f"     • Size chart: {'✅' if pd.get('has_size_chart') else '❌'}")
+        print(f"  Product Page:")
+        print(f"     • Add to cart form: {'' if pd.get('has_add_to_cart_form') else ''}")
+        print(f"     • Dynamic checkout: {'' if pd.get('has_dynamic_checkout') else ''}")
+        print(f"     • Breadcrumbs: {'' if pd.get('has_breadcrumbs') else ''}")
+        print(f"     • Reviews: {'' if pd.get('has_reviews') else ''}")
+        print(f"     • Related products: {'' if pd.get('has_related_products') else ''}")
+        print(f"     • Size chart: {'' if pd.get('has_size_chart') else ''}")
         print(f"     • Gallery images: {pd.get('gallery_images', 0)}")
     
     if "collection" in all_pages_data and "collection_data" in all_pages_data["collection"]:
         cd = all_pages_data["collection"]["collection_data"]
-        print(f"  📂 Collection Page:")
+        print(f"  Collection Page:")
         print(f"     • Products on page: {cd.get('product_count_on_page', 0)}")
         print(f"     • Filters: {', '.join(cd.get('filter_types', [])) or 'none'}")
-        print(f"     • Sort: {'✅' if cd.get('has_sort') else '❌'}")
-        print(f"     • Pagination: {'✅' if cd.get('has_pagination') else '❌'}")
+        print(f"     • Sort: {'' if cd.get('has_sort') else ''}")
+        print(f"     • Pagination: {'' if cd.get('has_pagination') else ''}")
         print(f"     • Layout: {cd.get('layout', 'unknown')}")
     
     if "search" in all_pages_data and "search_data" in all_pages_data["search"]:
         sd = all_pages_data["search"]["search_data"]
-        print(f"  🔍 Search Page:")
-        print(f"     • Search form: {'✅' if sd.get('has_search_form') else '❌'}")
+        print(f"  Search Page:")
+        print(f"     • Search form: {'' if sd.get('has_search_form') else ''}")
         print(f"     • Input name: {sd.get('search_input_name', 'N/A')}")
-        print(f"     • Predictive: {'✅' if sd.get('has_predictive_search') else '❌'}")
-        print(f"     • No results msg: {'✅' if sd.get('has_no_results_message') else '❌'}")
+        print(f"     • Predictive: {'' if sd.get('has_predictive_search') else ''}")
+        print(f"     • No results msg: {'' if sd.get('has_no_results_message') else ''}")
     
     if "cart" in all_pages_data and "cart_data" in all_pages_data["cart"]:
         cart = all_pages_data["cart"]["cart_data"]
-        print(f"  🛒 Cart Page:")
-        print(f"     • Cart form: {'✅' if cart.get('has_cart_form') else '❌'}")
-        print(f"     • Quantity selector: {'✅' if cart.get('has_quantity_selector') else '❌'}")
-        print(f"     • Remove button: {'✅' if cart.get('has_remove_button') else '❌'}")
-        print(f"     • Subtotal: {'✅' if cart.get('has_subtotal') else '❌'}")
-        print(f"     • Checkout button: {'✅' if cart.get('has_checkout_button') else '❌'}")
-        print(f"     • Cart notes: {'✅' if cart.get('has_cart_note') else '❌'}")
-        print(f"     • Discount field: {'✅' if cart.get('has_discount_field') else '❌'}")
-        print(f"     • Empty cart msg: {'✅' if cart.get('has_empty_message') else '❌'}")
+        print(f"  Cart Page:")
+        print(f"     • Cart form: {'' if cart.get('has_cart_form') else ''}")
+        print(f"     • Quantity selector: {'' if cart.get('has_quantity_selector') else ''}")
+        print(f"     • Remove button: {'' if cart.get('has_remove_button') else ''}")
+        print(f"     • Subtotal: {'' if cart.get('has_subtotal') else ''}")
+        print(f"     • Checkout button: {'' if cart.get('has_checkout_button') else ''}")
+        print(f"     • Cart notes: {'' if cart.get('has_cart_note') else ''}")
+        print(f"     • Discount field: {'' if cart.get('has_discount_field') else ''}")
+        print(f"     • Empty cart msg: {'' if cart.get('has_empty_message') else ''}")
     
     return all_pages_data
 
 
 def main():
     if len(sys.argv) < 3:
-        print("🌐 PAGE-LEVEL EXTRACTOR")
+        print("PAGE-LEVEL EXTRACTOR")
         print("━" * 69)
         print()
         print("Usage: python3 page-extractor.py <url> <output-dir> [--products=PATH] [--collections=PATH]")

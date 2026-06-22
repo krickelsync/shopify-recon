@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-📝 FORM CLONER — Extract All Forms + Generate Liquid Form Templates
+FORM CLONER - Extract All Forms + Generate Liquid Form Templates
 Extracts: form actions, methods, input fields, validation, select options
 Generates: Liquid form templates with Shopify form tags
 
@@ -113,7 +113,7 @@ def generate_liquid_form(form_data):
 
 
 def generate_add_to_cart_form(form_data):
-    return '''<!-- Add to Cart Form — Cloned from competitor -->
+    return '''<!-- Add to Cart Form - Cloned from competitor -->
 <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="product-form">
   {% unless product.has_only_default_variant %}
     {% for option in product.options_with_values %}
@@ -142,7 +142,7 @@ def generate_add_to_cart_form(form_data):
 
 
 def generate_search_form(form_data):
-    return '''<!-- Search Form — Cloned from competitor -->
+    return '''<!-- Search Form - Cloned from competitor -->
 <form action="/search" method="get" role="search" class="search-form">
   <input type="search" name="q" value="{{ search.terms | escape }}" 
          placeholder="Search products..." aria-label="Search">
@@ -151,7 +151,7 @@ def generate_search_form(form_data):
 
 
 def generate_newsletter_form(form_data):
-    return '''<!-- Newsletter Form — Cloned from competitor -->
+    return '''<!-- Newsletter Form - Cloned from competitor -->
 {% form 'customer' %}
   {% if form.posted_successfully? %}
     <p class="form-success">Thanks for subscribing!</p>
@@ -163,7 +163,7 @@ def generate_newsletter_form(form_data):
 
 
 def generate_contact_form(form_data):
-    return '''<!-- Contact Form — Cloned from competitor -->
+    return '''<!-- Contact Form - Cloned from competitor -->
 {% form 'contact' %}
   {% if form.posted_successfully? %}
     <p class="form-success">Thanks for reaching out!</p>
@@ -182,7 +182,7 @@ def generate_contact_form(form_data):
 
 
 def generate_cart_form(form_data):
-    return '''<!-- Cart Form — Cloned from competitor -->
+    return '''<!-- Cart Form - Cloned from competitor -->
 <form action="/cart" method="post" class="cart-form">
   {% for item in cart.items %}
     <div class="cart-item">
@@ -214,7 +214,7 @@ def generate_custom_form(form_data):
         elif field["tag"] == "button":
             fields_html += f'  <button type="{field["type"]}">{field.get("text", "Submit")}</button>\n'
     
-    return f'''<!-- Custom Form — Cloned from competitor -->
+    return f'''<!-- Custom Form - Cloned from competitor -->
 <form action="{form_data["action"]}" method="{form_data["method"]}" class="{form_data["class"]}">
 {fields_html}
 </form>'''
@@ -222,7 +222,7 @@ def generate_custom_form(form_data):
 
 def main():
     if len(sys.argv) < 2:
-        print("📝 FORM CLONER")
+        print("FORM CLONER")
         print("━" * 69)
         print("Usage: python3 form-cloner.py <input-dir> [output-dir]")
         sys.exit(1)
@@ -234,7 +234,7 @@ def main():
     with open(html_path) as f:
         html = f.read()
     
-    print("📝 FORM CLONER")
+    print("FORM CLONER")
     print("━" * 69)
     
     forms = extract_forms(html)
@@ -265,7 +265,7 @@ def main():
     print(f"  Forms extracted: {len(forms)}")
     for form in forms:
         print(f"    • {form['type']}: {form['field_count']} fields (action={form['action'][:40]})")
-    print(f"\n✅ {len(forms)} form snippets generated in {snippets_dir}/")
+    print(f"\n{len(forms)} form snippets generated in {snippets_dir}/")
 
 
 if __name__ == "__main__":

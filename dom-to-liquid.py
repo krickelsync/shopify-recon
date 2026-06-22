@@ -133,11 +133,11 @@ class LiquidConverter:
         print(f"{'='*60}\n")
 
         if not self.html_files:
-            print("⚠️  No HTML files found. Run page-extractor first.")
+            print(" No HTML files found. Run page-extractor first.")
             return
 
         for html_file in self.html_files:
-            print(f"📄 Converting: {html_file.name}")
+            print(f"Converting: {html_file.name}")
             self._convert_file(html_file)
 
         self._generate_report()
@@ -190,7 +190,7 @@ class LiquidConverter:
             f.write(str(soup))
 
         self.stats['files_processed'] += 1
-        print(f"   ✅ → {output_file.name}")
+        print(f"   {output_file.name}")
 
     def _replace_product_vars(self, soup):
         """Replace product data with {{ product.* }} variables."""
@@ -489,7 +489,7 @@ class LiquidConverter:
 
         # Product card snippet
         product_card = """{{- comment -}}
-  Product card snippet — auto-extracted by dom-to-liquid converter
+  Product card snippet - auto-extracted by dom-to-liquid converter
 {{- endcomment -}}
 
 <div class="product-card {{ additional_classes }}">
@@ -544,7 +544,7 @@ class LiquidConverter:
 
         # Pagination snippet
         pagination_snippet = """{{- comment -}}
-  Pagination snippet — auto-extracted
+  Pagination snippet - auto-extracted
 {{- endcomment -}}
 {%- if paginate.pages > 1 -%}
   <nav class="pagination" role="navigation" aria-label="Pagination">
@@ -582,7 +582,7 @@ class LiquidConverter:
 
         # Breadcrumbs snippet
         breadcrumbs_snippet = """{{- comment -}}
-  Breadcrumbs snippet — auto-extracted
+  Breadcrumbs snippet - auto-extracted
 {{- endcomment -}}
 {%- unless template == 'index' or template == 'cart' -%}
   <nav class="breadcrumbs" role="navigation" aria-label="breadcrumbs">
@@ -632,7 +632,7 @@ class LiquidConverter:
             f.write(breadcrumbs_snippet)
         self.stats['snippets_extracted'] += 1
 
-        print(f"\n📦 Snippets extracted: {self.stats['snippets_extracted']}")
+        print(f"\nSnippets extracted: {self.stats['snippets_extracted']}")
 
     def _generate_report(self):
         """Generate conversion report."""
@@ -696,10 +696,10 @@ class LiquidConverter:
 - `{{% render 'breadcrumbs' %}}`
 
 ### Filters
-- `money` — format price
-- `image_url: width: N` — resize image
-- `t` — translation
-- `default_pagination` — paginate object
+- `money` - format price
+- `image_url: width: N` - resize image
+- `t` - translation
+- `default_pagination` - paginate object
 """
 
         report_path = self.extracted_dir / "DOM-TO-LIQUID-REPORT.md"
@@ -707,7 +707,7 @@ class LiquidConverter:
             f.write(report)
 
         print(f"\n{'='*60}")
-        print(f"✅ Conversion Complete!")
+        print(f"Conversion Complete!")
         print(f"{'='*60}")
         print(f"Files processed:       {self.stats['files_processed']}")
         print(f"Liquid vars inserted:  {self.stats['liquid_variables_inserted']}")

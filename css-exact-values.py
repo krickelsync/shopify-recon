@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🎨 CSS EXACT VALUES EXTRACTOR — Browser getComputedStyle() Extraction
+CSS EXACT VALUES EXTRACTOR - Browser getComputedStyle() Extraction
 Injects JavaScript into browser to extract EXACT computed CSS values
-per element. Not estimated — actual rendered values.
+per element. Not estimated - actual rendered values.
 
 Adopted from ai-website-cloner-template's extraction methodology.
 Part of Shopify Recon | 2026-06-21
@@ -306,7 +306,7 @@ def extract_from_html(html, url=""):
 def generate_theme_css_from_exact(extracted_data):
     """Generate theme.css from extracted exact values"""
     
-    css = "/* 🎨 theme.css — Generated from EXACT extracted CSS values */\n"
+    css = "/* theme.css - Generated from EXACT extracted CSS values */\n"
     css += f"/* Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')} */\n"
     css += f"/* Method: {extracted_data.get('extraction_method', 'unknown')} */\n\n"
     
@@ -341,7 +341,7 @@ def generate_theme_css_from_exact(extracted_data):
 
 def main():
     if len(sys.argv) < 2:
-        print("🎨 CSS EXACT VALUES EXTRACTOR")
+        print("CSS EXACT VALUES EXTRACTOR")
         print("━" * 69)
         print()
         print("Usage: python3 css-exact-values.py <url|input-dir> [output-dir]")
@@ -356,14 +356,14 @@ def main():
     
     os.makedirs(output_dir, exist_ok=True)
     
-    print("🎨 CSS EXACT VALUES EXTRACTOR")
+    print("CSS EXACT VALUES EXTRACTOR")
     print("━" * 69)
     
     # Determine if target is URL or directory
     if target.startswith("http") or not os.path.isdir(target):
-        # URL mode — fetch HTML
+        # URL mode - fetch HTML
         url = target if target.startswith("http") else "https://" + target
-        print(f"  🌐 URL: {url}")
+        print(f"  URL: {url}")
         
         result = subprocess.run(
             ["curl", "-s", "-L", "-A", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
@@ -372,26 +372,26 @@ def main():
         )
         html = result.stdout
     else:
-        # Directory mode — load homepage.html
+        # Directory mode - load homepage.html
         html_path = os.path.join(target, "homepage.html")
         if not os.path.exists(html_path):
-            print(f"❌ No homepage.html in {target}")
+            print(f"No homepage.html in {target}")
             sys.exit(1)
         with open(html_path) as f:
             html = f.read()
         url = ""
     
-    print(f"  📄 HTML: {len(html)} bytes")
+    print(f"  HTML: {len(html)} bytes")
     print()
     
     # Extract
-    print("  🔍 Extracting CSS values...")
+    print("  Extracting CSS values...")
     extracted = extract_from_html(html, url)
     
-    print(f"    ✓ CSS variables: {len(extracted['design_tokens'].get('css_variables', {}))}")
-    print(f"    ✓ Colors: {len(extracted['colors'])}")
-    print(f"    ✓ Fonts: {len(extracted['fonts'])}")
-    print(f"    ✓ Elements with styles: {len(extracted['elements'])}")
+    print(f"    CSS variables: {len(extracted['design_tokens'].get('css_variables', {}))}")
+    print(f"    Colors: {len(extracted['colors'])}")
+    print(f"    Fonts: {len(extracted['fonts'])}")
+    print(f"    Elements with styles: {len(extracted['elements'])}")
     
     # Save JSON
     json_path = os.path.join(output_dir, "css-exact-values.json")
@@ -399,7 +399,7 @@ def main():
         json.dump(extracted, f, indent=2, default=str)
     
     # Generate theme.css
-    print("\n  📝 Generating theme.css from exact values...")
+    print("\n  Generating theme.css from exact values...")
     theme_css = generate_theme_css_from_exact(extracted)
     css_path = os.path.join(output_dir, "theme-exact.css")
     with open(css_path, "w") as f:
@@ -413,15 +413,15 @@ def main():
             f.write(browser_html)
     
     # Summary
-    print(f"\n✅ CSS EXTRACTION COMPLETE")
+    print(f"\nCSS EXTRACTION COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/")
-    print(f"  📄 css-exact-values.json — Full extracted data")
-    print(f"  📄 theme-exact.css — CSS from exact values")
+    print(f"  Output: {output_dir}/")
+    print(f"  css-exact-values.json - Full extracted data")
+    print(f"  theme-exact.css - CSS from exact values")
     if url:
-        print(f"  📄 browser-extraction.html — Open in browser for getComputedStyle()")
+        print(f"  browser-extraction.html - Open in browser for getComputedStyle()")
     print()
-    print(f"📊 EXTRACTED:")
+    print(f"EXTRACTED:")
     print(f"  • CSS Variables:     {len(extracted['design_tokens'].get('css_variables', {}))}")
     print(f"  • Design Tokens:     {len(extracted['design_tokens']) - 1}")
     print(f"  • Colors:            {len(extracted['colors'])}")
@@ -430,12 +430,12 @@ def main():
     print()
     
     if extracted["colors"]:
-        print(f"🎨 TOP COLORS:")
+        print(f"TOP COLORS:")
         for color in extracted["colors"][:10]:
             print(f"  • {color}")
     
     if extracted["fonts"]:
-        print(f"\n✍️ FONTS:")
+        print(f"\nFONTS:")
         for font in extracted["fonts"][:5]:
             print(f"  • {font}")
 

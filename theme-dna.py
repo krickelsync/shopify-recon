@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🧬 THEME DNA FINGERPRINTER — Detect Shopify Theme Framework
+THEME DNA FINGERPRINTER - Detect Shopify Theme Framework
 Identifies theme name, version, framework, and customization level from HTML
 Part of Shopify Recon | 2026-06-21
 
@@ -223,7 +223,7 @@ THEME_DATABASE = {
         "popularity": "New",
     },
     # ═════════════════════════════════════════════════════════════
-    # EXPANDED DATABASE — 35+ additional themes
+    # EXPANDED DATABASE - 35+ additional themes
     # ═════════════════════════════════════════════════════════════
     "atlantic": {
         "name": "Atlantic",
@@ -797,7 +797,7 @@ class ThemeDNA:
         return None
     
     def detect_theme_store_id(self):
-        """Detect theme_store_id — if present, it's a Shopify Theme Store theme"""
+        """Detect theme_store_id - if present, it's a Shopify Theme Store theme"""
         match = re.search(r'theme_store_id["\s:]+(\d+)', self.html)
         if match:
             return int(match.group(1))
@@ -879,7 +879,7 @@ class ThemeDNA:
             return {"is_custom": True, "reason": "No Shopify.theme object found (heavily customized or headless)"}
         
         if theme_data.get("theme_store_id") is None:
-            return {"is_custom": True, "reason": f"theme_store_id is null — custom theme '{theme_data.get('name', 'Unknown')}'"}
+            return {"is_custom": True, "reason": f"theme_store_id is null - custom theme '{theme_data.get('name', 'Unknown')}'"}
         
         return {"is_custom": False, "reason": f"Theme Store ID: {theme_data['theme_store_id']}"}
     
@@ -984,36 +984,36 @@ def print_report(dna):
     
     print()
     print("╔═══════════════════════════════════════════════════════════════════╗")
-    print("║  🧬 THEME DNA FINGERPRINT REPORT                                   ║")
+    print("║  THEME DNA FINGERPRINT REPORT                                   ║")
     print("╠═══════════════════════════════════════════════════════════════════╣")
     print("║                                                                    ║")
-    print(f"║  🎨 Detected Theme:    {dna['detected_theme']:<44}║")
-    print(f"║  🏢 Developer:         {dna['developer']:<44}║")
-    print(f"║  💰 Price:             {dna['price']:<44}║")
-    print(f"║  🔒 Custom:            {'Yes' if dna['is_custom'] else 'No (Theme Store)':<44}║")
-    print(f"║  🎭 Customization:     {dna['customization_level']:<44}║")
+    print(f"║  Detected Theme:    {dna['detected_theme']:<44}║")
+    print(f"║  Developer:         {dna['developer']:<44}║")
+    print(f"║  Price:             {dna['price']:<44}║")
+    print(f"║  Custom:            {'Yes' if dna['is_custom'] else 'No (Theme Store)':<44}║")
+    print(f"║  Customization:     {dna['customization_level']:<44}║")
     print("║                                                                    ║")
-    print(f"║  📊 Confidence:        [{confidence_bar}] {dna['confidence']}%{'':<{max(0, 14 - len(str(dna['confidence'])))}}║")
+    print(f"║  Confidence:        [{confidence_bar}] {dna['confidence']}%{'':<{max(0, 14 - len(str(dna['confidence'])))}}║")
     print("║                                                                    ║")
     if dna["schema_name"]:
-        print(f"║  📋 Schema Name:       {dna['schema_name']:<44}║")
+        print(f"║  Schema Name:       {dna['schema_name']:<44}║")
     if dna["schema_version"]:
-        print(f"║  📋 Schema Version:    {dna['schema_version']:<44}║")
+        print(f"║  Schema Version:    {dna['schema_version']:<44}║")
     if dna["theme_name_raw"]:
-        print(f"║  📋 Raw Theme Name:    {dna['theme_name_raw']:<44}║")
-    print(f"║  🏗️  Sections:          {str(dna['section_count']):<44}║")
+        print(f"║  Raw Theme Name:    {dna['theme_name_raw']:<44}║")
+    print(f"║   Sections:          {str(dna['section_count']):<44}║")
     print("║                                                                    ║")
-    print("║  🔧 Tech Stack:                                                    ║")
+    print("║  Tech Stack:                                                    ║")
     for tech in dna["tech_stack"]:
         print(f"║     • {tech:<52}║")
     print("║                                                                    ║")
     if dna["fingerprint_matches"]:
-        print("║  🧬 Fingerprint Matches:                                           ║")
+        print("║  Fingerprint Matches:                                           ║")
         for m in dna["fingerprint_matches"][:3]:
-            print(f"║     • {m['name']} ({m['developer']}) — Score: {m['score']:<3}{'':<{max(0, 30 - len(m['name']) - len(m['developer']) - len(str(m['score'])))}}║")
+            print(f"║     • {m['name']} ({m['developer']}) - Score: {m['score']:<3}{'':<{max(0, 30 - len(m['name']) - len(m['developer']) - len(str(m['score'])))}}║")
         print("║                                                                    ║")
     if dna["fingerprint_matches"] and dna["fingerprint_matches"][0]["evidence"]:
-        print("║  🔍 Evidence:                                                      ║")
+        print("║  Evidence:                                                      ║")
         for e in dna["fingerprint_matches"][0]["evidence"][:5]:
             print(f"║     • {e[:52]:<52}║")
         print("║                                                                    ║")
@@ -1022,8 +1022,8 @@ def print_report(dna):
     # Custom info
     if dna["is_custom"]:
         print()
-        print(f"  💡 {dna['custom_info']['reason']}")
-        print(f"  💡 Customization level: {dna['customization_level']}")
+        print(f"  {dna['custom_info']['reason']}")
+        print(f"  Customization level: {dna['customization_level']}")
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -1033,7 +1033,7 @@ def print_report(dna):
 def main():
     import argparse
     
-    parser = argparse.ArgumentParser(description="🧬 Theme DNA Fingerprinter")
+    parser = argparse.ArgumentParser(description="Theme DNA Fingerprinter")
     parser.add_argument("input", nargs="?", help="Input directory with homepage.html")
     parser.add_argument("--url", help="Shopify store URL to analyze")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
@@ -1047,7 +1047,7 @@ def main():
         # Fetch from URL
         import subprocess
         url = args.url if args.url.startswith("http") else "https://" + args.url
-        print(f"📡 Fetching: {url}")
+        print(f"Fetching: {url}")
         result = subprocess.run(
             ["curl", "-s", "-L", "-A", "Mozilla/5.0", "--max-time", "15", url],
             capture_output=True, text=True
@@ -1056,7 +1056,7 @@ def main():
     elif args.input:
         html_path = os.path.join(args.input, "homepage.html")
         if not os.path.exists(html_path):
-            print(f"❌ No homepage.html in {args.input}")
+            print(f"No homepage.html in {args.input}")
             sys.exit(1)
         with open(html_path) as f:
             html = f.read()
@@ -1065,7 +1065,7 @@ def main():
         sys.exit(1)
     
     if not html or len(html) < 1000:
-        print("❌ Could not get HTML content")
+        print("Could not get HTML content")
         sys.exit(1)
     
     dna = ThemeDNA(html).analyze()
@@ -1080,7 +1080,7 @@ def main():
         os.makedirs(args.output, exist_ok=True)
         with open(os.path.join(args.output, "theme-dna.json"), "w") as f:
             json.dump(dna, f, indent=2)
-        print(f"\n📁 Saved: {args.output}/theme-dna.json")
+        print(f"\nSaved: {args.output}/theme-dna.json")
 
 
 if __name__ == "__main__":

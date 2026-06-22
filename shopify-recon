@@ -1,6 +1,6 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════════
-# 🔍 SHOPIFY RECON — Store Intelligence & Theme DNA
+# SHOPIFY RECON - Store Intelligence & Theme DNA
 # Reverse-engineer any Shopify store: theme, design, apps, tech stack
 # v3.0 | Kiro | 2026-06-21
 #
@@ -22,7 +22,7 @@ NC='\033[0m'
 banner() {
     echo ""
     echo -e "${CYAN}╔═══════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║${NC}  🔍 SHOPIFY RECON — Store Intelligence & Theme DNA                ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  SHOPIFY RECON - Store Intelligence & Theme DNA                ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}  Reverse-engineer any Shopify store in seconds                   ${CYAN}║${NC}"
     echo -e "${CYAN}╚═══════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
@@ -31,7 +31,7 @@ banner() {
 usage() {
     banner
     cat << 'EOF'
-📋 Commands:
+Commands:
 
   analyze <url>            Full intelligence report (THEME DNA + all analyzers)
   dna <url>                Theme DNA fingerprint only (fast!)
@@ -42,7 +42,7 @@ usage() {
   web <input> <dir>        Generate standalone HTML website
   monitor <url>            Set up change monitoring for a store
 
-🚀 Quick Start:
+Quick Start:
 
   shopify-recon analyze https://rothys.com
   shopify-recon dna https://allbirds.com
@@ -52,7 +52,7 @@ EOF
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# ANALYZE — Full intelligence report
+# ANALYZE - Full intelligence report
 # ═══════════════════════════════════════════════════════════════════
 
 cmd_analyze() {
@@ -60,7 +60,7 @@ cmd_analyze() {
     local tmpdir="/tmp/recon-$(date +%s)"
     
     if [ -z "$url" ]; then
-        echo -e "${RED}❌ Usage: analyze <url>${NC}"
+        echo -e "${RED}Usage: analyze <url>${NC}"
         exit 1
     fi
     
@@ -68,56 +68,56 @@ cmd_analyze() {
     [[ "$url" =~ ^https?:// ]] || url="https://$url"
     
     banner
-    echo -e "${YELLOW}🔍 Analyzing: $url${NC}"
+    echo -e "${YELLOW}Analyzing: $url${NC}"
     echo ""
     
     # Step 1: Quick extract (homepage HTML + theme data)
-    echo -e "${CYAN}📡 Extracting store data...${NC}"
+    echo -e "${CYAN}Extracting store data...${NC}"
     mkdir -p "$tmpdir"
     
     # Fast extract - just homepage + theme metadata
     timeout 30 curl -sL "$url" -o "$tmpdir/homepage.html" 2>/dev/null || true
     
     if [ ! -s "$tmpdir/homepage.html" ]; then
-        echo -e "${RED}❌ Could not fetch $url${NC}"
+        echo -e "${RED}Could not fetch $url${NC}"
         rm -rf "$tmpdir"
         exit 1
     fi
     
-    echo -e "   ✓ Homepage downloaded ($(wc -c < "$tmpdir/homepage.html") bytes)"
+    echo -e "   Homepage downloaded ($(wc -c < "$tmpdir/homepage.html") bytes)"
     
     # Step 2: Theme DNA Fingerprint
-    echo -e "${CYAN}🧬 Running Theme DNA...${NC}"
+    echo -e "${CYAN}Running Theme DNA...${NC}"
     python3 "$TOOL_DIR/theme-dna.py" "$tmpdir/homepage.html"
     
     # Step 3: Quick section analysis
-    echo -e "${CYAN}🏗️  Section Analysis...${NC}"
+    echo -e "${CYAN} Section Analysis...${NC}"
     sections=$(grep -oP 'shopify-section-\w+[^"]*' "$tmpdir/homepage.html" 2>/dev/null | sort -u | wc -l)
-    echo -e "   ✓ $sections unique sections detected"
+    echo -e "   $sections unique sections detected"
     
     # Step 4: Payment methods
-    echo -e "${CYAN}💳 Payment Methods...${NC}"
+    echo -e "${CYAN}Payment Methods...${NC}"
     payments=""
     grep -qi 'stripe' "$tmpdir/homepage.html" && payments="$payments Stripe"
     grep -qi 'paypal' "$tmpdir/homepage.html" && payments="$payments PayPal"
     grep -qi 'apple.pay\|apple_pay' "$tmpdir/homepage.html" && payments="$payments ApplePay"
     grep -qi 'google.pay\|google_pay' "$tmpdir/homepage.html" && payments="$payments GooglePay"
     grep -qi 'shopify.pay\|shop_pay' "$tmpdir/homepage.html" && payments="$payments ShopPay"
-    [ -n "$payments" ] && echo -e "   ✓ Detected:$payments" || echo "   ○ None detected on homepage"
+    [ -n "$payments" ] && echo -e "   Detected:$payments" || echo "   ○ None detected on homepage"
     
     # Step 5: Performance estimate
-    echo -e "${CYAN}⚡ Performance...${NC}"
+    echo -e "${CYAN}Performance...${NC}"
     size=$(wc -c < "$tmpdir/homepage.html")
-    echo -e "   ✓ Page size: $((size / 1024))KB"
+    echo -e "   Page size: $((size / 1024))KB"
     
     # Step 6: Top sections
-    echo -e "${CYAN}📐 Top Section Types...${NC}"
+    echo -e "${CYAN}Top Section Types...${NC}"
     grep -oP 'shopify-section-(?:template--\d+__)?(\w+)' "$tmpdir/homepage.html" 2>/dev/null |         sed 's/shopify-section-//;s/template--\d\+__//' | sort | uniq -c | sort -rn | head -10 |         while read count type; do
             echo -e "   • $type ($count instances)"
         done
     
     echo ""
-    echo -e "${GREEN}✅ Analysis complete${NC}"
+    echo -e "${GREEN}Analysis complete${NC}"
     echo -e "   HTML cached: $tmpdir/homepage.html"
     
     # Cleanup
@@ -125,7 +125,7 @@ cmd_analyze() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# DNA — Theme fingerprint only (fast)
+# DNA - Theme fingerprint only (fast)
 # ═══════════════════════════════════════════════════════════════════
 
 cmd_dna() {
@@ -133,17 +133,17 @@ cmd_dna() {
     local tmpfile="/tmp/recon-dna-$(date +%s).html"
     
     if [ -z "$url" ]; then
-        echo -e "${RED}❌ Usage: dna <url>${NC}"
+        echo -e "${RED}Usage: dna <url>${NC}"
         exit 1
     fi
     
     [[ "$url" =~ ^https?:// ]] || url="https://$url"
     
-    echo -e "${CYAN}🧬 Theme DNA: $url${NC}"
+    echo -e "${CYAN}Theme DNA: $url${NC}"
     timeout 30 curl -sL "$url" -o "$tmpfile" 2>/dev/null || true
     
     if [ ! -s "$tmpfile" ]; then
-        echo -e "${RED}❌ Could not fetch $url${NC}"
+        echo -e "${RED}Could not fetch $url${NC}"
         exit 1
     fi
     
@@ -152,45 +152,45 @@ cmd_dna() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# COMPARE — Multi-store comparison
+# COMPARE - Multi-store comparison
 # ═══════════════════════════════════════════════════════════════════
 
 cmd_compare() {
     if [ $# -lt 2 ]; then
-        echo -e "${RED}❌ Usage: compare <url1> <url2> [url3] ...${NC}"
+        echo -e "${RED}Usage: compare <url1> <url2> [url3] ...${NC}"
         exit 1
     fi
     python3 "$TOOL_DIR/multi-store-comparator.py" "$@"
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# EXTRACT, CLONE, THEME, WEB — delegate to existing tools
+# EXTRACT, CLONE, THEME, WEB - delegate to existing tools
 # ═══════════════════════════════════════════════════════════════════
 
 cmd_extract() {
-    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}❌ Usage: extract <url> <output>${NC}"; exit 1; }
+    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}Usage: extract <url> <output>${NC}"; exit 1; }
     "$TOOL_DIR/shopify-liquid-inspector.sh" "$1" "$2"
 }
 
 cmd_clone() {
-    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}❌ Usage: clone <url> <output>${NC}"; exit 1; }
+    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}Usage: clone <url> <output>${NC}"; exit 1; }
     "$TOOL_DIR/shopify-clone-master.sh" clone "$1" "$2"
 }
 
 cmd_theme() {
-    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}❌ Usage: theme <input> <output>${NC}"; exit 1; }
+    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}Usage: theme <input> <output>${NC}"; exit 1; }
     "$TOOL_DIR/shopify-theme-converter.sh" "$1" "$2"
 }
 
 cmd_web() {
-    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}❌ Usage: web <input> <output>${NC}"; exit 1; }
+    [ -z "$1" ] || [ -z "$2" ] && { echo -e "${RED}Usage: web <input> <output>${NC}"; exit 1; }
     "$TOOL_DIR/web-clone-generator.sh" "$1" "$2"
 }
 
 cmd_monitor() {
     local url="$1"
-    [ -z "$url" ] && { echo -e "${RED}❌ Usage: monitor <url>${NC}"; exit 1; }
-    echo -e "${YELLOW}🔔 Monitoring: $url${NC}"
+    [ -z "$url" ] && { echo -e "${RED}Usage: monitor <url>${NC}"; exit 1; }
+    echo -e "${YELLOW}Monitoring: $url${NC}"
     echo "   Coming soon: automated change detection via cron"
     echo "   For now: run 'shopify-recon analyze $url' periodically"
 }
@@ -218,7 +218,7 @@ case "$cmd" in
     monitor)   cmd_monitor "$@" ;;
     help|-h|--help) usage ;;
     *)
-        echo -e "${RED}❌ Unknown command: $cmd${NC}"
+        echo -e "${RED}Unknown command: $cmd${NC}"
         usage
         exit 1
         ;;

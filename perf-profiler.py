@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-⚡ PERFORMANCE PROFILER — Shopify Store Performance Analysis
+PERFORMANCE PROFILER - Shopify Store Performance Analysis
 Analyzes: page weight, asset breakdown, script count, render-blocking, recommendations
 Part of Shopify Recon | 2026-06-21
 
@@ -279,7 +279,7 @@ def analyze(html, store_name="Store"):
 def main():
     import argparse
     
-    parser = argparse.ArgumentParser(description="⚡ Performance Profiler")
+    parser = argparse.ArgumentParser(description="Performance Profiler")
     parser.add_argument("input", nargs="?", help="Input directory with homepage.html")
     parser.add_argument("--url", help="Store URL")
     parser.add_argument("--json", action="store_true")
@@ -294,7 +294,7 @@ def main():
         import subprocess
         url = args.url if args.url.startswith("http") else "https://" + args.url
         store_name = url.replace("https://", "").replace("http://", "")
-        print(f"📡 Fetching: {url}")
+        print(f"Fetching: {url}")
         result = subprocess.run(["curl", "-s", "-L", "-A", "Mozilla/5.0", "--max-time", "15", url],
                                 capture_output=True, text=True)
         html = result.stdout
@@ -308,7 +308,7 @@ def main():
         sys.exit(1)
     
     if not html or len(html) < 500:
-        print("❌ Could not get HTML")
+        print("Could not get HTML")
         sys.exit(1)
     
     data = analyze(html, store_name)
@@ -325,51 +325,51 @@ def main():
         rb = data["render_blocking"]
         
         print(f"\n╔═══════════════════════════════════════════════════════════════╗")
-        print(f"║  ⚡ PERFORMANCE PROFILE — {store_name[:35]:<35}║")
+        print(f"║  PERFORMANCE PROFILE - {store_name[:35]:<35}║")
         print(f"╠═══════════════════════════════════════════════════════════════╣")
         print(f"║                                                                ║")
-        print(f"║  📊 Perf Score:      [{bar}] {score}%{'':<{16 - len(str(score))}}║")
+        print(f"║  Perf Score:      [{bar}] {score}%{'':<{16 - len(str(score))}}║")
         print(f"║                                                                ║")
-        print(f"║  ⚖️  Page Weight:                                               ║")
+        print(f"║   Page Weight:                                               ║")
         print(f"║     • HTML:           {pw['html_size_kb']}KB{'':<{40 - len(str(pw['html_size_kb'])) - 2}}║")
         print(f"║     • Inline CSS:     {pw['inline_css_kb']}KB{'':<{40 - len(str(pw['inline_css_kb'])) - 2}}║")
         print(f"║     • Inline JS:      {pw['inline_js_kb']}KB{'':<{40 - len(str(pw['inline_js_kb'])) - 2}}║")
         print(f"║     • Est. Total:     {pw['estimated_total_weight_kb']}KB{'':<{40 - len(str(pw['estimated_total_weight_kb'])) - 2}}║")
         print(f"║                                                                ║")
-        print(f"║  📜 Scripts:          {sc['total']} total{'':<{38 - len(str(sc['total']))}}║")
+        print(f"║  Scripts:          {sc['total']} total{'':<{38 - len(str(sc['total']))}}║")
         print(f"║     • External:       {sc['external']}{'':<{40 - len(str(sc['external']))}}║")
         print(f"║     • Inline:         {sc['inline']}{'':<{40 - len(str(sc['inline']))}}║")
         print(f"║     • Async:          {sc['async']}{'':<{40 - len(str(sc['async']))}}║")
         print(f"║     • Defer:          {sc['defer']}{'':<{40 - len(str(sc['defer']))}}║")
         print(f"║     • Render-blocking:{sc['render_blocking']}{'':<{40 - len(str(sc['render_blocking']))}}║")
         print(f"║                                                                ║")
-        print(f"║  🖼️  Images:           {im['total']} total{'':<{38 - len(str(im['total']))}}║")
+        print(f"║   Images:           {im['total']} total{'':<{38 - len(str(im['total']))}}║")
         print(f"║     • Lazy loaded:    {im['lazy_loaded']} ({im['optimization_rate']}%){'':<{30 - len(str(im['lazy_loaded'])) - len(str(im['optimization_rate']))}}║")
         print(f"║     • Responsive:     {im['responsive']}{'':<{40 - len(str(im['responsive']))}}║")
         print(f"║     • WebP:           {im['webp_format']}{'':<{40 - len(str(im['webp_format']))}}║")
         print(f"║                                                                ║")
-        print(f"║  🔤 Fonts:                                                     ║")
+        print(f"║  Fonts:                                                     ║")
         print(f"║     • Google Fonts:   {ft['google_fonts_count']}{'':<{40 - len(str(ft['google_fonts_count']))}}║")
         print(f"║     • @font-face:     {ft['font_face_declarations']}{'':<{40 - len(str(ft['font_face_declarations']))}}║")
         print(f"║     • font-display:   {ft['font_display_swap_count']}{'':<{40 - len(str(ft['font_display_swap_count']))}}║")
         print(f"║                                                                ║")
-        print(f"║  🚫 Render-blocking:  {rb['total_blocking']} resources{'':<{30 - len(str(rb['total_blocking']))}}║")
+        print(f"║  Render-blocking:  {rb['total_blocking']} resources{'':<{30 - len(str(rb['total_blocking']))}}║")
         print(f"║     • CSS:            {rb['css_blocking']}{'':<{40 - len(str(rb['css_blocking']))}}║")
         print(f"║     • JS:             {rb['js_blocking']}{'':<{40 - len(str(rb['js_blocking']))}}║")
         print(f"║                                                                ║")
         
         if data["perf_score"]["issues"]:
             count = len(data["perf_score"]["issues"])
-            print(f"║  ⚠️  Issues ({count}):{'':<{46 - len(str(count))}}║")
+            print(f"║   Issues ({count}):{'':<{46 - len(str(count))}}║")
             for issue in data["perf_score"]["issues"][:5]:
                 print(f"║     • {issue[:52]:<52}║")
             print(f"║                                                                ║")
         
         if data["perf_score"]["recommendations"]:
             count = len(data["perf_score"]["recommendations"])
-            print(f"║  💡 Recommendations ({count}):{'':<{42 - len(str(count))}}║")
+            print(f"║  Recommendations ({count}):{'':<{42 - len(str(count))}}║")
             for rec in data["perf_score"]["recommendations"][:3]:
-                print(f"║     → {rec[:51]:<51}║")
+                print(f"║     {rec[:51]:<51}║")
             print(f"║                                                                ║")
         
         print(f"╚═══════════════════════════════════════════════════════════════╝")
@@ -378,7 +378,7 @@ def main():
         os.makedirs(args.output, exist_ok=True)
         with open(os.path.join(args.output, "perf-analysis.json"), "w") as f:
             json.dump(data, f, indent=2)
-        print(f"\n📁 Saved: {args.output}/perf-analysis.json")
+        print(f"\nSaved: {args.output}/perf-analysis.json")
 
 
 if __name__ == "__main__":

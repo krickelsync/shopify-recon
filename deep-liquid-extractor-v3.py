@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Shopify Deep Liquid Extractor v3 — BREAKTHROUGH TOOL
+Shopify Deep Liquid Extractor v3 - BREAKTHROUGH TOOL
 
 Combines 5 extraction vectors to achieve 99%+ Liquid reconstruction:
 
-1. Section Rendering API: ?sections=header,footer → rendered Liquid per section
+1. Section Rendering API: ?sections=header,footer rendered Liquid per section
 2. Section Settings Extraction: Parse "settings":{...} from rendered HTML
 3. Shopify Global Objects: Shopify.theme, Shopify.shop, Shopify.currency, etc.
 4. Storefront GraphQL API: Full product/collection data with variants/metafields
@@ -41,7 +41,7 @@ class DeepLiquidExtractor:
         
     def extract_all(self):
         print(f"\n{'='*60}")
-        print(f"🔬 Deep Liquid Extractor v3")
+        print(f"Deep Liquid Extractor v3")
         print(f"Store: {self.url}")
         print(f"{'='*60}\n")
         
@@ -51,10 +51,10 @@ class DeepLiquidExtractor:
         # Vector 2: Extract section settings from HTML
         self._extract_section_settings()
         
-        # Vector 3: Section Rendering API — get rendered Liquid per section
+        # Vector 3: Section Rendering API - get rendered Liquid per section
         self._render_sections()
         
-        # Vector 4: Storefront GraphQL API — full product data
+        # Vector 4: Storefront GraphQL API - full product data
         self._extract_storefront_data()
         
         # Vector 5: Map sections to templates
@@ -75,7 +75,7 @@ class DeepLiquidExtractor:
                 if attempt < 2:
                     time.sleep(1)
                 else:
-                    print(f"  ⚠️  Failed: {url} — {e}")
+                    print(f"   Failed: {url} - {e}")
                     return None
     
     def _graphql(self, query, variables=None):
@@ -92,12 +92,12 @@ class DeepLiquidExtractor:
             }, timeout=15)
             return r.json()
         except Exception as e:
-            print(f"  ⚠️  GraphQL error: {e}")
+            print(f"   GraphQL error: {e}")
             return None
     
     def _extract_globals(self):
         """Extract Shopify global objects from page."""
-        print("📌 Vector 1: Extracting Shopify globals...")
+        print("Vector 1: Extracting Shopify globals...")
         
         r = self._fetch('/')
         if not r:
@@ -111,7 +111,7 @@ class DeepLiquidExtractor:
             try:
                 theme = json.loads(theme_match.group(1))
                 self.shop_data['theme'] = theme
-                print(f"  ✅ Theme: {theme.get('name', 'N/A')} (ID: {theme.get('id', 'N/A')})")
+                print(f"  Theme: {theme.get('name', 'N/A')} (ID: {theme.get('id', 'N/A')})")
                 print(f"     Schema: {theme.get('schema_name', 'N/A')} v{theme.get('schema_version', 'N/A')}")
             except json.JSONDecodeError:
                 pass
@@ -121,7 +121,7 @@ class DeepLiquidExtractor:
         if shop_match:
             try:
                 self.shop_data['shop'] = json.loads(shop_match.group(1))
-                print(f"  ✅ Shop: {self.shop_data['shop']}")
+                print(f"  Shop: {self.shop_data['shop']}")
             except json.JSONDecodeError:
                 pass
         
@@ -130,7 +130,7 @@ class DeepLiquidExtractor:
         if currency_match:
             try:
                 self.shop_data['currency'] = json.loads(currency_match.group(1))
-                print(f"  ✅ Currency: {self.shop_data['currency']}")
+                print(f"  Currency: {self.shop_data['currency']}")
             except json.JSONDecodeError:
                 pass
         
@@ -138,27 +138,27 @@ class DeepLiquidExtractor:
         country_match = re.search(r'Shopify\.country\s*=\s*["\'](\w{2})["\']', html)
         if country_match:
             self.shop_data['country'] = country_match.group(1)
-            print(f"  ✅ Country: {self.shop_data['country']}")
+            print(f"  Country: {self.shop_data['country']}")
         
         # Shopify.locale
         locale_match = re.search(r'Shopify\.locale\s*=\s*["\'](\w+)["\']', html)
         if locale_match:
             self.shop_data['locale'] = locale_match.group(1)
-            print(f"  ✅ Locale: {self.shop_data['locale']}")
+            print(f"  Locale: {self.shop_data['locale']}")
         
         # Shopify.routes
         routes_match = re.search(r'Shopify\.routes\s*=\s*({[^}]+})', html)
         if routes_match:
             try:
                 self.shop_data['routes'] = json.loads(routes_match.group(1))
-                print(f"  ✅ Routes: {self.shop_data['routes']}")
+                print(f"  Routes: {self.shop_data['routes']}")
             except json.JSONDecodeError:
                 pass
         
         # Extract section IDs from HTML
         section_ids = re.findall(r'id="shopify-section-([^"]+)"', html)
         self.shop_data['section_ids'] = section_ids
-        print(f"  ✅ Sections found: {len(section_ids)}")
+        print(f"  Sections found: {len(section_ids)}")
         for s in section_ids:
             print(f"     - {s}")
         
@@ -167,8 +167,8 @@ class DeepLiquidExtractor:
             json.dump(self.shop_data, f, indent=2)
     
     def _extract_section_settings(self):
-        """Extract section settings from rendered HTML — aggressive mode."""
-        print("\n📌 Vector 2: Extracting section settings (aggressive)...")
+        """Extract section settings from rendered HTML - aggressive mode."""
+        print("\nVector 2: Extracting section settings (aggressive)...")
         
         r = self._fetch('/')
         if not r:
@@ -246,7 +246,7 @@ class DeepLiquidExtractor:
             self.section_settings[f'section_{i}'] = s
             block_type = s.get('_block_type', 'unknown')
             keys = list(s.keys())[:5]
-            print(f"  ✅ [{i}] type={block_type}: {keys}")
+            print(f"  [{i}] type={block_type}: {keys}")
         
         # Save settings
         with open(self.output_dir / 'section-settings.json', 'w') as f:
@@ -256,7 +256,7 @@ class DeepLiquidExtractor:
     
     def _render_sections(self):
         """Use Section Rendering API to get rendered Liquid per section."""
-        print("\n📌 Vector 3: Section Rendering API...")
+        print("\nVector 3: Section Rendering API...")
         
         # Get list of sections to render
         section_names = set()
@@ -310,7 +310,7 @@ class DeepLiquidExtractor:
                         safe_name = re.sub(r'[^a-zA-Z0-9_-]', '_', name)
                         with open(sections_dir / f"{safe_name}.html", 'w', encoding='utf-8') as f:
                             f.write(html)
-                        print(f"  ✅ {name}: {len(html):,} chars")
+                        print(f"  {name}: {len(html):,} chars")
             except json.JSONDecodeError:
                 pass
             
@@ -337,14 +337,14 @@ class DeepLiquidExtractor:
                             safe_name = re.sub(r'[^a-zA-Z0-9_-]', '_', name)
                             with open(sections_dir / f"{page_type}-{safe_name}.html", 'w', encoding='utf-8') as f:
                                 f.write(html)
-                            print(f"  ✅ {key}: {len(html):,} chars")
+                            print(f"  {key}: {len(html):,} chars")
                 except json.JSONDecodeError:
                     pass
             time.sleep(0.5)
     
     def _extract_storefront_data(self):
         """Extract full product/collection data via Storefront GraphQL API."""
-        print("\n📌 Vector 4: Storefront GraphQL API...")
+        print("\nVector 4: Storefront GraphQL API...")
         
         # Products with full data
         query = """
@@ -390,7 +390,7 @@ class DeepLiquidExtractor:
         if data and 'data' in data:
             products = data['data']['products']['edges']
             self.products = [p['node'] for p in products]
-            print(f"  ✅ Products: {len(self.products)}")
+            print(f"  Products: {len(self.products)}")
             
             with open(self.output_dir / 'storefront-products.json', 'w') as f:
                 json.dump(self.products, f, indent=2)
@@ -414,7 +414,7 @@ class DeepLiquidExtractor:
         if data and 'data' in data:
             collections = data['data']['collections']['edges']
             self.collections = [c['node'] for c in collections]
-            print(f"  ✅ Collections: {len(self.collections)}")
+            print(f"  Collections: {len(self.collections)}")
             
             with open(self.output_dir / 'storefront-collections.json', 'w') as f:
                 json.dump(self.collections, f, indent=2)
@@ -434,11 +434,11 @@ class DeepLiquidExtractor:
         data = self._graphql(query)
         if data and 'data' in data:
             self.shop_data['storefront_shop'] = data['data']['shop']
-            print(f"  ✅ Shop: {self.shop_data['storefront_shop'].get('name', 'N/A')}")
+            print(f"  Shop: {self.shop_data['storefront_shop'].get('name', 'N/A')}")
     
     def _map_section_templates(self):
         """Map detected sections to their Liquid template names."""
-        print("\n📌 Vector 5: Mapping section templates...")
+        print("\nVector 5: Mapping section templates...")
         
         # Parse section IDs to determine template structure
         section_ids = self.shop_data.get('section_ids', [])
@@ -471,7 +471,7 @@ class DeepLiquidExtractor:
     
     def _generate_theme(self):
         """Generate Liquid theme files from extracted data."""
-        print("\n📌 Generating Liquid theme...")
+        print("\nGenerating Liquid theme...")
         
         theme_dir = self.output_dir / "liquid-theme"
         
@@ -496,7 +496,7 @@ class DeepLiquidExtractor:
         with open(config_dir / "settings_data.json", 'w') as f:
             json.dump(settings_data, f, indent=2)
         
-        print(f"  ✅ settings_data.json: {len(settings_data['current'])} settings")
+        print(f"  settings_data.json: {len(settings_data['current'])} settings")
         
         # Generate sections from rendered HTML
         sections_dir = theme_dir / "sections"
@@ -513,7 +513,7 @@ class DeepLiquidExtractor:
             with open(sections_dir / f"{safe_name}.liquid", 'w', encoding='utf-8') as f:
                 f.write(liquid)
             
-            print(f"  ✅ sections/{safe_name}.liquid: {len(liquid):,} chars")
+            print(f"  sections/{safe_name}.liquid: {len(liquid):,} chars")
     
     def _html_to_liquid_section(self, name, html):
         """Convert rendered section HTML to Liquid section file."""
@@ -617,7 +617,7 @@ class DeepLiquidExtractor:
             f.write(report)
         
         print(f"\n{'='*60}")
-        print(f"✅ Deep Extraction Complete!")
+        print(f"Deep Extraction Complete!")
         print(f"{'='*60}")
         print(f"Globals extracted:    {len(self.shop_data)}")
         print(f"Section settings:     {len(self.section_settings)}")

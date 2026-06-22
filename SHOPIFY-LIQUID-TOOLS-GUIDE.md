@@ -1,30 +1,30 @@
-# 🔍 SHOPIFY LIQUID INSPECTOR TOOLKIT
+# SHOPIFY LIQUID INSPECTOR TOOLKIT
 **Kiro | 2026-06-21**
 
-Toolkit lengkap buat **inspect, extract, dan reverse-engineer** Shopify Liquid themes dari web publik. Tools ini menggunakan API Shopify yang public-facing — bukan hacking, tapi analyzing data yang sudah accessible ke browser.
+Toolkit lengkap buat **inspect, extract, dan reverse-engineer** Shopify Liquid themes dari web publik. Tools ini menggunakan API Shopify yang public-facing - bukan hacking, tapi analyzing data yang sudah accessible ke browser.
 
 ---
 
-## ⚠️ REALITY CHECK: Bisa & Gak Bisa
+## REALITY CHECK: Bisa & Gak Bisa
 
-### ❌ Gak Bisa (Impossible to Bypass)
-- **Original `.liquid` files** — Liquid di-compile di server, never sent to browser. Ini adalah fundamental limitation Shopify, bukan tool limitation.
-- **Section schema** — File `.liquid` yg berisi schema definitions (settings, blocks) hanya ada di server.
-- **Theme `config.json`** — Theme configuration hanya diakses oleh admin.
-- **Snippet code** — Template snippets hanya diakses jika di-inline ke HTML/JS.
+### Gak Bisa (Impossible to Bypass)
+- **Original `.liquid` files** - Liquid di-compile di server, never sent to browser. Ini adalah fundamental limitation Shopify, bukan tool limitation.
+- **Section schema** - File `.liquid` yg berisi schema definitions (settings, blocks) hanya ada di server.
+- **Theme `config.json`** - Theme configuration hanya diakses oleh admin.
+- **Snippet code** - Template snippets hanya diakses jika di-inline ke HTML/JS.
 
-### ✅ Bisa (Fully Extractable)
-- **Product catalog** — `/products.json` API, 250+ products per request
-- **Collections** — `/collections.json`, full metadata
-- **Theme metadata** — `Shopify.theme` JS object dengan ID, name, version
-- **HTML structure** — Full homepage rendered output
-- **CSS/JS assets** — Theme stylesheets dan JavaScript logic
-- **Section markup** — Data attributes yg reveal section organization
-- **Template hints** — HTML class names yg expose template names
+### Bisa (Fully Extractable)
+- **Product catalog** - `/products.json` API, 250+ products per request
+- **Collections** - `/collections.json`, full metadata
+- **Theme metadata** - `Shopify.theme` JS object dengan ID, name, version
+- **HTML structure** - Full homepage rendered output
+- **CSS/JS assets** - Theme stylesheets dan JavaScript logic
+- **Section markup** - Data attributes yg reveal section organization
+- **Template hints** - HTML class names yg expose template names
 
 ---
 
-## 📦 TOOL: `shopify-liquid-inspector.sh`
+## TOOL: `shopify-liquid-inspector.sh`
 
 ### Installation
 ```bash
@@ -81,7 +81,7 @@ chmod +x /home/ubuntu/tools/shopify-liquid-inspector.sh
 
 ---
 
-## 🎯 USE CASES
+## USE CASES
 
 ### 1. Competitive Analysis
 **Goal:** Understand competitor's product structure and pricing strategy
@@ -176,7 +176,7 @@ grep -o '<div[^>]*data-section[^>]*>' output/homepage.html
 
 ---
 
-## 🔧 ADVANCED USAGE
+## ADVANCED USAGE
 
 ### Batch Extract Multiple Stores
 ```bash
@@ -215,7 +215,7 @@ cat image-urls.txt | xargs -I {} curl -O {}
 
 ---
 
-## 💡 INTERPRETATION GUIDE
+## INTERPRETATION GUIDE
 
 ### Reading `theme-metadata.json`
 ```json
@@ -254,22 +254,22 @@ Section types found: 9 (Taylor Stitch)
 
 ### Template Detection
 ```
-template-index        → Homepage
-template-product      → Product page template
-template-collection   → Collection page template
-template-page         → Generic page template
-template-cart         → Cart page template
+template-index        Homepage
+template-product      Product page template
+template-collection   Collection page template
+template-page         Generic page template
+template-cart         Cart page template
 ```
 
 ---
 
-## 🚀 PRACTICAL WORKFLOW
+## PRACTICAL WORKFLOW
 
 ### 1. Initial Reconnaissance
 ```bash
 ./shopify-liquid-inspector.sh https://target-store.com ./target
 cat target/LIQUID-ANALYSIS.md
-# → Understand theme architecture, products, collections
+# Understand theme architecture, products, collections
 ```
 
 ### 2. Competitive Analysis
@@ -305,7 +305,7 @@ echo "- Y products with Z variants avg" >> my-research.md
 
 ---
 
-## 📊 EXAMPLE: Full Analysis of Allbirds
+## EXAMPLE: Full Analysis of Allbirds
 
 ### Extract
 ```bash
@@ -337,20 +337,20 @@ Assets: 1 JS file (jsEncrypt.js)
 
 ---
 
-## ⚖️ ETHICAL GUIDELINES
+## ETHICAL GUIDELINES
 
 ### Legal Use
-✅ Competitive analysis (studying public information)
-✅ Learning Shopify theme development
-✅ Reverse-engineering for inspiration
-✅ Building your own original theme
+Competitive analysis (studying public information)
+Learning Shopify theme development
+Reverse-engineering for inspiration
+Building your own original theme
 
 ### Prohibited Use
-❌ Copying and reselling competitor's theme
-❌ Scraping and republishing product data
-❌ DDoS-like rapid API requests
-❌ Violating robots.txt or terms of service
-❌ Personal harassment or surveillance
+Copying and reselling competitor's theme
+Scraping and republishing product data
+DDoS-like rapid API requests
+Violating robots.txt or terms of service
+Personal harassment or surveillance
 
 ### Best Practices
 - Extract data once, respect rate limits
@@ -361,7 +361,7 @@ Assets: 1 JS file (jsEncrypt.js)
 
 ---
 
-## 🐛 TROUBLESHOOTING
+## TROUBLESHOOTING
 
 ### Tool Hangs or Times Out
 ```bash
@@ -398,11 +398,11 @@ grep -o "https://[^\"]*\.css" output/homepage.html | head -10
 
 ---
 
-## 📚 RELATED TOOLS
+## RELATED TOOLS
 
 ### Already Installed
-- `deep-code-extractor.sh` — Extract and deobfuscate JS logic
-- `website-code-inspector.sh` — Framework detection
+- `deep-code-extractor.sh` - Extract and deobfuscate JS logic
+- `website-code-inspector.sh` - Framework detection
 - Deobfuscators: `webcrack`, `javascript-deobfuscator`, `js-deobfuscator`
 
 ### Shopify CLI
@@ -417,14 +417,14 @@ cat theme/layout/theme.liquid
 ```
 
 ### Browser DevTools
-- **Elements Inspector** — Study HTML structure
-- **Network Tab** — See API calls and assets
-- **Console** → `Shopify.theme` — View theme metadata live
-- **Sources** → Analyze JS with breakpoints
+- **Elements Inspector** - Study HTML structure
+- **Network Tab** - See API calls and assets
+- **Console** `Shopify.theme` - View theme metadata live
+- **Sources** Analyze JS with breakpoints
 
 ---
 
-## 🎓 LEARNING PATH
+## LEARNING PATH
 
 1. **Week 1:** Run tool on 5 different Shopify stores
 2. **Week 2:** Analyze extracted data, document patterns
@@ -435,7 +435,7 @@ cat theme/layout/theme.liquid
 
 ---
 
-## 📞 SUPPORT
+## SUPPORT
 
 ### Command Reference
 ```bash
@@ -455,12 +455,12 @@ See TROUBLESHOOTING section above.
 
 ---
 
-## 🎯 REMEMBER
+## REMEMBER
 
 **What You're Doing:** Analyzing publicly accessible data (same as using browser DevTools)
 **What You're NOT Doing:** Hacking, bypassing security, or stealing private code
 
-The `.liquid` source will never be accessible — that's not a limitation of this tool, that's how Shopify works. But **everything else** is fair game for analysis and learning.
+The `.liquid` source will never be accessible - that's not a limitation of this tool, that's how Shopify works. But **everything else** is fair game for analysis and learning.
 
 ---
 
@@ -468,4 +468,4 @@ The `.liquid` source will never be accessible — that's not a limitation of thi
 **Tool Version:** shopify-liquid-inspector.sh v3
 **Status:** Production-ready, tested on Allbirds, Rothys, Taylor Stitch
 
-Next: Use this toolkit to analyze your competitors and build better themes! 🚀
+Next: Use this toolkit to analyze your competitors and build better themes!

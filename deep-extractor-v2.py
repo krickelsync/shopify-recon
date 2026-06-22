@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-🔬 DEEP CODE EXTRACTOR v2 — Advanced Web Code Extraction
+DEEP CODE EXTRACTOR v2 - Advanced Web Code Extraction
 Combines: BeautifulSoup parsing + webcrack deobfuscation + asset downloading
 Specialized for Shopify Liquid theme reverse-engineering
 
 Features borrowed from popular GitHub tools:
-- BeautifulSoup (like Scrapy/pyquery) → HTML parsing
-- webcrack (2.1k⭐) → JS deobfuscation + bundle unpacking
-- wget mirror mode → recursive asset download
-- httrack approach → convert links to local
-- firecrawl approach → structured data extraction
+- BeautifulSoup (like Scrapy/pyquery) HTML parsing
+- webcrack (2.1k) JS deobfuscation + bundle unpacking
+- wget mirror mode recursive asset download
+- httrack approach convert links to local
+- firecrawl approach structured data extraction
 
 Usage: python3 deep-extractor-v2.py <url> <output-dir>
 Example: python3 deep-extractor-v2.py https://rothys.com ./deep-extract
@@ -28,7 +28,7 @@ from bs4 import BeautifulSoup
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 1. HTML PARSER (BeautifulSoup) — Structured extraction
+# 1. HTML PARSER (BeautifulSoup) - Structured extraction
 # ═══════════════════════════════════════════════════════════════════
 
 class HTMLParser:
@@ -261,7 +261,7 @@ class HTMLParser:
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 2. JS DEOBFUSCATOR — webcrack integration
+# 2. JS DEOBFUSCATOR - webcrack integration
 # ═══════════════════════════════════════════════════════════════════
 
 def deobfuscate_js(js_content, output_dir, label="script"):
@@ -321,7 +321,7 @@ def extract_and_deobfuscate_scripts(html, output_dir):
         is_minified = len(content) / content.count('\n') > 200 if content.count('\n') > 0 else True
         
         if is_minified:
-            print(f"  🔧 Deobfuscating script {i} ({len(content)} bytes)...")
+            print(f"  Deobfuscating script {i} ({len(content)} bytes)...")
             deobfuscated = deobfuscate_js(content, deobfuscated_dir, label)
             
             if deobfuscated:
@@ -360,7 +360,7 @@ def extract_and_deobfuscate_scripts(html, output_dir):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 3. ASSET MIRROR — Download all CSS/JS/assets (httrack approach)
+# 3. ASSET MIRROR - Download all CSS/JS/assets (httrack approach)
 # ═══════════════════════════════════════════════════════════════════
 
 def mirror_assets(html, base_url, output_dir, max_assets=50):
@@ -409,7 +409,7 @@ def mirror_assets(html, base_url, output_dir, max_assets=50):
         os.makedirs(type_dir, exist_ok=True)
         filepath = os.path.join(type_dir, filename)
         
-        print(f"  ⬇️  [{i+1}/{min(len(asset_urls), max_assets)}] {filename[:40]}...", end=" ")
+        print(f"   [{i+1}/{min(len(asset_urls), max_assets)}] {filename[:40]}...", end=" ")
         
         try:
             result = subprocess.run(
@@ -420,7 +420,7 @@ def mirror_assets(html, base_url, output_dir, max_assets=50):
             
             if os.path.exists(filepath) and os.path.getsize(filepath) > 50:
                 size = os.path.getsize(filepath)
-                print(f"✅ {size//1024}KB")
+                print(f"{size//1024}KB")
                 
                 local_path = os.path.relpath(filepath, output_dir)
                 url_mapping[url] = local_path
@@ -431,10 +431,10 @@ def mirror_assets(html, base_url, output_dir, max_assets=50):
                     "size": size,
                 })
             else:
-                print("❌")
+                print("")
                 failed.append(url)
         except:
-            print("❌")
+            print("")
             failed.append(url)
         
         time.sleep(0.1)
@@ -447,7 +447,7 @@ def mirror_assets(html, base_url, output_dir, max_assets=50):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 4. SHOPIFY-SPECIFIC EXTRACTOR — Liquid pattern detection
+# 4. SHOPIFY-SPECIFIC EXTRACTOR - Liquid pattern detection
 # ═══════════════════════════════════════════════════════════════════
 
 def extract_liquid_patterns(html):
@@ -504,7 +504,7 @@ def extract_liquid_patterns(html):
 
 def main():
     if len(sys.argv) < 3:
-        print("🔬 DEEP CODE EXTRACTOR v2")
+        print("DEEP CODE EXTRACTOR v2")
         print("━" * 69)
         print()
         print("Usage: python3 deep-extractor-v2.py <url> <output-dir>")
@@ -520,7 +520,7 @@ def main():
     
     store_name = urlparse(url).netloc
     
-    print("🔬 DEEP CODE EXTRACTOR v2")
+    print("DEEP CODE EXTRACTOR v2")
     print("━" * 69)
     print(f"  Store: {store_name}")
     print(f"  Output: {output_dir}")
@@ -534,7 +534,7 @@ def main():
         capture_output=True, text=True
     )
     html = result.stdout
-    print(f"    ✓ {len(html)} bytes")
+    print(f"    {len(html)} bytes")
     
     # Save raw HTML
     with open(os.path.join(output_dir, "homepage.html"), "w") as f:
@@ -544,7 +544,7 @@ def main():
     print("\n  [2/5] Parsing HTML structure (BeautifulSoup)...")
     parser = HTMLParser(html, url)
     structure = parser.extract_structure()
-    print(f"    ✓ {len(structure['sections'])} sections, {len(structure['scripts'])} scripts, {len(structure['images'])} images")
+    print(f"    {len(structure['sections'])} sections, {len(structure['scripts'])} scripts, {len(structure['images'])} images")
     
     # Save structure
     with open(os.path.join(output_dir, "structure.json"), "w") as f:
@@ -553,7 +553,7 @@ def main():
     # Step 3: Deobfuscate JS
     print("\n  [3/5] Deobfuscating JavaScript (webcrack)...")
     deobfuscated = extract_and_deobfuscate_scripts(html, output_dir)
-    print(f"    ✓ {len(deobfuscated)} scripts processed")
+    print(f"    {len(deobfuscated)} scripts processed")
     
     with open(os.path.join(output_dir, "deobfuscated-scripts.json"), "w") as f:
         json.dump(deobfuscated, f, indent=2, default=str)
@@ -561,7 +561,7 @@ def main():
     # Step 4: Mirror assets
     print(f"\n  [4/5] Mirroring assets (CSS/JS/images)...")
     mirrored = mirror_assets(html, url, output_dir, max_assets=30)
-    print(f"    ✓ {len(mirrored['downloaded'])} downloaded, {len(mirrored['failed'])} failed")
+    print(f"    {len(mirrored['downloaded'])} downloaded, {len(mirrored['failed'])} failed")
     
     with open(os.path.join(output_dir, "asset-mapping.json"), "w") as f:
         json.dump(mirrored, f, indent=2, default=str)
@@ -569,20 +569,20 @@ def main():
     # Step 5: Extract Liquid patterns
     print("\n  [5/5] Detecting Shopify Liquid patterns...")
     liquid_patterns = extract_liquid_patterns(html)
-    print(f"    ✓ Product cards: {liquid_patterns['product_loops']}")
-    print(f"    ✓ Cart forms: {liquid_patterns['cart_forms']}")
-    print(f"    ✓ Money patterns: {liquid_patterns['money_filters']}")
-    print(f"    ✓ Shopify CDN images: {liquid_patterns['image_filters']}")
+    print(f"    Product cards: {liquid_patterns['product_loops']}")
+    print(f"    Cart forms: {liquid_patterns['cart_forms']}")
+    print(f"    Money patterns: {liquid_patterns['money_filters']}")
+    print(f"    Shopify CDN images: {liquid_patterns['image_filters']}")
     
     with open(os.path.join(output_dir, "liquid-patterns.json"), "w") as f:
         json.dump(liquid_patterns, f, indent=2)
     
     # Summary
-    print(f"\n✅ DEEP EXTRACTION COMPLETE")
+    print(f"\nDEEP EXTRACTION COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/")
+    print(f"  Output: {output_dir}/")
     print()
-    print(f"📊 EXTRACTION SUMMARY:")
+    print(f"EXTRACTION SUMMARY:")
     print(f"  • HTML size:          {len(html):,} bytes")
     print(f"  • Shopify sections:   {len(structure['sections'])}")
     print(f"  • Scripts:            {len(structure['scripts'])}")
@@ -595,14 +595,14 @@ def main():
     print(f"  • Mirrored assets:    {len(mirrored['downloaded'])}")
     print(f"  • Liquid patterns:    {sum(liquid_patterns.values())}")
     print()
-    print(f"📂 FILES GENERATED:")
-    print(f"  • homepage.html — Raw HTML")
-    print(f"  • structure.json — Parsed HTML structure")
-    print(f"  • deobfuscated-scripts.json — Deobfuscated JS info")
-    print(f"  • asset-mapping.json — URL → local file mapping")
-    print(f"  • liquid-patterns.json — Detected Liquid patterns")
-    print(f"  • mirrored-assets/ — Downloaded CSS/JS/images")
-    print(f"  • deobfuscated-js/ — Deobfuscated JS files")
+    print(f"FILES GENERATED:")
+    print(f"  • homepage.html - Raw HTML")
+    print(f"  • structure.json - Parsed HTML structure")
+    print(f"  • deobfuscated-scripts.json - Deobfuscated JS info")
+    print(f"  • asset-mapping.json - URL local file mapping")
+    print(f"  • liquid-patterns.json - Detected Liquid patterns")
+    print(f"  • mirrored-assets/ - Downloaded CSS/JS/images")
+    print(f"  • deobfuscated-js/ - Deobfuscated JS files")
 
 
 if __name__ == "__main__":

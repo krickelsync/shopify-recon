@@ -1,5 +1,5 @@
 #!/bin/bash
-# 🔍 SHOPIFY LIQUID INSPECTOR v3 — Deep Liquid Structure Analysis
+# SHOPIFY LIQUID INSPECTOR v3 - Deep Liquid Structure Analysis
 # Extract theme metadata, products, collections, AND reverse-engineer Liquid structure
 # Kiro | 2026-06-21
 # Usage: ./shopify-liquid-inspector.sh <STORE_URL> [output_dir]
@@ -12,14 +12,14 @@ DOMAIN=""
 TIMEOUT=8
 
 if [ -z "$STORE_URL" ]; then
-  echo "❌ Usage: $0 <STORE_URL> [output_dir]"
+  echo "Usage: $0 <STORE_URL> [output_dir]"
   echo "   Example: $0 https://www.allbirds.com ./allbirds-extract"
   exit 1
 fi
 
 DOMAIN=$(echo "$STORE_URL" | sed 's|https\?://||' | cut -d'/' -f1)
 
-echo "🔍 SHOPIFY LIQUID INSPECTOR v3"
+echo "SHOPIFY LIQUID INSPECTOR v3"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  Store: $DOMAIN"
 echo "  Output: $OUTPUT_DIR"
@@ -41,9 +41,9 @@ echo "$RAW_THEME" > "$OUTPUT_DIR/homepage.html"
 if [ -s "$OUTPUT_DIR/theme-metadata.json" ] && [ "$(cat "$OUTPUT_DIR/theme-metadata.json")" != "{}" ]; then
   THEME_NAME=$(jq -r '.name // "Unknown"' "$OUTPUT_DIR/theme-metadata.json" 2>/dev/null || echo "Unknown")
   THEME_ID=$(jq -r '.id // "N/A"' "$OUTPUT_DIR/theme-metadata.json" 2>/dev/null || echo "N/A")
-  echo "    ✓ Theme: $THEME_NAME (ID: $THEME_ID)"
+  echo "    Theme: $THEME_NAME (ID: $THEME_ID)"
 else
-  echo "    ✓ Homepage captured"
+  echo "    Homepage captured"
 fi
 
 # [2] DETECT LIQUID TEMPLATES
@@ -54,7 +54,7 @@ echo "$RAW_THEME" | grep -oE 'template-[a-z0-9\-]*' | sort -u > "$OUTPUT_DIR/tem
 echo "$RAW_THEME" | grep -oE 'page-type[^"]*|data-template[^"]*' >> "$OUTPUT_DIR/templates/detected-templates.txt" 2>/dev/null || true
 
 TEMPLATE_COUNT=$(wc -l < "$OUTPUT_DIR/templates/detected-templates.txt" 2>/dev/null | tr -d ' ')
-echo "    ✓ Found $TEMPLATE_COUNT template hints"
+echo "    Found $TEMPLATE_COUNT template hints"
 
 # [3] EXTRACT SECTION ARCHITECTURE
 echo "[3/6] Analyzing section architecture..."
@@ -66,21 +66,21 @@ echo "$RAW_THEME" | grep -oE 'data-section-type="[^"]*"|data-section-id="[^"]*"'
 echo "$RAW_THEME" | grep -oE 'data-section-id="[^"]*"' | sed 's/data-section-id="\([^"]*\)"/\1/' | sort -u > "$OUTPUT_DIR/sections/section-ids.txt" 2>/dev/null || touch "$OUTPUT_DIR/sections/section-ids.txt"
 
 SECTION_COUNT=$(wc -l < "$OUTPUT_DIR/sections/section-ids.txt" 2>/dev/null | tr -d ' ')
-echo "    ✓ Detected $SECTION_COUNT sections"
+echo "    Detected $SECTION_COUNT sections"
 
 # [4] PRODUCTS API
 echo "[4/6] Fetching products catalog..."
 timeout $TIMEOUT curl -s "https://$DOMAIN/products.json?limit=250" -A "Mozilla/5.0" 2>/dev/null > "$OUTPUT_DIR/api/products.json" || echo '{"products":[]}' > "$OUTPUT_DIR/api/products.json"
 
 PRODUCT_COUNT=$(jq -r '.products | length' "$OUTPUT_DIR/api/products.json" 2>/dev/null || echo 0)
-echo "    ✓ Found $PRODUCT_COUNT products"
+echo "    Found $PRODUCT_COUNT products"
 
 # [5] COLLECTIONS API
 echo "[5/6] Fetching collections..."
 timeout $TIMEOUT curl -s "https://$DOMAIN/collections.json" -A "Mozilla/5.0" 2>/dev/null > "$OUTPUT_DIR/api/collections.json" || echo '{"collections":[]}' > "$OUTPUT_DIR/api/collections.json"
 
 COLLECTION_COUNT=$(jq -r '.collections | length' "$OUTPUT_DIR/api/collections.json" 2>/dev/null || echo 0)
-echo "    ✓ Found $COLLECTION_COUNT collections"
+echo "    Found $COLLECTION_COUNT collections"
 
 # [6] EXTRACT THEME ASSETS & GENERATE REPORT
 echo "[6/6] Extracting theme assets + generating report..."
@@ -94,7 +94,7 @@ ASSET_COUNT=$(wc -l < "$OUTPUT_DIR/asset-urls.txt" 2>/dev/null | tr -d ' ')
 
 # Generate comprehensive report
 cat > "$OUTPUT_DIR/LIQUID-ANALYSIS.md" << EOF
-# 🔍 Shopify Liquid Theme Deep Analysis
+# Shopify Liquid Theme Deep Analysis
 **Store:** $DOMAIN
 **Generated:** $(date)
 **Tool:** Shopify Liquid Inspector v3
@@ -127,10 +127,10 @@ cat >> "$OUTPUT_DIR/LIQUID-ANALYSIS.md" << EOF
 - **Theme Assets:** $ASSET_COUNT CSS/JS files
 
 ### Shopify APIs Accessible
-✅ /products.json — Full product catalog with variants, pricing, images
-✅ /collections.json — Collection metadata and structure
-✅ /cart.json — Shopping cart API
-✅ /search.json — Search API with query parameter
+/products.json - Full product catalog with variants, pricing, images
+/collections.json - Collection metadata and structure
+/cart.json - Shopping cart API
+/search.json - Search API with query parameter
 
 ---
 
@@ -156,9 +156,9 @@ $(cat "$OUTPUT_DIR/templates/detected-templates.txt" 2>/dev/null | head -20)
 - **Type:** Likely custom sections or legacy hardcoded sections
 
 ### What You Can Learn
-1. **Section Organization** — How theme builder sections are structured
-2. **Section IDs** — Unique identifiers for each rendered section block
-3. **Layout Pattern** — Homepage section arrangement and ordering
+1. **Section Organization** - How theme builder sections are structured
+2. **Section IDs** - Unique identifiers for each rendered section block
+3. **Layout Pattern** - Homepage section arrangement and ordering
 
 ### Section Markup Hints
 \`\`\`
@@ -226,37 +226,37 @@ From these assets, analyze:
 ## Reverse Engineering Possibilities
 
 ### 1. Clone Product Structure
-✅ **Use:** \`/products.json\` API data
-✅ **Extract:** Product metadata, images, pricing logic
-✅ **Create:** Product pages matching structure
+**Use:** \`/products.json\` API data
+**Extract:** Product metadata, images, pricing logic
+**Create:** Product pages matching structure
 
 ### 2. Replicate Layout
-✅ **Use:** HTML structure + section ordering
-✅ **Extract:** CSS styles from theme assets
-✅ **Build:** Homepage layout matches
+**Use:** HTML structure + section ordering
+**Extract:** CSS styles from theme assets
+**Build:** Homepage layout matches
 
 ### 3. Copy Features
-✅ **Use:** JavaScript asset analysis
-✅ **Extract:** Feature implementation patterns
-✅ **Adapt:** Logic to your own theme
+**Use:** JavaScript asset analysis
+**Extract:** Feature implementation patterns
+**Adapt:** Logic to your own theme
 
 ### 4. Understand Theme Architecture
-✅ **Use:** Template detection + section analysis
-✅ **Extract:** Theme's file structure blueprint
-✅ **Learn:** Best practices from established themes
+**Use:** Template detection + section analysis
+**Extract:** Theme's file structure blueprint
+**Learn:** Best practices from established themes
 
 ---
 
 ## Important Limitations
 
-❌ **Cannot Access:**
+**Cannot Access:**
 - Original \`.liquid\` template source files (compiled server-side)
 - Section schema definitions (\`schema.json\` blocks)
 - Theme \`config.json\` structure
 - Snippet code (unless inlined in HTML/JS)
 - Admin-only theme settings
 
-✅ **Can Access:**
+**Can Access:**
 - Compiled HTML output
 - Public API endpoints
 - Theme CSS/JS assets
@@ -273,16 +273,16 @@ This data is **publicly accessible** via:
 - CDN-served assets
 
 **Do's:**
-- ✅ Competitive analysis and research
-- ✅ Learning theme architecture
-- ✅ Reverse-engineering features for inspiration
-- ✅ Building your own original theme
+- Competitive analysis and research
+- Learning theme architecture
+- Reverse-engineering features for inspiration
+- Building your own original theme
 
 **Don'ts:**
-- ❌ Copying theme code wholesale for resale
-- ❌ Scraping and republishing others' data
-- ❌ Launching rapid API requests (DDoS-like behavior)
-- ❌ Violating robots.txt or terms of service
+- Copying theme code wholesale for resale
+- Scraping and republishing others' data
+- Launching rapid API requests (DDoS-like behavior)
+- Violating robots.txt or terms of service
 
 ---
 
@@ -355,25 +355,25 @@ $OUTPUT_DIR/
 
 ## Next Steps
 
-1. **Explore Products** → Analyze product structure and pricing model
-2. **Study Collections** → Understand categorization strategy
-3. **Inspect Assets** → Download CSS/JS and reverse-engineer features
-4. **Manual Inspection** → Open \`homepage.html\` in browser DevTools
-5. **Build Your Theme** → Use insights to create your own version
+1. **Explore Products** Analyze product structure and pricing model
+2. **Study Collections** Understand categorization strategy
+3. **Inspect Assets** Download CSS/JS and reverse-engineer features
+4. **Manual Inspection** Open \`homepage.html\` in browser DevTools
+5. **Build Your Theme** Use insights to create your own version
 
 ---
 
 Generated by **Shopify Liquid Inspector v3** | Kiro | 2026-06-21
 EOF
 
-echo "    ✓ Deep analysis report generated"
+echo "    Deep analysis report generated"
 
 echo ""
-echo "✅ LIQUID ANALYSIS COMPLETE"
+echo "LIQUID ANALYSIS COMPLETE"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📁 Output: $OUTPUT_DIR"
+echo "Output: $OUTPUT_DIR"
 echo ""
-echo "📊 Summary:"
+echo "Summary:"
 echo "   • Theme: $(jq -r '.name // "N/A"' "$OUTPUT_DIR/theme-metadata.json" 2>/dev/null || echo "N/A")"
 echo "   • Products: $PRODUCT_COUNT"
 echo "   • Collections: $COLLECTION_COUNT"
@@ -381,16 +381,16 @@ echo "   • Sections: $SECTION_COUNT"
 echo "   • Templates: $TEMPLATE_COUNT"
 echo "   • Assets: $ASSET_COUNT CSS/JS files"
 echo ""
-echo "📄 Reports:"
-echo "   • $OUTPUT_DIR/LIQUID-ANALYSIS.md — Full deep analysis"
-echo "   • $OUTPUT_DIR/homepage.html — Raw homepage HTML"
+echo "Reports:"
+echo "   • $OUTPUT_DIR/LIQUID-ANALYSIS.md - Full deep analysis"
+echo "   • $OUTPUT_DIR/homepage.html - Raw homepage HTML"
 echo ""
-echo "💾 Data:"
-echo "   • $OUTPUT_DIR/api/products.json — $PRODUCT_COUNT products"
-echo "   • $OUTPUT_DIR/api/collections.json — $COLLECTION_COUNT collections"
-echo "   • $OUTPUT_DIR/asset-urls.txt — $ASSET_COUNT theme assets"
+echo "Data:"
+echo "   • $OUTPUT_DIR/api/products.json - $PRODUCT_COUNT products"
+echo "   • $OUTPUT_DIR/api/collections.json - $COLLECTION_COUNT collections"
+echo "   • $OUTPUT_DIR/asset-urls.txt - $ASSET_COUNT theme assets"
 echo ""
-echo "🚀 Start Here:"
+echo "Start Here:"
 echo "   cat $OUTPUT_DIR/LIQUID-ANALYSIS.md"
 echo "   jq '.products[0]' $OUTPUT_DIR/api/products.json"
 echo "   open $OUTPUT_DIR/homepage.html"

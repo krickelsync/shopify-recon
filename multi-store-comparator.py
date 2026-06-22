@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-📊 MULTI-STORE COMPARATOR — Competitive Intelligence Dashboard
+MULTI-STORE COMPARATOR - Competitive Intelligence Dashboard
 Batch analyze multiple Shopify stores, compare side-by-side
 Part of Shopify Clone Toolkit v3 | Kiro | 2026-06-21
 
@@ -24,7 +24,7 @@ INSPECTOR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "shopi
 
 def fetch_store_data(url, output_dir):
     """Run liquid inspector on a store and return extracted data"""
-    print(f"  🔍 Extracting: {url}")
+    print(f"  Extracting: {url}")
     
     # Ensure URL has protocol
     if not url.startswith("http"):
@@ -37,7 +37,7 @@ def fetch_store_data(url, output_dir):
     )
     
     if result.returncode != 0:
-        print(f"  ⚠️  Inspector warning for {url}")
+        print(f"   Inspector warning for {url}")
     
     # Load extracted data
     data = {"url": url, "timestamp": datetime.now().isoformat()}
@@ -78,7 +78,7 @@ def fetch_store_data(url, output_dir):
     else:
         data["homepage_html"] = ""
     
-    print(f"  ✅ {url}: {len(data['products'])} products, {len(data['collections'])} collections")
+    print(f"  {url}: {len(data['products'])} products, {len(data['collections'])} collections")
     return data
 
 
@@ -183,14 +183,14 @@ def generate_comparison_dashboard(metrics_list, output_dir):
     # Generate Markdown dashboard
     md_path = os.path.join(output_dir, "COMPETITIVE-DASHBOARD.md")
     with open(md_path, "w") as f:
-        f.write(f"""# 📊 Competitive Intelligence Dashboard
+        f.write(f"""# Competitive Intelligence Dashboard
 
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 Stores analyzed: {len(metrics_list)}
 
 ---
 
-## 📈 Side-by-Side Comparison
+## Side-by-Side Comparison
 
 | Metric | """ + " | ".join(m["url"].replace("https://", "").replace("http://", "") for m in metrics_list) + " |\n")
         f.write("|--------|" + "|".join(["--------"] * len(metrics_list)) + "|\n")
@@ -223,7 +223,7 @@ Stores analyzed: {len(metrics_list)}
             f.write(f"| **{label}** | " + " | ".join(values) + " |\n")
         
         # Section types per store
-        f.write("\n---\n\n## 🏗️ Section Types Detected\n\n")
+        f.write("\n---\n\n## Section Types Detected\n\n")
         for m in metrics_list:
             store_name = m["url"].replace("https://", "").replace("http://", "")
             f.write(f"### {store_name}\n")
@@ -235,7 +235,7 @@ Stores analyzed: {len(metrics_list)}
             f.write("\n")
         
         # Templates
-        f.write("## 📄 Templates Detected\n\n")
+        f.write("## Templates Detected\n\n")
         for m in metrics_list:
             store_name = m["url"].replace("https://", "").replace("http://", "")
             f.write(f"### {store_name}\n")
@@ -247,7 +247,7 @@ Stores analyzed: {len(metrics_list)}
             f.write("\n")
         
         # Product types
-        f.write("## 🏷️ Top Product Types\n\n")
+        f.write("## Top Product Types\n\n")
         for m in metrics_list:
             store_name = m["url"].replace("https://", "").replace("http://", "")
             f.write(f"### {store_name}\n")
@@ -256,7 +256,7 @@ Stores analyzed: {len(metrics_list)}
             f.write("\n")
         
         # Vendors
-        f.write("## 🏢 Top Vendors\n\n")
+        f.write("## Top Vendors\n\n")
         for m in metrics_list:
             store_name = m["url"].replace("https://", "").replace("http://", "")
             f.write(f"### {store_name}\n")
@@ -265,46 +265,46 @@ Stores analyzed: {len(metrics_list)}
             f.write("\n")
         
         # Winner analysis
-        f.write("## 🏆 Competitive Rankings\n\n")
+        f.write("## Competitive Rankings\n\n")
         
         # Most products
         f.write("### Most Products\n")
         sorted_by_products = sorted(metrics_list, key=lambda x: x["total_products"], reverse=True)
         for i, m in enumerate(sorted_by_products, 1):
-            f.write(f"{i}. {m['url']} — {m['total_products']} products\n")
+            f.write(f"{i}. {m['url']} - {m['total_products']} products\n")
         
         f.write("\n### Highest Avg Price\n")
         sorted_by_price = sorted(metrics_list, key=lambda x: x["price_avg"], reverse=True)
         for i, m in enumerate(sorted_by_price, 1):
-            f.write(f"{i}. {m['url']} — ${m['price_avg']:.2f}\n")
+            f.write(f"{i}. {m['url']} - ${m['price_avg']:.2f}\n")
         
         f.write("\n### Most Sections (most complex theme)\n")
         sorted_by_sections = sorted(metrics_list, key=lambda x: x["section_count"], reverse=True)
         for i, m in enumerate(sorted_by_sections, 1):
-            f.write(f"{i}. {m['url']} — {m['section_count']} sections\n")
+            f.write(f"{i}. {m['url']} - {m['section_count']} sections\n")
         
         f.write("\n### Best Availability\n")
         sorted_by_avail = sorted(metrics_list, key=lambda x: x["availability_rate"], reverse=True)
         for i, m in enumerate(sorted_by_avail, 1):
-            f.write(f"{i}. {m['url']} — {m['availability_rate']}%\n")
+            f.write(f"{i}. {m['url']} - {m['availability_rate']}%\n")
         
         f.write("\n### Most Aggressive Discounts\n")
         sorted_by_disc = sorted(metrics_list, key=lambda x: x["discount_rate"], reverse=True)
         for i, m in enumerate(sorted_by_disc, 1):
-            f.write(f"{i}. {m['url']} — {m['discount_rate']}% discounted\n")
+            f.write(f"{i}. {m['url']} - {m['discount_rate']}% discounted\n")
         
         f.write("\n---\n\n*Generated by Multi-Store Comparator v1*\n")
     
-    print(f"\n✅ DASHBOARD GENERATED")
+    print(f"\nDASHBOARD GENERATED")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/")
-    print(f"  📄 comparison.json — Full structured data")
-    print(f"  📄 comparison.csv — Spreadsheet-ready")
-    print(f"  📄 COMPETITIVE-DASHBOARD.md — Human-readable report")
+    print(f"  Output: {output_dir}/")
+    print(f"  comparison.json - Full structured data")
+    print(f"  comparison.csv - Spreadsheet-ready")
+    print(f"  COMPETITIVE-DASHBOARD.md - Human-readable report")
     print()
     
     # Print summary
-    print("📊 QUICK COMPARISON:")
+    print("QUICK COMPARISON:")
     print(f"{'Store':<30} {'Products':>8} {'Avg $':>8} {'Sections':>8} {'Avail %':>8}")
     print("-" * 70)
     for m in metrics_list:
@@ -314,7 +314,7 @@ Stores analyzed: {len(metrics_list)}
 
 def main():
     if len(sys.argv) < 2:
-        print("📊 MULTI-STORE COMPARATOR")
+        print("MULTI-STORE COMPARATOR")
         print("━" * 69)
         print()
         print("Usage:")
@@ -335,10 +335,10 @@ def main():
         stores = sys.argv[1:]
     
     if not stores:
-        print("❌ No stores provided")
+        print("No stores provided")
         sys.exit(1)
     
-    print("📊 MULTI-STORE COMPARATOR")
+    print("MULTI-STORE COMPARATOR")
     print("━" * 69)
     print(f"  Stores to analyze: {len(stores)}")
     for s in stores:
@@ -350,7 +350,7 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
     
     # Fetch data for each store
-    print("📡 Phase 1: Extracting data from stores...\n")
+    print("Phase 1: Extracting data from stores...\n")
     all_data = []
     for i, store_url in enumerate(stores):
         print(f"  [{i+1}/{len(stores)}] Processing {store_url}")
@@ -359,7 +359,7 @@ def main():
         # Skip if already extracted
         products_check = os.path.join(store_output, "api", "products.json")
         if os.path.exists(products_check):
-            print(f"  ♻️  Using cached data for {store_url}")
+            print(f"   Using cached data for {store_url}")
             data = {"url": store_url if store_url.startswith("http") else "https://" + store_url}
             
             with open(products_check) as f:
@@ -394,14 +394,14 @@ def main():
         print()
     
     # Compute metrics
-    print("📊 Phase 2: Computing comparison metrics...\n")
+    print("Phase 2: Computing comparison metrics...\n")
     metrics_list = []
     for data in all_data:
         metrics = compute_store_metrics(data)
         metrics_list.append(metrics)
     
     # Generate dashboard
-    print("📊 Phase 3: Generating dashboard...\n")
+    print("Phase 3: Generating dashboard...\n")
     generate_comparison_dashboard(metrics_list, output_dir)
 
 

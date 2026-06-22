@@ -1,19 +1,19 @@
-# 🛠️ COMPLETE TOOLKIT — Extract Code Dalaman dari Website
+# COMPLETE TOOLKIT - Extract Code Dalaman dari Website
 **Semua Tools Installed & Ready | Kiro | 2026-06-21**
 
 ---
 
-## ✅ TOOLS INSTALLED (3 Deobfuscators Ready)
+## TOOLS INSTALLED (3 Deobfuscators Ready)
 
 | Tool | Purpose | Status | Command |
 |------|---------|--------|---------|
-| **webcrack** | Unbundle + deobfuscate JS | ✅ Ready | `webcrack file.js --output clean.js` |
-| **javascript-deobfuscator** | General deobfuscation | ✅ Ready | `javascript-deobfuscator < file.js > clean.js` |
-| **js-deobfuscator** | AST-based deobfuscation | ✅ Ready | `js-deobfuscator file.js > clean.js` |
+| **webcrack** | Unbundle + deobfuscate JS | Ready | `webcrack file.js --output clean.js` |
+| **javascript-deobfuscator** | General deobfuscation | Ready | `javascript-deobfuscator < file.js > clean.js` |
+| **js-deobfuscator** | AST-based deobfuscation | Ready | `js-deobfuscator file.js > clean.js` |
 
 ---
 
-## 🔬 3 EXTRACTION WORKFLOWS AVAILABLE
+## 3 EXTRACTION WORKFLOWS AVAILABLE
 
 ### Workflow 1: Website Code Inspector (Framework Detection)
 **Extract HTML, CSS, JS + detect tech stack**
@@ -23,11 +23,11 @@
 ```
 
 **Output:**
-- `source.html` — Full HTML source
-- `css/` — Stylesheets
-- `js/` — JavaScript (raw + deobfuscated)
-- `tech-report.txt` — Framework detection (Shopify/React/Vue/etc)
-- `analysis.json` — Structured data
+- `source.html` - Full HTML source
+- `css/` - Stylesheets
+- `js/` - JavaScript (raw + deobfuscated)
+- `tech-report.txt` - Framework detection (Shopify/React/Vue/etc)
+- `analysis.json` - Structured data
 
 **Example:**
 ```bash
@@ -45,11 +45,11 @@ cat ./extract/tech-report.txt
 ```
 
 **Output:**
-- `raw/` — Original JS files
-- `deobfuscated/` — Readable JS (webcrack + deobfuscators)
-- `extracted-logic/` — API endpoints, functions, potential secrets
-- `analysis/REPORT.md` — Full analysis report
-- `SUMMARY.txt` — Quick reference
+- `raw/` - Original JS files
+- `deobfuscated/` - Readable JS (webcrack + deobfuscators)
+- `extracted-logic/` - API endpoints, functions, potential secrets
+- `analysis/REPORT.md` - Full analysis report
+- `SUMMARY.txt` - Quick reference
 
 **Example:**
 ```bash
@@ -77,7 +77,7 @@ js-deobfuscator minified.js > readable.js
 
 ---
 
-## 🎯 REAL EXAMPLE: What You Get
+## REAL EXAMPLE: What You Get
 
 ### Input: Obfuscated JavaScript
 ```javascript
@@ -106,7 +106,7 @@ var _0x5a46 = ["length", "split"];
 
 ---
 
-## 📋 COMMON USE CASES
+## COMMON USE CASES
 
 ### Use Case 1: Understand Competitor's Feature Logic
 ```bash
@@ -140,7 +140,7 @@ grep "/products\|/api/cart\|/checkout" ./analysis/deobfuscated/*.js
 # Check potential secrets
 cat ./analysis/extracted-logic/potential-keys.txt
 
-# ⚠️ Note: Usually public keys or test credentials, not actual secrets
+# Note: Usually public keys or test credentials, not actual secrets
 ```
 
 ### Use Case 4: Learn from Reference Code
@@ -155,7 +155,7 @@ cat featured-products.liquid
 
 ---
 
-## ⚠️ IMPORTANT LIMITATIONS
+## IMPORTANT LIMITATIONS
 
 | Limitation | Reason | Workaround |
 |-----------|--------|-----------|
@@ -167,7 +167,7 @@ cat featured-products.liquid
 
 ---
 
-## 🚀 QUICK START COMMANDS
+## QUICK START COMMANDS
 
 ```bash
 # 1. Extract website code (framework detection)
@@ -192,31 +192,31 @@ cat ./main-readable.js
 
 ---
 
-## 📚 REFERENCE: Tools Available
+## REFERENCE: Tools Available
 
 ### Official Shopify Tools
-- `shopify` CLI — Theme management (v4.2.0 installed)
-- `shopify-theme-inspector` — Chrome DevTools for Liquid profiling
+- `shopify` CLI - Theme management (v4.2.0 installed)
+- `shopify-theme-inspector` - Chrome DevTools for Liquid profiling
 
 ### Code Extraction Tools (Installed)
-- `webcrack` — Unbundle + deobfuscate (2742⭐)
-- `javascript-deobfuscator` — General deobfuscator (1129⭐)
-- `js-deobfuscator` — AST-based deobfuscator (1142⭐)
+- `webcrack` - Unbundle + deobfuscate (2742)
+- `javascript-deobfuscator` - General deobfuscator (1129)
+- `js-deobfuscator` - AST-based deobfuscator (1142)
 
 ### Custom Scripts (Created)
-- `/home/ubuntu/tools/website-code-inspector.sh` — Framework detection + code download
-- `/home/ubuntu/tools/deep-code-extractor.sh` — Full pipeline: download + deobfuscate + analyze
+- `/home/ubuntu/tools/website-code-inspector.sh` - Framework detection + code download
+- `/home/ubuntu/tools/deep-code-extractor.sh` - Full pipeline: download + deobfuscate + analyze
 
 ### Reference Themes (Clone from GitHub)
-- `Shopify/dawn` (3021⭐) — Official reference
-- `Shopify/skeleton-theme` (737⭐) — Minimal scaffold
-- `Shopify/Timber` (1171⭐) — Advanced framework
+- `Shopify/dawn` (3021) - Official reference
+- `Shopify/skeleton-theme` (737) - Minimal scaffold
+- `Shopify/Timber` (1171) - Advanced framework
 
 ---
 
-## 💡 WORKFLOW FOR LU (elpatron)
+## WORKFLOW FOR LU (elpatron)
 
-**Goal: Extract logic from website → Adapt to SYNC theme**
+**Goal: Extract logic from website Adapt to SYNC theme**
 
 ### Step 1: Extract & Analyze
 ```bash
@@ -254,7 +254,7 @@ shopify theme push --store krickel.myshopify.com --theme 161562329345
 
 ---
 
-## ✅ DELIVERABLES YOU NOW HAVE
+## DELIVERABLES YOU NOW HAVE
 
 | Item | Location | Use |
 |------|----------|-----|
@@ -266,7 +266,7 @@ shopify theme push --store krickel.myshopify.com --theme 161562329345
 
 ---
 
-## 🎓 NEXT STEPS
+## NEXT STEPS
 
 **Choose one:**
 
@@ -293,4 +293,4 @@ shopify theme push --store krickel.myshopify.com --theme 161562329345
 
 ---
 
-**Bro, lu siap? Drop target URL atau feature yang mau lu analyze.** 🚀
+**Bro, lu siap? Drop target URL atau feature yang mau lu analyze.**

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-📊 SHOPIFY RECON — Beautiful TUI Dashboard
+SHOPIFY RECON - Beautiful TUI Dashboard
 Rich-powered terminal UI for store intelligence display
 Part of Shopify Recon | 2026-06-21
 """
@@ -37,14 +37,14 @@ def render_header(store_name):
     header = Text()
     header.append("╔═══════════════════════════════════════════════════════════════╗\n", style="cyan")
     header.append("║  ", style="cyan")
-    header.append("🔍 SHOPIFY RECON", style="bold cyan")
-    header.append(" — Store Intelligence Report", style="white")
+    header.append("SHOPIFY RECON", style="bold cyan")
+    header.append(" - Store Intelligence Report", style="white")
     # Pad to fill
     remaining = 61 - 31 - len(store_name)
     header.append(" " * max(0, 28), style="cyan")
     header.append("║\n", style="cyan")
     header.append("╠═══════════════════════════════════════════════════════════════╣\n", style="cyan")
-    header.append(f"║  🏪 Store: ", style="cyan")
+    header.append(f"║  Store: ", style="cyan")
     header.append(store_name, style="bold white")
     header.append(" " * max(0, 61 - 11 - len(store_name)), style="cyan")
     header.append("║\n", style="cyan")
@@ -62,23 +62,23 @@ def render_theme_dna(dna):
     table.add_column("label", style="label", width=20)
     table.add_column("value", style="value")
     
-    table.add_row("🎨 Detected Theme", dna.get("detected_theme", "Unknown"))
-    table.add_row("🏢 Developer", dna.get("developer", "Unknown"))
-    table.add_row("💰 Price", dna.get("price", "Unknown"))
-    table.add_row("🔒 Custom Build", "Yes" if dna.get("is_custom") else "No (Theme Store)")
-    table.add_row("🎭 Customization", dna.get("customization_level", "Unknown"))
-    table.add_row("📊 Confidence", f"[{bar}] {confidence}%")
+    table.add_row("Detected Theme", dna.get("detected_theme", "Unknown"))
+    table.add_row("Developer", dna.get("developer", "Unknown"))
+    table.add_row("Price", dna.get("price", "Unknown"))
+    table.add_row("Custom Build", "Yes" if dna.get("is_custom") else "No (Theme Store)")
+    table.add_row("Customization", dna.get("customization_level", "Unknown"))
+    table.add_row("Confidence", f"[{bar}] {confidence}%")
     
     if dna.get("schema_name"):
-        table.add_row("📋 Schema Name", dna["schema_name"])
+        table.add_row("Schema Name", dna["schema_name"])
     if dna.get("schema_version"):
-        table.add_row("📋 Schema Version", dna["schema_version"])
+        table.add_row("Schema Version", dna["schema_version"])
     if dna.get("theme_name_raw"):
-        table.add_row("📋 Raw Theme Name", dna["theme_name_raw"])
+        table.add_row("Raw Theme Name", dna["theme_name_raw"])
     
-    table.add_row("🏗️ Sections", str(dna.get("section_count", 0)))
+    table.add_row("Sections", str(dna.get("section_count", 0)))
     
-    console.print(Panel(table, title="[bold magenta]🧬 Theme DNA[/]", border_style="magenta", padding=(1, 2)))
+    console.print(Panel(table, title="[bold magenta]Theme DNA[/]", border_style="magenta", padding=(1, 2)))
 
 
 def render_tech_stack(tech_stack):
@@ -99,9 +99,9 @@ def render_tech_stack(tech_stack):
         elif "Shopify" in tech:
             color = "green"
         
-        tech_text.append(f"  ⚡ {tech}\n", style=color)
+        tech_text.append(f"  {tech}\n", style=color)
     
-    console.print(Panel(tech_text, title="[bold cyan]🔧 Tech Stack[/]", border_style="cyan", padding=(1, 2)))
+    console.print(Panel(tech_text, title="[bold cyan]Tech Stack[/]", border_style="cyan", padding=(1, 2)))
 
 
 def render_store_stats(products_data, collections_data):
@@ -131,15 +131,15 @@ def render_store_stats(products_data, collections_data):
     table.add_column("label", style="label", width=20)
     table.add_column("value", style="value")
     
-    table.add_row("📦 Products", str(len(products)))
-    table.add_row("📂 Collections", str(len(collections)))
-    table.add_row("🔄 Total Variants", str(total_variants))
-    table.add_row("💰 Min Price", f"${min_price:.2f}")
-    table.add_row("💰 Max Price", f"${max_price:.2f}")
-    table.add_row("💰 Avg Price", f"${avg_price:.2f}")
-    table.add_row("📈 Availability", f"{avail_pct:.1f}%")
+    table.add_row("Products", str(len(products)))
+    table.add_row("Collections", str(len(collections)))
+    table.add_row("Total Variants", str(total_variants))
+    table.add_row("Min Price", f"${min_price:.2f}")
+    table.add_row("Max Price", f"${max_price:.2f}")
+    table.add_row("Avg Price", f"${avg_price:.2f}")
+    table.add_row("Availability", f"{avail_pct:.1f}%")
     
-    console.print(Panel(table, title="[bold green]📊 Store Statistics[/]", border_style="green", padding=(1, 2)))
+    console.print(Panel(table, title="[bold green]Store Statistics[/]", border_style="green", padding=(1, 2)))
 
 
 def render_design_system(colors, fonts, css_vars_count):
@@ -148,18 +148,18 @@ def render_design_system(colors, fonts, css_vars_count):
     table.add_column("label", style="label", width=20)
     table.add_column("value", style="value")
     
-    table.add_row("🎨 Unique Colors", str(len(colors)))
-    table.add_row("✍️ Font Families", str(len(fonts)))
-    table.add_row("🔧 CSS Variables", str(css_vars_count))
+    table.add_row("Unique Colors", str(len(colors)))
+    table.add_row("Font Families", str(len(fonts)))
+    table.add_row("CSS Variables", str(css_vars_count))
     
     # Show top colors as swatches (text representation)
     if colors:
         color_text = Text()
         for i, (color, count) in enumerate(colors[:5]):
             color_text.append(f"  ● {color} ({count}x)\n", style="white")
-        table.add_row("🔝 Top Colors", "")
+        table.add_row("Top Colors", "")
     
-    console.print(Panel(table, title="[bold yellow]🎨 Design System[/]", border_style="yellow", padding=(1, 2)))
+    console.print(Panel(table, title="[bold yellow]Design System[/]", border_style="yellow", padding=(1, 2)))
 
 
 def render_cart_flow(cart_data):
@@ -169,27 +169,27 @@ def render_cart_flow(cart_data):
     table.add_column("value", style="value")
     
     cart_types = cart_data.get("cart_type", ["unknown"])
-    table.add_row("🛒 Cart Type", ", ".join(cart_types))
+    table.add_row("Cart Type", ", ".join(cart_types))
     
     payments = cart_data.get("payment_methods", [])
     payment_names = [p["method"] for p in payments]
-    table.add_row("💳 Payments", ", ".join(payment_names) if payment_names else "None detected")
+    table.add_row("Payments", ", ".join(payment_names) if payment_names else "None detected")
     
     checkout = cart_data.get("checkout_flow", {})
-    table.add_row("🚀 Express Checkout", "✅ Yes" if checkout.get("has_express_checkout") else "❌ No")
-    table.add_row("🏪 Shopify Checkout", "✅ Yes" if checkout.get("has_shopify_checkout") else "❌ No")
+    table.add_row("Express Checkout", "Yes" if checkout.get("has_express_checkout") else "No")
+    table.add_row("Shopify Checkout", "Yes" if checkout.get("has_shopify_checkout") else "No")
     
     product_flow = cart_data.get("product_flow", {})
-    table.add_row("🎨 Variant Selector", product_flow.get("variant_selector", "unknown"))
-    table.add_row("⚡ Dynamic Checkout", "✅" if product_flow.get("dynamic_checkout") else "❌")
+    table.add_row("Variant Selector", product_flow.get("variant_selector", "unknown"))
+    table.add_row("Dynamic Checkout", "" if product_flow.get("dynamic_checkout") else "")
     
-    console.print(Panel(table, title="[bold red]🛒 Cart & Checkout Flow[/]", border_style="red", padding=(1, 2)))
+    console.print(Panel(table, title="[bold red]Cart & Checkout Flow[/]", border_style="red", padding=(1, 2)))
 
 
 def render_apps(apps):
     """Render detected third-party apps"""
     if not apps:
-        console.print(Panel("[dim]No third-party apps detected[/]", title="[bold blue]📦 Third-Party Apps[/]", border_style="blue", padding=(1, 2)))
+        console.print(Panel("[dim]No third-party apps detected[/]", title="[bold blue]Third-Party Apps[/]", border_style="blue", padding=(1, 2)))
         return
     
     table = Table(show_header=True, box=box.ROUNDED, padding=(0, 1))
@@ -199,7 +199,7 @@ def render_apps(apps):
     for app in apps:
         table.add_row(app["app"], str(app["references"]))
     
-    console.print(Panel(table, title="[bold blue]📦 Third-Party Apps Detected[/]", border_style="blue", padding=(1, 2)))
+    console.print(Panel(table, title="[bold blue]Third-Party Apps Detected[/]", border_style="blue", padding=(1, 2)))
 
 
 def render_fingerprint_matches(matches):
@@ -216,7 +216,7 @@ def render_fingerprint_matches(matches):
     for m in matches[:5]:
         table.add_row(m["name"], m["developer"], m["price"], str(m["score"]))
     
-    console.print(Panel(table, title="[bold magenta]🧬 Theme Fingerprint Matches[/]", border_style="magenta", padding=(1, 2)))
+    console.print(Panel(table, title="[bold magenta]Theme Fingerprint Matches[/]", border_style="magenta", padding=(1, 2)))
 
 
 def render_footer():

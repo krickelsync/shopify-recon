@@ -1,6 +1,6 @@
 #!/bin/bash
-# 🎨 SHOPIFY LIQUID THEME CONVERTER — Generate Shopify Theme from Extraction
-# Converts competitor theme structure → production-ready Shopify Liquid theme
+# SHOPIFY LIQUID THEME CONVERTER - Generate Shopify Theme from Extraction
+# Converts competitor theme structure production-ready Shopify Liquid theme
 # Kiro | 2026-06-21
 # Usage: ./shopify-theme-converter.sh ./extracted-data ./output-theme
 
@@ -10,11 +10,11 @@ INPUT_DIR="${1:-./_shopify-liquid}"
 OUTPUT_DIR="${2:-./_shopify-theme}"
 
 if [ ! -f "$INPUT_DIR/api/products.json" ]; then
-  echo "❌ Input directory must contain Liquid Inspector extraction"
+  echo "Input directory must contain Liquid Inspector extraction"
   exit 1
 fi
 
-echo "🎨 SHOPIFY LIQUID THEME CONVERTER"
+echo "SHOPIFY LIQUID THEME CONVERTER"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  Input: $INPUT_DIR"
 echo "  Output: $OUTPUT_DIR"
@@ -71,7 +71,7 @@ cat > "$OUTPUT_DIR/config/settings_schema.json" << 'EOF'
 ]
 EOF
 
-echo "    ✓ config/settings_schema.json"
+echo "    config/settings_schema.json"
 
 # 2. Generate theme.liquid (main layout)
 cat > "$OUTPUT_DIR/layout/theme.liquid" << 'EOF'
@@ -81,7 +81,7 @@ cat > "$OUTPUT_DIR/layout/theme.liquid" << 'EOF'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{ page_title }}{% if page %} – {{ shop.name }}{% endif %}</title>
+  <title>{{ page_title }}{% if page %} - {{ shop.name }}{% endif %}</title>
   <meta name="description" content="{{ page_description | escape }}">
   
   {{ content_for_header }}
@@ -143,7 +143,7 @@ cat > "$OUTPUT_DIR/layout/theme.liquid" << 'EOF'
 </html>
 EOF
 
-echo "    ✓ layout/theme.liquid"
+echo "    layout/theme.liquid"
 
 # 3. Generate index.liquid (homepage template)
 cat > "$OUTPUT_DIR/templates/index.liquid" << 'EOF'
@@ -164,7 +164,7 @@ cat > "$OUTPUT_DIR/templates/index.liquid" << 'EOF'
 </div>
 EOF
 
-echo "    ✓ templates/index.liquid"
+echo "    templates/index.liquid"
 echo "[2/5] Creating product templates..."
 
 # 4. Generate product.liquid (product page template)
@@ -208,7 +208,7 @@ cat > "$OUTPUT_DIR/templates/product.liquid" << 'EOF'
 </div>
 EOF
 
-echo "    ✓ templates/product.liquid"
+echo "    templates/product.liquid"
 
 # 5. Generate collection.liquid (collection page template)
 cat > "$OUTPUT_DIR/templates/collection.liquid" << 'COLLEOF'
@@ -224,7 +224,7 @@ cat > "$OUTPUT_DIR/templates/collection.liquid" << 'COLLEOF'
 </div>
 COLLEOF
 
-echo "    ✓ templates/collection.liquid"
+echo "    templates/collection.liquid"
 echo "[3/5] Creating snippets..."
 
 # 6. Generate product-card snippet
@@ -254,7 +254,7 @@ cat > "$OUTPUT_DIR/snippets/product-card.liquid" << 'SNIPPETEOF'
 </div>
 SNIPPETEOF
 
-echo "    ✓ snippets/product-card.liquid"
+echo "    snippets/product-card.liquid"
 
 # 7. Generate header navigation snippet
 cat > "$OUTPUT_DIR/snippets/header-nav.liquid" << 'NAVEOF'
@@ -267,7 +267,7 @@ cat > "$OUTPUT_DIR/snippets/header-nav.liquid" << 'NAVEOF'
 </nav>
 NAVEOF
 
-echo "    ✓ snippets/header-nav.liquid"
+echo "    snippets/header-nav.liquid"
 
 # 8. Generate breadcrumbs snippet
 cat > "$OUTPUT_DIR/snippets/breadcrumbs.liquid" << 'BREADEOF'
@@ -280,7 +280,7 @@ cat > "$OUTPUT_DIR/snippets/breadcrumbs.liquid" << 'BREADEOF'
 </nav>
 BREADEOF
 
-echo "    ✓ snippets/breadcrumbs.liquid"
+echo "    snippets/breadcrumbs.liquid"
 
 # 9. Generate footer snippet
 cat > "$OUTPUT_DIR/snippets/footer.liquid" << 'FOOTEOF'
@@ -315,7 +315,7 @@ cat > "$OUTPUT_DIR/snippets/footer.liquid" << 'FOOTEOF'
 </footer>
 FOOTEOF
 
-echo "    ✓ snippets/footer.liquid"
+echo "    snippets/footer.liquid"
 echo "[4/5] Creating section stubs..."
 
 # 10. Generate hero section
@@ -347,7 +347,7 @@ cat > "$OUTPUT_DIR/sections/hero.liquid" << 'HEROEOF'
 </div>
 HEROEOF
 
-echo "    ✓ sections/hero.liquid"
+echo "    sections/hero.liquid"
 
 echo "[5/5] Creating theme metadata..."
 
@@ -369,7 +369,7 @@ cat > "$OUTPUT_DIR/config/settings_data.json" << 'CONFIGEOF'
 }
 CONFIGEOF
 
-echo "    ✓ config/settings_data.json"
+echo "    config/settings_data.json"
 
 # 12. Create theme.toml for Shopify CLI
 cat > "$OUTPUT_DIR/theme.toml" << 'TOMLEOF'
@@ -388,23 +388,23 @@ path = "node_modules"
 path = ".git"
 TOMLEOF
 
-echo "    ✓ theme.toml (Shopify CLI config)"
+echo "    theme.toml (Shopify CLI config)"
 
 echo ""
-echo "✅ LIQUID THEME CONVERSION COMPLETE"
+echo "LIQUID THEME CONVERSION COMPLETE"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📁 Theme: $OUTPUT_DIR"
+echo "Theme: $OUTPUT_DIR"
 echo ""
-echo "📂 Theme Structure:"
-echo "   • layout/theme.liquid — Main layout wrapper"
-echo "   • templates/index.liquid — Homepage"
-echo "   • templates/product.liquid — Product page"
-echo "   • templates/collection.liquid — Collection page"
-echo "   • snippets/ — Reusable components"
-echo "   • sections/ — Theme builder sections"
-echo "   • config/ — Theme settings"
+echo "Theme Structure:"
+echo "   • layout/theme.liquid - Main layout wrapper"
+echo "   • templates/index.liquid - Homepage"
+echo "   • templates/product.liquid - Product page"
+echo "   • templates/collection.liquid - Collection page"
+echo "   • snippets/ - Reusable components"
+echo "   • sections/ - Theme builder sections"
+echo "   • config/ - Theme settings"
 echo ""
-echo "🚀 Deploy to Shopify:"
+echo "Deploy to Shopify:"
 echo "   # Install Shopify CLI if not already installed"
 echo "   npm install -g @shopify/cli @shopify/theme"
 echo ""
@@ -414,10 +414,10 @@ echo ""
 echo "   # Push to store"
 echo "   shopify theme push --store=YOUR_STORE.myshopify.com --path=$OUTPUT_DIR"
 echo ""
-echo "💡 Next Steps:"
+echo "Next Steps:"
 echo "   1. Edit templates/product.liquid with your branding"
 echo "   2. Customize colors in config/settings_schema.json"
 echo "   3. Add your own sections"
 echo "   4. Deploy to test store"
 echo ""
-echo "✨ Theme generated and ready for deployment!"
+echo "Theme generated and ready for deployment!"

@@ -1,13 +1,13 @@
-# 🎯 SHOPIFY LIQUID INSPECTOR TOOLKIT — FINAL DELIVERY
+# SHOPIFY LIQUID INSPECTOR TOOLKIT - FINAL DELIVERY
 **Kiro | 2026-06-21**
 
 ---
 
-## ✅ WHAT YOU GOT
+## WHAT YOU GOT
 
 ### 1. Main Tool: `shopify-liquid-inspector.sh` (v3)
-**Location:** `/home/ubuntu/tools/shopify-liquid-inspector.sh`  
-**Size:** 14KB executable  
+**Location:** `/home/ubuntu/tools/shopify-liquid-inspector.sh`
+**Size:** 14KB executable
 **What it does:** Extract + reverse-engineer Shopify Liquid theme structure from any live store
 
 **Extracts:**
@@ -20,13 +20,13 @@
 - Theme CSS/JS asset URLs
 - Complete analysis report
 
-**Test Status:** ✅ Tested on Allbirds, Rothys, Taylor Stitch
+**Test Status:** Tested on Allbirds, Rothys, Taylor Stitch
 
 ---
 
 ### 2. Documentation: `SHOPIFY-LIQUID-TOOLS-GUIDE.md`
-**Location:** `/home/ubuntu/tools/SHOPIFY-LIQUID-TOOLS-GUIDE.md`  
-**Size:** 13KB markdown  
+**Location:** `/home/ubuntu/tools/SHOPIFY-LIQUID-TOOLS-GUIDE.md`
+**Size:** 13KB markdown
 **What it covers:**
 - Reality check: what you CAN and CANNOT extract
 - Step-by-step usage guide
@@ -39,14 +39,14 @@
 ---
 
 ### 3. Quick Start Script: `QUICK-START.sh`
-**Location:** `/home/ubuntu/tools/QUICK-START.sh`  
+**Location:** `/home/ubuntu/tools/QUICK-START.sh`
 **What it does:** Display quick reference guide with example commands
 
 **Run:** `/home/ubuntu/tools/QUICK-START.sh`
 
 ---
 
-## 🚀 GET STARTED NOW
+## GET STARTED NOW
 
 ### 1. Extract Your First Store
 ```bash
@@ -72,14 +72,14 @@ jq '.collections[] | .title' ./allbirds-extract/api/collections.json
 ```bash
 for store in "https://rothys.com" "https://www.taylorstitch.com" "https://gymshark.com"; do
   domain=$(echo "$store" | sed 's|https\?://||' | cut -d'/' -f1)
-  echo "🔍 Extracting $domain..."
+  echo "Extracting $domain..."
   /home/ubuntu/tools/shopify-liquid-inspector.sh "$store" "./extract-$domain"
 done
 ```
 
 ---
 
-## 📊 WHAT EACH EXTRACTION GIVES YOU
+## WHAT EACH EXTRACTION GIVES YOU
 
 ### File: `theme-metadata.json`
 ```json
@@ -90,7 +90,7 @@ done
   "schema_version": "1.231.12"
 }
 ```
-→ Theme identification + version info
+Theme identification + version info
 
 ### File: `api/products.json`
 250+ products with:
@@ -130,7 +130,7 @@ Detected template types (index, product, collection, etc.)
 
 ---
 
-## 💡 COMMON WORKFLOWS
+## COMMON WORKFLOWS
 
 ### Competitive Analysis
 ```bash
@@ -180,9 +180,9 @@ jq '.products[] | {
 
 ---
 
-## ⚠️ IMPORTANT REALITY CHECK
+## IMPORTANT REALITY CHECK
 
-### ✅ What You CAN Access
+### What You CAN Access
 - Product catalog (public API)
 - Collections structure (public API)
 - Theme metadata (JavaScript object)
@@ -190,7 +190,7 @@ jq '.products[] | {
 - CSS/JavaScript assets (CDN-served)
 - Pricing, images, descriptions
 
-### ❌ What You CANNOT Access
+### What You CANNOT Access
 - Original `.liquid` template files (compiled server-side)
 - Section schema definitions (admin-only)
 - Theme `config.json` (admin-only)
@@ -198,20 +198,20 @@ jq '.products[] | {
 - Custom theme settings
 - Any admin-exclusive data
 
-**Why?** Shopify compiles `.liquid` files on the server. The `.liquid` source is **never sent to browsers**. This isn't a limitation of the tool — it's how Shopify's architecture works.
+**Why?** Shopify compiles `.liquid` files on the server. The `.liquid` source is **never sent to browsers**. This isn't a limitation of the tool - it's how Shopify's architecture works.
 
 ---
 
-## 🎯 ETHICAL USE
+## ETHICAL USE
 
-### Do's ✅
+### Do's
 - Competitive analysis and research
 - Learning theme architecture
 - Reverse-engineering for inspiration
 - Building your own original theme
 - Understanding Shopify best practices
 
-### Don'ts ❌
+### Don'ts
 - Copying theme code wholesale for resale
 - Scraping and republishing data
 - DDoS-like rapid API requests
@@ -222,28 +222,28 @@ All data extracted is **publicly accessible** via browser inspection and public 
 
 ---
 
-## 📚 LEARNING PATH
+## LEARNING PATH
 
-**Week 1:** Extract 5 stores, study their product structures  
-**Week 2:** Analyze collections strategy across stores  
-**Week 3:** Download and analyze CSS/JS patterns  
-**Week 4:** Study HTML section architecture  
-**Week 5:** Plan your own theme features  
-**Week 6:** Build original theme with learned patterns  
+**Week 1:** Extract 5 stores, study their product structures
+**Week 2:** Analyze collections strategy across stores
+**Week 3:** Download and analyze CSS/JS patterns
+**Week 4:** Study HTML section architecture
+**Week 5:** Plan your own theme features
+**Week 6:** Build original theme with learned patterns
 
 ---
 
-## 🛠️ RELATED TOOLS ALREADY INSTALLED
+## RELATED TOOLS ALREADY INSTALLED
 
-- `deep-code-extractor.sh` — Extract + deobfuscate JavaScript
-- `website-code-inspector.sh` — Framework detection
-- `webcrack`, `javascript-deobfuscator`, `js-deobfuscator` — JS analysis
+- `deep-code-extractor.sh` - Extract + deobfuscate JavaScript
+- `website-code-inspector.sh` - Framework detection
+- `webcrack`, `javascript-deobfuscator`, `js-deobfuscator` - JS analysis
 
 All at: `/home/ubuntu/tools/`
 
 ---
 
-## 📞 QUICK REFERENCE
+## QUICK REFERENCE
 
 ### Tool Locations
 ```
@@ -253,16 +253,16 @@ All at: `/home/ubuntu/tools/`
 ```
 
 ### Documentation
-Read first: `SHOPIFY-LIQUID-TOOLS-GUIDE.md`  
+Read first: `SHOPIFY-LIQUID-TOOLS-GUIDE.md`
 Has: use cases, commands, troubleshooting, learning path
 
 ### Test Data
-Already extracted: `/tmp/allbirds-extract/`  
-→ See real output structure
+Already extracted: `/tmp/allbirds-extract/`
+See real output structure
 
 ---
 
-## 🎉 YOU'RE READY
+## YOU'RE READY
 
 **Next step:** Pick a Shopify store you want to analyze and run:
 
@@ -277,9 +277,9 @@ cat ./my-analysis/LIQUID-ANALYSIS.md
 
 ---
 
-**Status:** ✅ Production-ready  
-**Tested on:** Allbirds, Rothys, Taylor Stitch, Gymshark  
-**Version:** shopify-liquid-inspector.sh v3  
+**Status:** Production-ready
+**Tested on:** Allbirds, Rothys, Taylor Stitch, Gymshark
+**Version:** shopify-liquid-inspector.sh v3
 **Created:** 2026-06-21
 
-Good luck! 🚀
+Good luck!

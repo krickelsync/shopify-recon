@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Block-ifier — Editor-Native Section Generator (v3.7)
+Block-ifier - Editor-Native Section Generator (v3.7)
 =====================================================
 
 THE PROBLEM THIS SOLVES
@@ -280,7 +280,7 @@ class Section:
 
 
 # ----------------------------------------------------------------------------
-# Liquid generation (NO f-strings around Liquid — Pitfall 6)
+# Liquid generation (NO f-strings around Liquid - Pitfall 6)
 # ----------------------------------------------------------------------------
 
 def render_block_case(block_types):
@@ -537,7 +537,7 @@ def classify_section(name, markup):
 
 
 # Per-functional-section, which OPTIONAL content blocks a buyer may add.
-# These are additive — they never touch the commerce logic.
+# These are additive - they never touch the commerce logic.
 FUNCTIONAL_BLOCK_MENU = {
     "main-product": ["text", "image", "icon", "quote", "list", "custom_liquid"],
     "main-collection": ["text", "image", "custom_liquid"],
@@ -564,7 +564,7 @@ def build_functional_block_region(section_name):
                                      FUNCTIONAL_BLOCK_MENU["_default"])
     lines = []
     lines.append("")
-    lines.append("  {%- comment -%} Buyer-customizable content blocks (additive — commerce logic above is preserved) {%- endcomment -%}")
+    lines.append("  {%- comment -%} Buyer-customizable content blocks (additive - commerce logic above is preserved) {%- endcomment -%}")
     lines.append("  {%- if section.blocks.size > 0 -%}")
     lines.append("    <div class=\"section-blocks section-blocks--addon\">")
     lines.append("      {%- for block in section.blocks -%}")
@@ -671,7 +671,7 @@ def template_hint_for(name):
 def blockify_section(path, out_path=None):
     sec = Section(path)
 
-    # CLASSIFY FIRST — functional sections must never have their markup clobbered
+    # CLASSIFY FIRST - functional sections must never have their markup clobbered
     mode = classify_section(sec.name, sec.markup)
     sec.report["classified_as"] = mode
 
@@ -689,7 +689,7 @@ def blockify_section(path, out_path=None):
         sec.report["block_count"] = len(sec.report.get("addon_blocks", []))
         return sec.report
 
-    # Mode A: content section — full block-ify (safe to rebuild markup)
+    # Mode A: content section - full block-ify (safe to rebuild markup)
     candidates, soup = sec.find_block_candidates()
 
     # collapse to ordered unique block types (keep first occurrence order)
@@ -775,9 +775,9 @@ def main():
         print("Block-ified " + str(len(ok)) + "/" + str(len(reports)) + " sections")
         for r in reports:
             if "error" in r:
-                print("  ✗ " + r["section"] + ": " + r["error"])
+                print("  " + r["section"] + ": " + r["error"])
             else:
-                print("  ✓ " + r["section"] + "  blocks=" +
+                print("  " + r["section"] + "  blocks=" +
                       ",".join(r["blocks_detected"]))
         print("Report: " + str(out))
         return

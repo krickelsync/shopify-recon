@@ -164,7 +164,7 @@ def extract_buttons(design_system, css):
     return buttons
 
 def generate_settings_schema(colors, typo, layout, buttons):
-    """Generate settings_schema.json — Shopify format."""
+    """Generate settings_schema.json - Shopify format."""
     schema = [
         {
             "name": "theme_info",
@@ -248,7 +248,7 @@ def generate_settings_schema(colors, typo, layout, buttons):
     return schema
 
 def generate_settings_data(colors, typo, layout, buttons):
-    """Generate settings_data.json — current settings + presets."""
+    """Generate settings_data.json - current settings + presets."""
     current = {
         "color_primary": colors['primary'],
         "color_secondary": colors['secondary'],
@@ -328,7 +328,7 @@ def main():
     with open(data_path, 'w') as f:
         json.dump(data, f, indent=2)
     
-    print(f"\n✅ Generated:")
+    print(f"\nGenerated:")
     print(f"   {schema_path} ({schema_path.stat().st_size:,} bytes)")
     print(f"   {data_path} ({data_path.stat().st_size:,} bytes)")
     print(f"\n   Schema groups: {len(schema)}")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🔍 SEO X-RAY — Deep SEO Analysis for Shopify Stores
+SEO X-RAY - Deep SEO Analysis for Shopify Stores
 Extracts: meta tags, Open Graph, Twitter Cards, JSON-LD, headings, links, images
 Part of Shopify Recon | 2026-06-21
 
@@ -234,7 +234,7 @@ def compute_seo_score(data):
             score += 10
         elif h1_count > 1:
             score += 5
-            issues.append(f"Multiple H1 tags ({h1_count}) — should be exactly 1")
+            issues.append(f"Multiple H1 tags ({h1_count}) - should be exactly 1")
         else:
             issues.append("No H1 tag found")
     else:
@@ -325,7 +325,7 @@ def analyze(html, store_name="Store"):
 def main():
     import argparse
     
-    parser = argparse.ArgumentParser(description="🔍 SEO X-Ray")
+    parser = argparse.ArgumentParser(description="SEO X-Ray")
     parser.add_argument("input", nargs="?", help="Input directory with homepage.html")
     parser.add_argument("--url", help="Store URL to analyze")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
@@ -340,14 +340,14 @@ def main():
         import subprocess
         url = args.url if args.url.startswith("http") else "https://" + args.url
         store_name = url.replace("https://", "").replace("http://", "")
-        print(f"📡 Fetching: {url}")
+        print(f"Fetching: {url}")
         result = subprocess.run(["curl", "-s", "-L", "-A", "Mozilla/5.0", "--max-time", "15", url],
                                 capture_output=True, text=True)
         html = result.stdout
     elif args.input:
         html_path = os.path.join(args.input, "homepage.html")
         if not os.path.exists(html_path):
-            print(f"❌ No homepage.html in {args.input}")
+            print(f"No homepage.html in {args.input}")
             sys.exit(1)
         with open(html_path) as f:
             html = f.read()
@@ -357,7 +357,7 @@ def main():
         sys.exit(1)
     
     if not html or len(html) < 500:
-        print("❌ Could not get HTML content")
+        print("Could not get HTML content")
         sys.exit(1)
     
     data = analyze(html, store_name)
@@ -369,41 +369,41 @@ def main():
         bar = "█" * (score // 10) + "░" * (10 - score // 10)
         
         print(f"\n╔═══════════════════════════════════════════════════════════════╗")
-        print(f"║  🔍 SEO X-RAY — {store_name[:40]:<46}║")
+        print(f"║  SEO X-RAY - {store_name[:40]:<46}║")
         print(f"╠═══════════════════════════════════════════════════════════════╣")
         print(f"║                                                                ║")
-        print(f"║  📊 SEO Score:       [{bar}] {score}%{'':<{max(0, 16 - len(str(score)))}}║")
+        print(f"║  SEO Score:       [{bar}] {score}%{'':<{max(0, 16 - len(str(score)))}}║")
         print(f"║                                                                ║")
-        print(f"║  📝 Title:            {str(data['title_desc']['title'])[:44]:<44}║")
-        print(f"║  📝 Title Length:     {str(data['title_desc']['title_length'])+' chars':<44}║")
-        print(f"║  📝 Description:      {str(data['title_desc']['description'] or 'Missing')[:44]:<44}║")
-        print(f"║  📝 Desc Length:      {str(data['title_desc']['description_length'])+' chars':<44}║")
+        print(f"║  Title:            {str(data['title_desc']['title'])[:44]:<44}║")
+        print(f"║  Title Length:     {str(data['title_desc']['title_length'])+' chars':<44}║")
+        print(f"║  Description:      {str(data['title_desc']['description'] or 'Missing')[:44]:<44}║")
+        print(f"║  Desc Length:      {str(data['title_desc']['description_length'])+' chars':<44}║")
         print(f"║                                                                ║")
-        print(f"║  🏷️  Meta Tags:       {data['meta_count']:<44}║")
-        print(f"║  📱 Open Graph:       {len(data['open_graph'])} tags{'':<{38}}║")
-        print(f"║  🐦 Twitter Cards:   {len(data['twitter_cards'])} tags{'':<{38}}║")
-        print(f"║  📋 JSON-LD:          {data['stats']['json_ld_blocks']} blocks{'':<{38}}║")
+        print(f"║   Meta Tags:       {data['meta_count']:<44}║")
+        print(f"║  Open Graph:       {len(data['open_graph'])} tags{'':<{38}}║")
+        print(f"║  Twitter Cards:   {len(data['twitter_cards'])} tags{'':<{38}}║")
+        print(f"║  JSON-LD:          {data['stats']['json_ld_blocks']} blocks{'':<{38}}║")
         print(f"║                                                                ║")
-        print(f"║  📰 Headings:                                                  ║")
+        print(f"║  Headings:                                                  ║")
         print(f"║     • H1: {data['stats']['h1_count']:<3}  • H2: {data['stats']['h2_count']:<3}  • Total: {data['stats']['total_headings']:<3}{'':<{24}}║")
         print(f"║                                                                ║")
-        print(f"║  🔗 Links:                                                     ║")
+        print(f"║  Links:                                                     ║")
         print(f"║     • Internal:    {data['stats']['internal_links']:<5}  • External:  {data['stats']['external_links']:<5}{'':<{16}}║")
         print(f"║     • Products:    {data['stats']['product_links']:<5}  • Collections: {data['stats']['collection_links']:<5}{'':<{14}}║")
         print(f"║     • Social:      {data['stats']['social_links']:<5}{'':<{42}}║")
         print(f"║                                                                ║")
-        print(f"║  🖼️  Images:          {data['stats']['total_images']} total{'':<{38}}║")
+        print(f"║   Images:          {data['stats']['total_images']} total{'':<{38}}║")
         print(f"║     • With alt:     {data['stats']['images_with_alt']:<5}  • Without:   {data['stats']['images_without_alt']:<5}{'':<{16}}║")
         print(f"║                                                                ║")
         if data["canonical"]:
-            print(f"║  🔗 Canonical:       {str(data['canonical'])[:44]:<44}║")
+            print(f"║  Canonical:       {str(data['canonical'])[:44]:<44}║")
         else:
-            print(f"║  🔗 Canonical:       Missing{'':<{36}}║")
-        print(f"║  🌍 Hreflang:         {data['stats']['hreflang_count']} tags{'':<{38}}║")
+            print(f"║  Canonical:       Missing{'':<{36}}║")
+        print(f"║  Hreflang:         {data['stats']['hreflang_count']} tags{'':<{38}}║")
         print(f"║                                                                ║")
         
         if data["seo_score"]["issues"]:
-            print(f"║  ⚠️  SEO Issues ({len(data['seo_score']['issues'])}):{'':<{39}}║")
+            print(f"║   SEO Issues ({len(data['seo_score']['issues'])}):{'':<{39}}║")
             for issue in data["seo_score"]["issues"][:5]:
                 print(f"║     • {issue[:52]:<52}║")
             print(f"║                                                                ║")
@@ -414,7 +414,7 @@ def main():
         os.makedirs(args.output, exist_ok=True)
         with open(os.path.join(args.output, "seo-analysis.json"), "w") as f:
             json.dump(data, f, indent=2)
-        print(f"\n📁 Saved: {args.output}/seo-analysis.json")
+        print(f"\nSaved: {args.output}/seo-analysis.json")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🧠 SMART SECTION REVERSE-ENGINEER — Reconstruct Liquid Sections from HTML
+SMART SECTION REVERSE-ENGINEER - Reconstruct Liquid Sections from HTML
 Parses rendered HTML, detects Shopify section patterns, generates .liquid files
 Part of Shopify Clone Toolkit v3 | Kiro | 2026-06-21
 
@@ -18,7 +18,7 @@ from html.parser import HTMLParser
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SECTION DETECTOR — Parse HTML for Shopify section patterns
+# SECTION DETECTOR - Parse HTML for Shopify section patterns
 # ═══════════════════════════════════════════════════════════════════
 
 class SectionDetector:
@@ -118,7 +118,7 @@ class SectionDetector:
 
 
 # ═══════════════════════════════════════════════════════════════════
-# SECTION ANALYZER — Extract settings from section HTML
+# SECTION ANALYZER - Extract settings from section HTML
 # ═══════════════════════════════════════════════════════════════════
 
 def analyze_section_settings(section_html):
@@ -178,7 +178,7 @@ def analyze_section_settings(section_html):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# LIQUID GENERATOR — Generate .liquid section files
+# LIQUID GENERATOR - Generate .liquid section files
 # ═══════════════════════════════════════════════════════════════════
 
 def generate_liquid_section(section_type, settings, section_html):
@@ -241,7 +241,7 @@ def generate_liquid_section(section_type, settings, section_html):
     
     # Build Liquid HTML
     liquid_parts = []
-    liquid_parts.append(f"<!-- {section_type} section — reverse-engineered from rendered HTML -->")
+    liquid_parts.append(f"<!-- {section_type} section - reverse-engineered from rendered HTML -->")
     liquid_parts.append(f"<!-- Detected settings: {len(schema_settings)} -->")
     liquid_parts.append("")
     
@@ -337,22 +337,22 @@ def process_store(input_dir, output_dir):
     # Load homepage HTML
     html_path = os.path.join(input_dir, "homepage.html")
     if not os.path.exists(html_path):
-        print(f"❌ No homepage.html found in {input_dir}")
+        print(f"No homepage.html found in {input_dir}")
         return None
     
     with open(html_path) as f:
         html = f.read()
     
-    print(f"  📄 HTML loaded: {len(html)} bytes")
+    print(f"  HTML loaded: {len(html)} bytes")
     
     # Detect sections
     detector = SectionDetector(html)
     sections = detector.detect_sections()
     
-    print(f"  🔍 Sections detected: {len(sections)}")
+    print(f"  Sections detected: {len(sections)}")
     
     if not sections:
-        print("  ⚠️  No sections detected. Trying alternative patterns...")
+        print("   No sections detected. Trying alternative patterns...")
         # Try simpler pattern
         section_ids = re.findall(r'id="(shopify-section-[^"]+)"', html)
         for sid in section_ids[:30]:
@@ -364,7 +364,7 @@ def process_store(input_dir, output_dir):
                 "html": "",
                 "html_length": 0,
             })
-        print(f"  🔍 Sections found (alt): {len(sections)}")
+        print(f"  Sections found (alt): {len(sections)}")
     
     # Create output directory
     sections_dir = os.path.join(output_dir, "sections")
@@ -412,7 +412,7 @@ def generate_report(results, output_dir, store_name="Store"):
     md_path = os.path.join(output_dir, "SECTION-ANALYSIS.md")
     
     with open(md_path, "w") as f:
-        f.write(f"""# 🧠 Section Reverse-Engineer Report
+        f.write(f"""# Section Reverse-Engineer Report
 
 Store: {store_name}
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
@@ -420,7 +420,7 @@ Sections reconstructed: {len(results)}
 
 ---
 
-## 📋 Reconstructed Sections
+## Reconstructed Sections
 
 | # | Section Type | Settings | HTML Size | File |
 |---|-------------|----------|-----------|------|
@@ -428,7 +428,7 @@ Sections reconstructed: {len(results)}
         for i, r in enumerate(results, 1):
             f.write(f"| {i} | `{r['type']}` | {r['settings_count']} | {r['html_size']} bytes | `{r['file']}` |\n")
         
-        f.write(f"\n---\n\n## 🔧 Section Details\n\n")
+        f.write(f"\n---\n\n## Section Details\n\n")
         
         for r in results:
             f.write(f"### {r['type']}\n\n")
@@ -445,7 +445,7 @@ Sections reconstructed: {len(results)}
         
         f.write(f"""---
 
-## 📂 Generated Files
+## Generated Files
 
 All section files saved to: `{output_dir}/sections/`
 
@@ -460,20 +460,20 @@ To use in Shopify theme:
 """)
     
     # Print summary
-    print(f"\n✅ SECTION REVERSE-ENGINEER COMPLETE")
+    print(f"\nSECTION REVERSE-ENGINEER COMPLETE")
     print(f"━" * 69)
-    print(f"  📁 Output: {output_dir}/sections/")
-    print(f"  📄 SECTION-ANALYSIS.md — Analysis report")
-    print(f"  📄 {len(results)} .liquid section files generated")
+    print(f"  Output: {output_dir}/sections/")
+    print(f"  SECTION-ANALYSIS.md - Analysis report")
+    print(f"  {len(results)} .liquid section files generated")
     print()
-    print("📊 RECONSTRUCTED SECTIONS:")
+    print("RECONSTRUCTED SECTIONS:")
     for r in results:
-        print(f"  • {r['type']}.liquid — {r['settings_count']} settings detected")
+        print(f"  • {r['type']}.liquid - {r['settings_count']} settings detected")
 
 
 def main():
     if len(sys.argv) < 2:
-        print("🧠 SMART SECTION REVERSE-ENGINEER")
+        print("SMART SECTION REVERSE-ENGINEER")
         print("━" * 69)
         print()
         print("Usage: python3 section-reverse-engineer.py <input-dir> [output-dir]")
@@ -483,7 +483,7 @@ def main():
     input_dir = sys.argv[1]
     output_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.join(input_dir, "reconstructed")
     
-    print("🧠 SMART SECTION REVERSE-ENGINEER")
+    print("SMART SECTION REVERSE-ENGINEER")
     print("━" * 69)
     print(f"  Input: {input_dir}")
     print(f"  Output: {output_dir}")
@@ -494,7 +494,7 @@ def main():
     if results:
         generate_report(results, output_dir, input_dir)
     else:
-        print("❌ No sections could be extracted")
+        print("No sections could be extracted")
 
 
 if __name__ == "__main__":

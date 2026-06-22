@@ -1,4 +1,4 @@
-# 🔧 SHOPIFY LIQUID CODE EXTRACTION TOOLS
+# SHOPIFY LIQUID CODE EXTRACTION TOOLS
 **Kompilasi Tools GitHub + Community | Kiro | 2026-06-21**
 
 ## TOP TOOLS UNTUK EXTRACT & VIEW LIQUID CODE
@@ -6,33 +6,33 @@
 ### 1. OFFICIAL SHOPIFY TOOLS
 
 #### A. Shopify CLI (Official)
-**⭐⭐⭐⭐⭐ RECOMMENDED**
-- **Repo:** `Shopify/cli` (714⭐)
+**RECOMMENDED**
+- **Repo:** `Shopify/cli` (714)
 - **Function:** Download + push + watch theme files
 - **Install:** `npm install -g @shopify/cli`
 - **Command:**
 ```bash
 shopify theme pull --store mystore.myshopify.com --theme 123456
-# → Downloads ALL Liquid files locally
+# Downloads ALL Liquid files locally
 ```
-- **Status:** ✅ Already installed on your system
+- **Status:** Already installed on your system
 - **Best for:** Official, production-grade, full theme sync
 
 #### B. Theme Kit (Legacy but still works)
-**⭐⭐⭐⭐**
-- **Repo:** `Shopify/themekit` (1303⭐)
+****
+- **Repo:** `Shopify/themekit` (1303)
 - **Function:** CLI tool to manage theme assets
 - **Install:** `brew install themekit` (macOS) or `choco install themekit` (Windows)
 - **Command:**
 ```bash
 theme get --password=xxx --store=mystore.myshopify.com --themeid=123456
-# → Downloads theme to local folder
+# Downloads theme to local folder
 ```
 - **Status:** Legacy but works; Shopify recommends CLI instead
 
 #### C. Shopify Theme Inspector (Chrome DevTools)
-**⭐⭐⭐⭐**
-- **Repo:** `Shopify/shopify-theme-inspector` (179⭐)
+****
+- **Repo:** `Shopify/shopify-theme-inspector` (179)
 - **Function:** Chrome extension to profile Liquid render times
 - **Install:** Chrome Web Store
 - **Best for:** Debug Liquid performance, find slow sections
@@ -42,10 +42,10 @@ theme get --password=xxx --store=mystore.myshopify.com --themeid=123456
 ### 2. COMMUNITY TOOLS FOR LIQUID EXTRACTION
 
 #### A. download-shopify-theme (Direct Liquid Extract)
-**⭐⭐**
-- **Repo:** `lizrice/download-shopify-theme` (4⭐ but FOCUSED)
+****
+- **Repo:** `lizrice/download-shopify-theme` (4but FOCUSED)
 - **Function:** CLI to download Liquid files from public theme
-- **Install:** 
+- **Install:**
 ```bash
 git clone https://github.com/lizrice/download-shopify-theme
 cd download-shopify-theme
@@ -54,13 +54,13 @@ npm install
 - **Command:**
 ```bash
 node index.js --store mystore.myshopify.com --theme-id 123456
-# → Extracts Liquid files only
+# Extracts Liquid files only
 ```
 - **Best for:** Quick extraction when Theme Access token not available
 
 #### B. Shopify Theme Lab (Development Environment)
-**⭐⭐⭐⭐**
-- **Repo:** `uicrooks/shopify-theme-lab` (816⭐)
+****
+- **Repo:** `uicrooks/shopify-theme-lab` (816)
 - **Function:** Dev environment with Liquid + Vue + Tailwind
 - **Install:**
 ```bash
@@ -70,15 +70,15 @@ theme-lab create my-theme
 - **Best for:** Build + test new themes locally
 
 #### C. vscode-liquid (VS Code Extension)
-**⭐⭐⭐⭐**
-- **Repo:** `panoply/vscode-liquid` (182⭐)
+****
+- **Repo:** `panoply/vscode-liquid` (182)
 - **Function:** Liquid syntax highlighting + autocomplete in VS Code
-- **Install:** VS Code → Extensions → Search "Liquid"
+- **Install:** VS Code Extensions Search "Liquid"
 - **Best for:** Edit extracted Liquid files with proper syntax support
 
 #### D. Shopify Packer (Webpack-based Build)
-**⭐⭐⭐⭐**
-- **Repo:** `hayes0724/shopify-packer` (179⭐)
+****
+- **Repo:** `hayes0724/shopify-packer` (179)
 - **Function:** Modern build tool for Shopify theme development
 - **Install:**
 ```bash
@@ -92,20 +92,20 @@ packer create my-theme
 ### 3. THEME FRAMEWORKS (Source Code Available)
 
 #### A. Dawn (Official Reference Theme)
-**⭐⭐⭐⭐⭐ BEST REFERENCE**
-- **Repo:** `Shopify/dawn` (3021⭐)
+**BEST REFERENCE**
+- **Repo:** `Shopify/dawn` (3021)
 - **What it is:** Official Shopify reference theme, Open Store 2.0 ready
 - **Get it:**
 ```bash
 git clone https://github.com/Shopify/dawn
 cd dawn
-# → Full Liquid source code available
+# Full Liquid source code available
 ```
 - **Best for:** Learn Liquid best practices from Shopify engineers
 
 #### B. Skeleton Theme (Minimal Scaffold)
-**⭐⭐⭐⭐**
-- **Repo:** `Shopify/skeleton-theme` (737⭐)
+****
+- **Repo:** `Shopify/skeleton-theme` (737)
 - **What it is:** Minimal theme scaffold with Shopify best practices
 - **Get it:**
 ```bash
@@ -114,8 +114,8 @@ git clone https://github.com/Shopify/skeleton-theme
 - **Best for:** Start from clean, minimal codebase
 
 #### C. Timber (Advanced Framework)
-**⭐⭐⭐⭐⭐**
-- **Repo:** `Shopify/Timber` (1171⭐)
+****
+- **Repo:** `Shopify/Timber` (1171)
 - **What it is:** Ultimate Shopify theme framework
 - **Get it:**
 ```bash
@@ -128,8 +128,8 @@ git clone https://github.com/Shopify/Timber
 ### 4. UTILITY TOOLS
 
 #### A. Shopify Theme (Console Tool for Assets)
-**⭐⭐⭐⭐**
-- **Repo:** `Shopify/shopify_theme` (654⭐)
+****
+- **Repo:** `Shopify/shopify_theme` (654)
 - **Function:** Ruby gem to interact with theme assets
 - **Install:**
 ```bash
@@ -142,8 +142,8 @@ shopify_theme download -s mystore -t 123456 -a "admin-token"
 - **Best for:** Asset management, Ruby environment
 
 #### B. Slate (Legacy Toolkit)
-**⭐⭐⭐⭐**
-- **Repo:** `Shopify/slate` (1285⭐)
+****
+- **Repo:** `Shopify/slate` (1285)
 - **Status:** Deprecated (use Shopify CLI instead)
 - **Why mentioned:** Many projects still use it; good learning resource
 
@@ -174,7 +174,7 @@ cat ./theme/snippets/product-card.liquid
 ```bash
 # Install vscode-liquid extension
 code ./theme/
-# → Syntax highlighting + autocomplete
+# Syntax highlighting + autocomplete
 ```
 
 **Step 4: Port to Your Store**
@@ -265,18 +265,18 @@ cp dawn/sections/featured-products.liquid \
 
 ### Method 1: Extract from Live Store (Admin Required)
 ```bash
-# Official way — need Theme Access token or admin login
+# Official way - need Theme Access token or admin login
 shopify theme pull --store mystore.myshopify.com
-# → Gets ACTUAL theme from store
+# Gets ACTUAL theme from store
 
 # Best for: Your own store, authorized stores
 ```
 
 ### Method 2: Download from Public Theme (No Auth)
 ```bash
-# Community tools — works on public stores
+# Community tools - works on public stores
 node download-shopify-theme/index.js --store store.myshopify.com
-# → Gets theme files visible to public
+# Gets theme files visible to public
 
 # Best for: Competitor analysis, learning
 ```
@@ -285,7 +285,7 @@ node download-shopify-theme/index.js --store store.myshopify.com
 ```bash
 # Use open-source theme repos
 git clone https://github.com/Shopify/dawn
-# → Gets official reference code
+# Gets official reference code
 
 # Best for: Study best practices, learn patterns
 ```
@@ -296,8 +296,8 @@ git clone https://github.com/Shopify/dawn
 /home/ubuntu/tools/website-code-inspector.sh \
   https://store.myshopify.com \
   ./extract
-# → Extracts HTML-rendered Liquid
-# → Finds Liquid variables in templates
+# Extracts HTML-rendered Liquid
+# Finds Liquid variables in templates
 
 # Best for: Quick analysis, no admin access
 ```
@@ -333,4 +333,4 @@ git clone https://github.com/Shopify/dawn
 - Edit Liquid with proper syntax support
 - Push back to store
 
-**Bro, pilih mana? Kasih tau store URL atau design reference-nya.** 🚀
+**Bro, pilih mana? Kasih tau store URL atau design reference-nya.**

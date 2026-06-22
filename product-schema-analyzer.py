@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🧠 PRODUCT SCHEMA ANALYZER — Deep Product Intelligence
+PRODUCT SCHEMA ANALYZER - Deep Product Intelligence
 Parses Shopify products.json: metafields, pricing tiers, variant matrix, JSON-LD
 Part of Shopify Clone Toolkit v3 | Kiro | 2026-06-21
 
@@ -38,7 +38,7 @@ def load_collections(input_dir):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 1. METAFIELD EXTRACTOR — Parse tags like "namespace::key => value"
+# 1. METAFIELD EXTRACTOR - Parse tags like "namespace::key => value"
 # ═══════════════════════════════════════════════════════════════════
 
 def extract_metafields(products):
@@ -105,7 +105,7 @@ def analyze_metafields(products):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 2. PRICING TIER ANALYZER — Extract pricing strategy
+# 2. PRICING TIER ANALYZER - Extract pricing strategy
 # ═══════════════════════════════════════════════════════════════════
 
 def analyze_pricing(products):
@@ -189,7 +189,7 @@ def analyze_pricing(products):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 3. VARIANT MATRIX BUILDER — Option combinations
+# 3. VARIANT MATRIX BUILDER - Option combinations
 # ═══════════════════════════════════════════════════════════════════
 
 def analyze_variants(products):
@@ -296,7 +296,7 @@ def analyze_structured_data(products):
 
 
 # ═══════════════════════════════════════════════════════════════════
-# 5. INVENTORY ANALYZER — Stock status
+# 5. INVENTORY ANALYZER - Stock status
 # ═══════════════════════════════════════════════════════════════════
 
 def analyze_inventory(products):
@@ -338,7 +338,7 @@ def analyze_inventory(products):
 def generate_report(products, collections, output_dir):
     """Generate comprehensive analysis report"""
     
-    print("🧠 PRODUCT SCHEMA ANALYZER")
+    print("PRODUCT SCHEMA ANALYZER")
     print("━" * 69)
     print(f"  Products: {len(products)}")
     print(f"  Collections: {len(collections)}")
@@ -383,14 +383,14 @@ def generate_report(products, collections, output_dir):
     # Generate markdown report
     md_path = os.path.join(output_dir, "PRODUCT-INTELLIGENCE.md")
     with open(md_path, "w") as f:
-        f.write(f"""# 🧠 Product Intelligence Report
+        f.write(f"""# Product Intelligence Report
 
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 Store: {len(products)} products, {len(collections)} collections
 
 ---
 
-## 1. 📊 Pricing Intelligence
+## 1. Pricing Intelligence
 
 ### Price Statistics
 | Metric | Value |
@@ -422,7 +422,7 @@ Store: {len(products)} products, {len(collections)} collections
         f.write(f"""
 ---
 
-## 2. 🎨 Variant Matrix Analysis
+## 2. Variant Matrix Analysis
 
 ### Option Analysis
 """)
@@ -441,12 +441,12 @@ Store: {len(products)} products, {len(collections)} collections
 ### Multi-Option Products: {variant_analysis['multi_option_count']}
 """)
         for p in variant_analysis["multi_option_products"][:10]:
-            f.write(f"- {p['title'][:40]} — Options: {', '.join(p['options'])} ({p['variant_count']} variants)\n")
+            f.write(f"- {p['title'][:40]} - Options: {', '.join(p['options'])} ({p['variant_count']} variants)\n")
         
         f.write(f"""
 ---
 
-## 3. 🏷️ Metafield Intelligence
+## 3. Metafield Intelligence
 
 ### Namespaces Found: {len(metafield_analysis['namespaces'])}
 """)
@@ -455,7 +455,7 @@ Store: {len(products)} products, {len(collections)} collections
             for key, info in keys.items():
                 f.write(f"- **{key}**: {info['unique_values']} unique values, {info['total_products']} products\n")
                 for val, count in list(info["values"].items())[:5]:
-                    f.write(f"  - `{val}` → {count} products\n")
+                    f.write(f"  - `{val}` {count} products\n")
         
         f.write(f"""
 ### Top Regular Tags
@@ -466,7 +466,7 @@ Store: {len(products)} products, {len(collections)} collections
         f.write(f"""
 ---
 
-## 4. 📦 Structured Data Assessment
+## 4. Structured Data Assessment
 
 | Data Point | Coverage |
 |------------|----------|
@@ -482,12 +482,12 @@ Store: {len(products)} products, {len(collections)} collections
 ### SKU Format Patterns
 """)
         for sku in structured_analysis["sku_format"][:10]:
-            f.write(f"- `{sku['sku']}` → pattern: `{sku['pattern']}`\n")
+            f.write(f"- `{sku['sku']}` pattern: `{sku['pattern']}`\n")
         
         f.write(f"""
 ---
 
-## 5. 📈 Inventory Status
+## 5. Inventory Status
 
 | Metric | Value |
 |--------|-------|
@@ -500,15 +500,15 @@ Store: {len(products)} products, {len(collections)} collections
 """)
 
     print()
-    print("✅ ANALYSIS COMPLETE")
+    print("ANALYSIS COMPLETE")
     print("━" * 69)
-    print(f"  📁 Output: {output_dir}/")
-    print(f"  📄 product-analysis.json — Full structured data")
-    print(f"  📄 PRODUCT-INTELLIGENCE.md — Human-readable report")
+    print(f"  Output: {output_dir}/")
+    print(f"  product-analysis.json - Full structured data")
+    print(f"  PRODUCT-INTELLIGENCE.md - Human-readable report")
     print()
     
     # Print summary to console
-    print("📊 KEY INSIGHTS:")
+    print("KEY INSIGHTS:")
     print(f"  • Price range: ${pricing_analysis['price_stats']['min']:.2f} - ${pricing_analysis['price_stats']['max']:.2f}")
     print(f"  • Avg variants per product: {variant_analysis['variant_stats']['avg_variants']}")
     print(f"  • Discount strategy: {pricing_analysis['discounts']['total_discounted']} products on sale")
