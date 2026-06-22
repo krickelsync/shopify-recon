@@ -29,15 +29,23 @@ git clone https://github.com/krickelsync/shopify-recon.git
 cd shopify-recon
 pip install -r requirements.txt
 
-# Analyze any store
-python3 shopify-recon.py --url=https://rothys.com
+# Prove it works first (offline, takes seconds)
+./verify.sh
 
-# Full clone (extract + analyze + generate theme)
-./shopify-clone-master.sh clone https://rothys.com ./rothys-clone
+# Preview the pipeline without running it (no network calls)
+python3 shopify-recon.py https://rothys.com --dry-run
+
+# Full clone (extract + analyze + generate editable theme)
+python3 shopify-recon.py https://rothys.com ./rothys-clone
 
 # Compare multiple competitors
 python3 multi-store-comparator.py allbirds.com rothys.com taylorstitch.com
 ```
+
+`./verify.sh` is the fastest way to confirm a fresh checkout is healthy: it
+checks dependencies, parses every tool, and dry-runs the full pipeline without
+touching the network. Add `--golden` for a real clone diffed against a stored
+fixture.
 
 ## What It Looks Like
 

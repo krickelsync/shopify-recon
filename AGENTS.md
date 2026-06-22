@@ -14,6 +14,30 @@ to a store over the Shopify CLI.
 It only uses public endpoints. It does not bypass auth or scrape anything behind
 a login.
 
+## First thing: prove it works (`./verify.sh`)
+
+Before you read every tool or trust this doc, run the self-test:
+
+```bash
+pip install -r requirements.txt
+./verify.sh            # phases 1-3: deps, syntax, dry-run plan (OFFLINE, seconds)
+./verify.sh --golden   # phase 4: real clone of a test store, diffed vs a golden fixture
+```
+
+`./verify.sh` makes zero network calls and confirms: all dependencies import,
+every Python tool parses, and the full pipeline plans its steps. Green `ALL
+CHECKS PASSED` and exit 0 means the repo is wired up correctly. `--golden` does
+a real clone and checks the output structure has not regressed against
+`tests/golden/rothys.json`.
+
+To preview the pipeline without running it:
+
+```bash
+python3 shopify-recon.py https://example-store.com --dry-run
+```
+
+This prints all steps and the exact command each would run, touching nothing.
+
 ## The pipeline (run order matters)
 
 `shopify-recon.py` runs the whole thing in 27 steps. The last four are the ones
